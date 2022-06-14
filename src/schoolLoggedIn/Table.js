@@ -1,29 +1,59 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import TableRows from './TableRows';
 import Header from '../Components/Header';
 import AllPending from './AllPending';
 import {useNavigate} from 'react-router-dom';
+import app from '../firebase'
+import { getDatabase, ref, set, onValue,push,update } from "firebase/database";
+
+const db = getDatabase(app);
 
 
-const data = [
-    { id: 1, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-    { id: 2, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-    { id: 3, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-    { id: 4, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-    { id: 5, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-    { id: 6, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-]
+// const data = [
+//     { id: 1, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
+//     { id: 2, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
+//     { id: 3, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
+//     { id: 4, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
+//     { id: 5, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
+//     { id: 6, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
+// ]
 
 
 
 function Table() {
+    const [check,setCheck] =  useState(false);
+    const[data,setData] = useState([]);
+
+    const starCountRef = ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items');
+
 
     let navigate = useNavigate();
+
+    useEffect(()=>{
+        onValue(starCountRef, (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const childKey = childSnapshot.key;
+                const childData = childSnapshot.val();
+                console.log('child data',childData);
+                setData((prev)=>[...prev,childData])
+                // ...
+            });
+            setCheck(true)
+        }, {
+            onlyOnce: false
+        });
+
+    },[check])
+
 
     function addHandler() {
         navigate('/addInfo')
     }
+
+    if(!check)
+        return <div>Loading...</div>
+    else
     return (
         <>
         <Header/>
@@ -39,7 +69,7 @@ function Table() {
                     <h5>Description</h5>
                 </div>
                 {
-                    data.map(() => <TableRows />)
+                    data.map((item,index) => <TableRows key={index} item={item}/>)
                 }
                 <div className='btnMainDiv'>
                     <div className='btnDiv'>

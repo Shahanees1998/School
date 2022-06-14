@@ -2,15 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-function TableRows() {
+function TableRows(props) {
   return (
     <Container>
         <input type='checkbox'/>
-        <h4>Study table</h4>
-        <h4>1300</h4>
-        <h4>Atif khan</h4>
+        <h4>{props.item.itemName}</h4>
+        <h4>{props.item.itemCost}</h4>
+        <h4>{props.item.stdName}</h4>
         <h4>update</h4>
-        <h4>update</h4>
+        <h4>{props.item.itemDescription}</h4>
 
     </Container>
   )
