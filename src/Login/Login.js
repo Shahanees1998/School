@@ -8,8 +8,9 @@ import { useSelector, useDispatch } from 'react-redux'
 
 const db = getDatabase(app);
 function Login(props) {
-    const { data } = useSelector(state => state.userReducer)
-console.log(`data ${data}`)
+    // get data from redux
+    const { data, key } = useSelector(state => state.userReducer)
+console.log(`data ${key}`)
     let navigate = useNavigate();
 
     const[email, setEmail] = useState('');
@@ -183,7 +184,7 @@ console.log(`data ${data}`)
                         <h3>Password</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input style={{outline: 'none'}} placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} type='password' placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>

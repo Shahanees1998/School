@@ -1,6 +1,7 @@
-import { SET_DATA } from './actions'
+import { SET_DATA , SET_KEY} from './actions'
 const inittialstate = {
-data : ''
+data : '',
+key : ''
 }
 function userReducer(state = inittialstate, action) {
 
@@ -8,7 +9,10 @@ function userReducer(state = inittialstate, action) {
         case SET_DATA:
             console.log(action.payload.data)
             return { ...state, data: action.payload.data };
-   
+            case SET_KEY:
+                console.log(action.payload.key)
+                return { ...state, key: action.payload.key };
+       
         default:
 
             return state
