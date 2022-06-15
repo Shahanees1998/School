@@ -12,21 +12,26 @@ import Header from './Components/Header';
 import RegisterLine2 from './JoinSchool/RegisterLine2';
 import LoginLine2 from './Login/LoginLine2';
 import AlumniTable from './alumniLogedin/AlumniPageTable';
+import Store from './Redux/store'
+import { Provider } from 'react-redux';
+
 function App() {
   return (
-
+    <Provider store={Store}>
     <Routes>
       <Route path='/' element={<SplashScreen/>}/>
       <Route path='home' element={<HomePage/>}/>
       <Route path='login' element={<LoginLine2/>}/>
       <Route path='/registerLine' element={<RegisterLine/>}/>
       <Route path='/loggedin' element={<Table/>}/>
-      <Route path='/alumnilogin' element={<AlumniTable/>}/>
+        {/* when admin will logedin*/}
+        <Route path='/alumnilogin' element={<AlumniTable/>}/>
+        {/* when alumni will logedin*/}
 
       <Route path='/addInfo' element={<AddInfo/>}/>
       <Route path='/toAlumniRegisterPage' element={<RegisterLine2/>}/>
     </Routes>
-    
+    </Provider>
 
   );
 }

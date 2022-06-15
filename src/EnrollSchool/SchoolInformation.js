@@ -11,6 +11,9 @@ function SchoolInformation(props) {
     const[schoolInfo, setSchoolInfo] = useState(
         {schoolName:'',schoolAddress:'',principalName:'',relationship:'',
             phoneNumber:'',items:''})
+    const key = props.getKey;
+
+    console.log('key in shcool Info', props.getKey)
 
     function backHandler() {
         var val = "register"
@@ -30,6 +33,12 @@ function SchoolInformation(props) {
         }
         else {
             var val = "payment"
+
+            set(ref(db, 'School/'+key ), schoolInfo).then(()=>{
+                console.log('data saved successfully')
+            }).catch(err=>{
+                console.log(err)
+            });
 
             set(ref(db, 'School/-N4WLz1ejar-mNf4xdcT' ), schoolInfo).then(()=>{
                 console.log('data saved successfully')

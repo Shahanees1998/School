@@ -5,8 +5,12 @@ import Header from '../Components/Header';
 import MiddleDiv1 from './MiddleDiv1';
 import MiddleDiv2 from './MiddleDiv2';
 import {useNavigate} from 'react-router-dom';
+import setData from '../Redux/actions';
+import { useSelector, useDispatch } from 'react-redux'
 
 function HomePgae() {
+    const dispatch = useDispatch()
+    dispatch(setData('hello data'))
 
     const navigate = useNavigate();
 

@@ -213,7 +213,7 @@ input {
     flex-direction: column;
     align-items: center;
 }
-.h3Div2 {
+.h3Div2 { 
     //background-color: blueviolet;
     height: 50%;
     width: 90%;

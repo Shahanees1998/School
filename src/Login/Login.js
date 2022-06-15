@@ -4,21 +4,20 @@ import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
 import {useNavigate} from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import { useSelector, useDispatch } from 'react-redux'
 
 const db = getDatabase(app);
-
-
-
-function LoginAlumni(props) {
+function Login(props) {
+    const { data } = useSelector(state => state.userReducer)
+console.log(`data ${data}`)
     let navigate = useNavigate();
 
-    const[firstName,setFirstName] = useState('');
-    const[lastName,setLastName] = useState('');
     const[email, setEmail] = useState('');
     const[password,setPassword] = useState('');
-    const[confirmPass,setConfirmPass] = useState('');
     const [userType, setUserType] = useState('');
     const [isChecked, setIsChecked] = useState(false);
+    const [check,setCheck] = useState(false);
+
     const handleAlumni = () => {
         setUserType('Alumni');
       };
@@ -30,21 +29,12 @@ function LoginAlumni(props) {
         const inputName = event.target.name;
         const inputValue = event.target.value;
         switch (inputName){
-            case 'firstName':
-                setFirstName(inputValue)
-                break;
-            case 'lastName':
-                setLastName(inputValue)
-                break;
             case 'email':
                 setEmail(inputValue)
                 break;
             case 'password':
                 setPassword(inputValue)
-                break;
-            case 'confirmPass':
-                setConfirmPass(inputValue)
-                break;
+   break;
             default:
                 console.log('default')
                 break;
@@ -54,6 +44,9 @@ function LoginAlumni(props) {
 
 
     function nextHandler() {
+       
+
+
       {/*  var val = "schoolInformation";
 
         push(ref(db, 'users/alumni' ), {
@@ -78,30 +71,94 @@ function LoginAlumni(props) {
                 </div>
             </div>, { duration: 1000 })
     }
+
     else {
-        if(userType == 'Alumni')
-        {
-            toast.custom(
-                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+        let role='';
 
-                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: '#53B175', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>login successfully</h3>
-                    </div>
-                </div>, { duration: 1000 })
-            navigate('/alumnilogin');
-    
+        if(userType == 'Admin')
+            role = 'admin'
+        else{
+            role = 'alumni'
         }
-        else {
-            toast.custom(
-                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+        const starCountRef = ref(db, 'users/'+role);
 
-                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: '#53B175', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>login successfully</h3>
-                    </div>
-                </div>, { duration: 1000 })
-            navigate('/loggedin');
-    
-        }
+
+
+            onValue(starCountRef, (snapshot) => {
+                let alumniEmail,alumniPassword;
+                snapshot.forEach((childSnapshot) => {
+                    const childKey = childSnapshot.key;
+                    const childData = childSnapshot.val();
+                    console.log('child data Login',childData);
+                    alumniEmail =  childData.email;
+                    alumniPassword = childData.password;
+
+                    if(childData.email == email && childData.password == password){
+
+                        if(userType == 'Alumni')
+                        {
+                            navigate('/alumnilogin');
+                        }
+                        else {
+                            navigate('/loggedin');
+                        }
+                    }
+
+
+
+                   // setData((prev)=>[...prev,childData])
+                    // ...
+                });
+                if(alumniEmail == email){
+                    if(alumniPassword == password)
+                    {
+                        if(userType == 'Alumni')
+                        {
+                            navigate('/alumnilogin');
+                        }
+                        else {
+                            navigate('/loggedin');
+                        }
+                    }
+                   
+                }
+                if(alumniPassword == password){
+                    if(alumniEmail == email) 
+                    {
+                        if(userType == 'Alumni')
+                        {
+                            navigate('/alumnilogin');
+                        }
+                        else {
+                            navigate('/loggedin');
+                        }
+                    }
+                 
+                }
+                if(alumniEmail != email){
+                    toast.custom(
+                        <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            
+                            <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>email not found</h3>
+                            </div>
+                        </div>, { duration: 1000 })
+                }
+               else if(alumniPassword != password){
+                   toast.custom(
+                    <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+        
+                        <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Invalid Password</h3>
+                        </div>
+                    </div>, { duration: 1000 })
+                }
+
+
+               // setCheck(true)
+            }, {
+                onlyOnce: false
+            });
     }
   
     }
@@ -172,7 +229,7 @@ function LoginAlumni(props) {
     )
 }
 
-export default LoginAlumni;
+export default Login;
 
 const Container = styled.div`
 

@@ -56,21 +56,21 @@ function Register(props) {
         }
         else{
             var val = "schoolInformation";
-            push(ref(db, 'users/admin' ), {
-                firstName,
-                lastName,
-                email,
-                password,
-                confirmPass
-            }).then(()=>{
-                console.log('data saved successfully')
-            }).catch(err=>{
-                console.log(err)
-            });
-    
-            props.onClick(val);
+       var key = push(ref(db, 'users/admin' ), {
+            firstName,
+            lastName,
+            email,
+            password,
+            confirmPass
+        })
+
+        console.log('key', key.key)
+        props.ongetval(key.key);
+
+        props.onClick(val);
         }
      
+
     }
 
     return (
