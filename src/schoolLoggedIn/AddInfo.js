@@ -4,9 +4,15 @@ import Header2 from '../Components/Header2';
 import { FaAngleRight } from 'react-icons/fa';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
+import { useNavigate } from "react-router-dom";
+
+import toast, { Toaster } from 'react-hot-toast';
+
 const db = getDatabase(app);
 
 function AddInfo() {
+    let navigate = useNavigate();
+
     const[itemInfo,setItemInfo] = useState({itemName:'',itemCost:'',stdName:'',itemDescription:''})
 
     const onChangeHandler = (event) => {
@@ -16,11 +22,32 @@ function AddInfo() {
     }
 console.log('hello')
     const onSubmitHandler = ()=>{
-        set(ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items/'+ new Date().toLocaleTimeString() ), itemInfo).then(()=>{
-            console.log('data saved successfully')
-        }).catch(err=>{
-            console.log(err)
-        });
+        if(itemInfo.itemName == '' || itemInfo.itemCost == '' || itemInfo.stdName =='' || itemInfo.itemDescription == '' )
+        {
+            toast.custom(
+                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+    
+                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Kindly fill all the fields</h3>
+                    </div>
+                </div>, { duration: 1000 })
+        }
+        else{
+            set(ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items/'+ new Date().toLocaleTimeString() ), itemInfo).then(()=>{
+                console.log('data saved successfully')
+                toast.custom(
+                    <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+        
+                        <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'green', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>data saved successfully</h3>
+                        </div>
+                    </div>, { duration: 1000 })
+                navigate('/loggedin')
+            }).catch(err=>{
+                console.log(err)
+            });
+        }
+      
     }
 
   return (
@@ -39,7 +66,7 @@ console.log('hello')
             <h5>Item</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter item' name='itemName' value={itemInfo.itemName} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter item' name='itemName' value={itemInfo.itemName} onChange={onChangeHandler}/>
             </div>
         </div>
 
@@ -48,7 +75,7 @@ console.log('hello')
             <h5>Cost</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter cost' name='itemCost' value={itemInfo.itemCost} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter cost' name='itemCost' value={itemInfo.itemCost} onChange={onChangeHandler}/>
             </div>
         </div>
 
@@ -57,7 +84,7 @@ console.log('hello')
             <h5>Student Name</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter name' name='stdName' value={itemInfo.stdName} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter name' name='stdName' value={itemInfo.stdName} onChange={onChangeHandler}/>
             </div>
         </div>
 
@@ -66,7 +93,7 @@ console.log('hello')
             <h5>Student Photo</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter name' type='file'/>
+                <input style={{outline: 'none'}} placeholder='enter name' type='file'/>
             </div>
         </div>
         
@@ -76,7 +103,7 @@ console.log('hello')
             <h5>Description</h5>
             </div>
             <div className='inputDescriptionDiv'>
-                <input placeholder='enter description' type='text' name='itemDescription' value={itemInfo.itemDescription} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter description' type='text' name='itemDescription' value={itemInfo.itemDescription} onChange={onChangeHandler}/>
             </div>
         </div>
 
@@ -86,6 +113,7 @@ console.log('hello')
                 <button onClick={onSubmitHandler}>Submit</button>
             </div>
         </div>
+        <Toaster />
 
     </Container>
     </>

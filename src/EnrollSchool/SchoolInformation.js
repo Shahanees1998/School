@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
+import toast, { Toaster } from 'react-hot-toast';
+
 const db = getDatabase(app);
 
 function SchoolInformation(props) {
@@ -19,16 +21,35 @@ function SchoolInformation(props) {
     }
 
     function nextHandler() {
-        var val = "payment"
+        if(schoolInfo.schoolName == '' || schoolInfo.schoolAddress == '' || schoolInfo.principalName =='' || schoolInfo.relationship == '' || schoolInfo.phoneNumber == '')
+        {
+            toast.custom(
+                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+    
+                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Kindly fill all the fields</h3>
+                    </div>
+                </div>, { duration: 1000 })
+        }
+        else {
+            var val = "payment"
 
-        set(ref(db, 'School/'+key ), schoolInfo).then(()=>{
-            console.log('data saved successfully')
-        }).catch(err=>{
-            console.log(err)
-        });
+            set(ref(db, 'School/'+key ), schoolInfo).then(()=>{
+                console.log('data saved successfully')
+            }).catch(err=>{
+                console.log(err)
+            });
 
-
-        props.onClick(val);
+            set(ref(db, 'School/-N4WLz1ejar-mNf4xdcT' ), schoolInfo).then(()=>{
+                console.log('data saved successfully')
+            }).catch(err=>{
+                console.log(err)
+            });
+    
+    
+            props.onClick(val);
+        }
+  
     }
 
     const onChangeHandler=(event)=>{
@@ -46,7 +67,7 @@ function SchoolInformation(props) {
                         <h3>School Name</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter schoolName' name="schoolName" value={schoolInfo.schoolName}
+                        <input style={{outline: 'none'}} placeholder='enter schoolName' name="schoolName" value={schoolInfo.schoolName}
                         onChange={onChangeHandler}/>
                     </div>
                 </div>
@@ -55,7 +76,7 @@ function SchoolInformation(props) {
                         <h3>School Address</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter school address' name="schoolAddress" value={schoolInfo.schoolAddress}
+                        <input style={{outline: 'none'}} placeholder='enter school address' name="schoolAddress" value={schoolInfo.schoolAddress}
                                onChange={onChangeHandler}/>
                     </div>
                 </div>
@@ -68,7 +89,7 @@ function SchoolInformation(props) {
                         <h3>Name of Principle</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter principleName' name="principalName" value={schoolInfo.principalName}
+                        <input style={{outline: 'none'}} placeholder='enter principleName' name="principalName" value={schoolInfo.principalName}
                                onChange={onChangeHandler} />
                     </div>
                 </div>
@@ -80,7 +101,7 @@ function SchoolInformation(props) {
                         <h3>RelationShip to School</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter relationShip' name="relationship" value={schoolInfo.relationship}
+                        <input style={{outline: 'none'}} placeholder='enter relationShip' name="relationship" value={schoolInfo.relationship}
                                onChange={onChangeHandler} />
                     </div>
                 </div>
@@ -92,7 +113,7 @@ function SchoolInformation(props) {
                         <h3>Phone Number</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter phone number' name="phoneNumber" value={schoolInfo.phoneNumber}
+                        <input style={{outline: 'none'}} placeholder='enter phone number' name="phoneNumber" value={schoolInfo.phoneNumber}
                                onChange={onChangeHandler} />
                     </div>
                 </div>
@@ -113,6 +134,7 @@ function SchoolInformation(props) {
                 </div>
 
             </div>
+            <Toaster />
 
         </Container >
   )
@@ -124,7 +146,7 @@ export default SchoolInformation;
 const Container = styled.div`
 
 //background-color: green;
-height: 78vh;
+height: 75vh;
 width: 100%;
 display: flex;
 flex-direction: column;

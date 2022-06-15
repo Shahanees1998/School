@@ -23,7 +23,7 @@ function Header2() {
                     <button className='aboutBtn'>About</button>
                 </div>
                 <div className='loginAndIconDiv'>
-                    <FaUserCircle size={50}/>
+                    <FaUserCircle size={40}/>
                     <div className='loginDiv'>
                         <button className='loginBtn'>admin@sbhs</button>
                     </div>
@@ -60,8 +60,8 @@ const Container = styled.div`
   }
   .imgDiv {
       //background-color: yellow;
-      height: 95%;
-      width: 13%;
+      height: 70%;
+      width: 10%;
       border-radius: 70%;
       overflow: hidden;
   }

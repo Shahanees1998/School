@@ -3,9 +3,14 @@ import styled from 'styled-components';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
 import {useNavigate} from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
+import { useSelector, useDispatch } from 'react-redux'
 
 const db = getDatabase(app);
 function Login(props) {
+    // get data from redux
+    const { data, key } = useSelector(state => state.userReducer)
+console.log(`data ${key}`)
     let navigate = useNavigate();
 
     const[email, setEmail] = useState('');
@@ -30,7 +35,7 @@ function Login(props) {
                 break;
             case 'password':
                 setPassword(inputValue)
-                break;
+   break;
             default:
                 console.log('default')
                 break;
@@ -40,6 +45,35 @@ function Login(props) {
 
 
     function nextHandler() {
+       
+
+
+      {/*  var val = "schoolInformation";
+
+        push(ref(db, 'users/alumni' ), {
+            firstName,
+            lastName,
+            email,
+            password,
+            confirmPass,approve:false
+        }).then(()=>{
+            console.log('data saved successfully')
+        }).catch(err=>{
+            console.log(err)
+        });
+    props.onClick(val);*/}
+    if(email == '' || password == '')
+    {
+        toast.custom(
+            <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+
+                <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Kindly fill all the fields</h3>
+                </div>
+            </div>, { duration: 1000 })
+    }
+
+    else {
         let role='';
 
         if(userType == 'Admin')
@@ -67,28 +101,48 @@ function Login(props) {
                     // ...
                 });
                 if(alumniEmail == email){
-                    if(userType == 'Alumni')
+                    if(alumniPassword == password)
                     {
-                        navigate('/alumnilogin');
+                        if(userType == 'Alumni')
+                        {
+                            navigate('/alumnilogin');
+                        }
+                        else {
+                            navigate('/loggedin');
+                        }
                     }
-                    else {
-                        navigate('/loggedin');
-                    }
+                   
                 }
                 if(alumniPassword == password){
-                    if(userType == 'Alumni')
+                    if(alumniEmail == email) 
                     {
-                        navigate('/alumnilogin');
+                        if(userType == 'Alumni')
+                        {
+                            navigate('/alumnilogin');
+                        }
+                        else {
+                            navigate('/loggedin');
+                        }
                     }
-                    else {
-                        navigate('/loggedin');
-                    }
+                 
                 }
                 if(alumniEmail != email){
-                    console.log('no email found')
+                    toast.custom(
+                        <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+            
+                            <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>email not found</h3>
+                            </div>
+                        </div>, { duration: 1000 })
                 }
                else if(alumniPassword != password){
-                   console.log('incorrect password')
+                   toast.custom(
+                    <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+        
+                        <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Invalid Password</h3>
+                        </div>
+                    </div>, { duration: 1000 })
                 }
 
 
@@ -96,23 +150,8 @@ function Login(props) {
             }, {
                 onlyOnce: false
             });
-
-
-      {/*  var val = "schoolInformation";
-
-        push(ref(db, 'users/alumni' ), {
-            firstName,
-            lastName,
-            email,
-            password,
-            confirmPass,approve:false
-        }).then(()=>{
-            console.log('data saved successfully')
-        }).catch(err=>{
-            console.log(err)
-        });
-    props.onClick(val);*/}
-
+    }
+  
     }
 
     return (
@@ -124,7 +163,7 @@ function Login(props) {
                         <h3>Email</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter email' name="email" value={email} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} placeholder='enter email' name="email" value={email} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
@@ -135,11 +174,13 @@ function Login(props) {
                         <h3>Password</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} type='password' placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
-            <input
+            <div style={{flexDirection: 'row', marginLeft: '40px', marginTop: '30px'}}>
+            <div style={{flexDirection: 'row'}}>
+            <input style={{outline: 'none'}}
           type="checkbox"
           id="topping"
           name="topping"
@@ -148,7 +189,10 @@ function Login(props) {
           onChange={handleAdmin}
         />
         Admin
-            <input
+        </div>
+        <div style={{flexDirection: 'row'}}>
+
+            <input style={{outline: 'none'}}
           type="checkbox"
           id="topping"
           name="topping"
@@ -157,8 +201,8 @@ function Login(props) {
           onChange={handleAlumni}
         />
         Alumni
-      
-      
+      </div>
+      </div>
       
       
                   <div className='btnMainDiv'>
@@ -171,7 +215,7 @@ function Login(props) {
                 </div>
 
             </div>
-
+            <Toaster />
         </Container >
     )
 }
@@ -181,11 +225,12 @@ export default Login;
 const Container = styled.div`
 
 //background-color: green;
-height: 78vh;
+height: 76vh;
 width: 100%;
 display: flex;
 flex-direction: column;
 justify-content: center;
+overflow: hidden;
 .firstNameLastNameDiv {
     //background-color: yellow;
     display: flex;

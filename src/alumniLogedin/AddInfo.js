@@ -39,7 +39,7 @@ console.log('hello')
             <h5>Item</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter item' name='itemName' value={itemInfo.itemName} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter item' name='itemName' value={itemInfo.itemName} onChange={onChangeHandler}/>
             </div>
         </div>
 
@@ -48,7 +48,7 @@ console.log('hello')
             <h5>Cost</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter cost' name='itemCost' value={itemInfo.itemCost} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter cost' name='itemCost' value={itemInfo.itemCost} onChange={onChangeHandler}/>
             </div>
         </div>
 
@@ -57,7 +57,7 @@ console.log('hello')
             <h5>Student Name</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter name' name='stdName' value={itemInfo.stdName} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter name' name='stdName' value={itemInfo.stdName} onChange={onChangeHandler}/>
             </div>
         </div>
 
@@ -66,7 +66,7 @@ console.log('hello')
             <h5>Student Photo</h5>
             </div>
             <div className='inputDiv'>
-                <input placeholder='enter name' type='file'/>
+                <input style={{outline: 'none'}} placeholder='enter name' type='file'/>
             </div>
         </div>
         
@@ -76,7 +76,7 @@ console.log('hello')
             <h5>Description</h5>
             </div>
             <div className='inputDescriptionDiv'>
-                <input placeholder='enter description' type='text' name='itemDescription' value={itemInfo.itemDescription} onChange={onChangeHandler}/>
+                <input style={{outline: 'none'}} placeholder='enter description' type='text' name='itemDescription' value={itemInfo.itemDescription} onChange={onChangeHandler}/>
             </div>
         </div>
 

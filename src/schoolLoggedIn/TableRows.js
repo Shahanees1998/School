@@ -5,18 +5,27 @@ import styled from 'styled-components';
 function TableRows(props) {
   return (
     <Container>
-        <input type='checkbox'/>
-        <h4>{props.item.itemName}</h4>
-        <h4>{props.item.itemCost}</h4>
-        <h4>{props.item.stdName}</h4>
-        <h4>update</h4>
-        <h4>{props.item.itemDescription}</h4>
+        <input style={{outline: 'none'}} type='checkbox'/>
+        <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}><h4>{props.item.itemName}</h4></div>
+        
+        <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}><h4>{props.item.itemCost}</h4></div>
+
+        
+        <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}> <h4>{props.item.stdName}</h4></div>
+
+       
+        <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}><h4>update</h4></div>
+
+        
+        <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}><h4>{props.item.itemDescription}</h4></div>
+
+        
 
     </Container>
   )
 }
 
-export default TableRows;
+export default React.memo(TableRows);
 
 const Container = styled.div`
 

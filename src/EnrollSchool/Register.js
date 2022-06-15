@@ -2,6 +2,8 @@ import React,{useState} from 'react';
 import styled from 'styled-components';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
+import toast, { Toaster } from 'react-hot-toast';
+
 const db = getDatabase(app);
 
 function Register(props) {
@@ -42,7 +44,18 @@ function Register(props) {
 
 
     function nextHandler() {
-        var val = "schoolInformation";
+        if(firstName == '' || lastName == '' || email =='' || password == '' || confirmPass == '')
+        {
+            toast.custom(
+                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+    
+                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Kindly fill all the fields</h3>
+                    </div>
+                </div>, { duration: 1000 })
+        }
+        else{
+            var val = "schoolInformation";
        var key = push(ref(db, 'users/admin' ), {
             firstName,
             lastName,
@@ -55,6 +68,9 @@ function Register(props) {
         props.ongetval(key.key);
 
         props.onClick(val);
+        }
+     
+
     }
 
     return (
@@ -65,7 +81,7 @@ function Register(props) {
                         <h3>First Name</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter firstname' name="firstName" value={firstName} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} placeholder='enter firstname' name="firstName" value={firstName} onChange={onChangeHandler} />
                     </div>
                 </div>
                 <div className='lastNameDiv'>
@@ -73,7 +89,7 @@ function Register(props) {
                         <h3>Last Name</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter lastName' name="lastName" value={lastName} onChange={onChangeHandler}/>
+                        <input style={{outline: 'none'}} placeholder='enter lastName' name="lastName" value={lastName} onChange={onChangeHandler}/>
                     </div>
                 </div>
             </div>
@@ -85,7 +101,7 @@ function Register(props) {
                         <h3>Email</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter email' name="email" value={email} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} placeholder='enter email' name="email" value={email} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
@@ -96,7 +112,7 @@ function Register(props) {
                         <h3>Password</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
@@ -107,7 +123,7 @@ function Register(props) {
                         <h3>Confirm Password</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter confirm password'  name="confirmPass" value={confirmPass} onChange={onChangeHandler}/>
+                        <input style={{outline: 'none'}} placeholder='enter confirm password'  name="confirmPass" value={confirmPass} onChange={onChangeHandler}/>
                     </div>
                 </div>
             </div>
@@ -122,7 +138,7 @@ function Register(props) {
                 </div>
 
             </div>
-
+            <Toaster />
         </Container >
     )
 }
@@ -132,7 +148,7 @@ export default Register;
 const Container = styled.div`
 
 //background-color: green;
-height: 78vh;
+height: 75vh;
 width: 100%;
 display: flex;
 flex-direction: column;

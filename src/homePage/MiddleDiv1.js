@@ -69,7 +69,7 @@ h4 {
 }
 @media screen and (max-width: 750px) {
     .needsText {
- font-size: 50px;
+ font-size: 40px;
 }
 .donatedText {
  font-size: 10px;
