@@ -9,7 +9,7 @@ function Header() {
     let navigate = useNavigate();
 
     function loginHandler() {
-        navigate('/login');
+        navigate('/home');
         
     }
   return (
@@ -32,7 +32,7 @@ function Header() {
                 <div className='loginAndIconDiv'>
                     <FaUserCircle size={50}/>
                     <div className='loginDiv'>
-                        <button className='loginBtn' onClick={()=>loginHandler()}>Login</button>
+                        <button className='loginBtn' onClick={()=>loginHandler()}>register</button>
                     </div>
                 </div>
             </div>

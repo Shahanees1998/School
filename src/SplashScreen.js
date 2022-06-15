@@ -2,7 +2,6 @@ import React,{useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import Footer from './homePage/Footer';
 
 function SplashScreen() {
 
@@ -18,10 +17,10 @@ function SplashScreen() {
   return (
     <Container>
         
-            <h1>StudenBook.com</h1>
+            <h1>StudenBook</h1>
             <div className='h1BelowDiv'></div>
             <h2>Big Needs,Small Payments</h2>
-            <h2>Requirements- vo.1</h2>
+          
         
     </Container>
   )
@@ -44,9 +43,9 @@ h1 {
 }
 .h1BelowDiv {
     width: 43%;
-    height: 1%;
-    margin-top: -4.5%;
-    background-color: black;
+    height: 1px;
+    margin-top: -3.5%;
+    background-color: grey;
 }
 h2 {
     font-size: 35px;

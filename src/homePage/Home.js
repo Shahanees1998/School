@@ -6,7 +6,7 @@ import MiddleDiv1 from './MiddleDiv1';
 import MiddleDiv2 from './MiddleDiv2';
 import {useNavigate} from 'react-router-dom';
 
-function Footer() {
+function HomePgae() {
 
     const navigate = useNavigate();
 
@@ -31,14 +31,14 @@ function Footer() {
         <Container>
             <div className='btnDiv'>
                 <button onClick={()=>enrollSchollHandler()}>
-                    <h3>Enroll School</h3>
-                    <h4>(for school admins)</h4>
+                    <h3 className='enrollText'>Enroll School</h3>
+                    <h4 className='text'>(for school admins)</h4>
                 </button>
             </div>
             <div className='btnDiv'>
                 <button onClick={()=>alumniRegisterationHandler()}>
-                    <h3>Join your School</h3>
-                    <h4>(for school alumni)</h4>
+                    <h3 className='enrollText'>Join your School</h3>
+                    <h4 className='text'>(for school alumni)</h4>
                 </button>
             </div>
         </Container>
@@ -46,7 +46,7 @@ function Footer() {
     )
 }
 
-export default Footer;
+export default HomePgae;
 
 const Container = styled.div`
 
@@ -56,6 +56,7 @@ width: 100%;
 display: flex;
 align-items: center;
 justify-content: space-evenly;
+overflow-y: hidden;
 .btnDiv {
     //background-color: green;
     height: 60%;
@@ -86,5 +87,20 @@ h4 {
     text-align: center;
     //font-size: 20px;
 }
+.enrollText {
+ font-size: 20px;
+}
+.text {
+ font-size: 17px;
+}
+@media screen and (max-width: 850px) {
+    .enrollText {
+ font-size: 10px;
+}
+.text {
+ font-size: 8px;
+}
+}
+
 
 `

@@ -7,10 +7,10 @@ function MiddleDiv1() {
     <Container>
         <div className='innerDiv'>
             <div className='bigNeedsDiv'>
-                <h1>Big Needs Small Payments</h1>
+                <h1 className='needsText'>Big Needs Small Payments</h1>
             </div>
             <div className='rightDiv'>
-                <h4>1.5 crores donated and counting</h4>
+                <h4 className='donatedText'>1.5 crores donated and counting</h4>
             </div>
         </div>
     </Container>
@@ -22,14 +22,14 @@ export default MiddleDiv1;
 const Container = styled.div`
 
 background-color: white;
-height: 37vh;
+height: 30vh;
 width: 100%;
 display: flex;
 justify-content: flex-end;
 .innerDiv {
     //background-color: yellow;
     height: 100%;
-    width: 83%;
+    width: 70%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -59,6 +59,21 @@ h1 {
 h4 {
     text-align: center;
     color: white;
+
+}
+.needsText {
+ font-size: 70px;
+}
+.donatedText {
+ font-size:15px;
+}
+@media screen and (max-width: 750px) {
+    .needsText {
+ font-size: 50px;
+}
+.donatedText {
+ font-size: 10px;
+}
 
 }
 `
