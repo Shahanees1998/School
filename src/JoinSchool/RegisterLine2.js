@@ -9,8 +9,14 @@ import CompleteAlumni from './CompleteAlumni';
 function RegisterLine2() {
 
   const [component, setcomponent] = useState('register');
+    const [key, setKey] = useState('')
 
-  function componentHandler(item1) {
+    function
+    getKey(item1) {
+        setKey(item1)
+    }
+
+    function componentHandler(item1) {
     setcomponent(item1);
   }
 
@@ -29,8 +35,8 @@ function RegisterLine2() {
       </Container>
       
       {
-        component==='register'?<RegisterAlumni onClick={componentHandler}/>:
-        component==='schoolInformation'?<SchoolInformationAlumni onClick={componentHandler}/>
+        component==='register'?<RegisterAlumni onClick={componentHandler} ongetval={getKey}/>:
+        component==='schoolInformation'?<SchoolInformationAlumni onClick={componentHandler} getKey={key}/>
         :component==='complete'?
         <CompleteAlumni />:null
       }

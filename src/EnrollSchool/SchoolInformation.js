@@ -39,14 +39,6 @@ function SchoolInformation(props) {
             }).catch(err=>{
                 console.log(err)
             });
-
-            set(ref(db, 'School/-N4WLz1ejar-mNf4xdcT' ), schoolInfo).then(()=>{
-                console.log('data saved successfully')
-            }).catch(err=>{
-                console.log(err)
-            });
-    
-    
             props.onClick(val);
         }
   

@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const db = getDatabase(app);
 
 function SchoolInformationAlumni(props) {
+    const key = props.getKey;
 
     const[alumniSchoolInfo,setAlumniSchoolInfo] =useState({schoolName:'',graduationyear:'',alumniNumber:''})
     function backHandler() {
@@ -27,7 +28,7 @@ function SchoolInformationAlumni(props) {
         }
         else {
             var val = "complete"
-            set(ref(db, 'users/alumni/-N4Y72fjNCUePpU4DL5s/schoolInfo' ), alumniSchoolInfo).then(()=>{
+            set(ref(db, 'users/alumni/'+key+'/schoolInfo' ), alumniSchoolInfo).then(()=>{
                 console.log('data saved successfully')
             }).catch(err=>{
                 console.log(err)
