@@ -11,9 +11,14 @@ import ContactUs from './ContactUs';
 function RegisterLine() {
 
   const [component, setcomponent] = useState('register');
+  const [key, setKey] = useState('')
   //const [colorChangeOfSchoolInfo, setcolorChangeOfSchoolInfo] = useState();
-
-  function componentHandler(item1) {
+  function
+  getKey(item1) {
+    setKey(item1)
+  }
+  function
+  componentHandler(item1) {
     setcomponent(item1);
     
     
@@ -32,8 +37,8 @@ function RegisterLine() {
         <h3>Complete</h3>
       </Container>
       {
-        component==='register'?<Register onClick={componentHandler}/>:
-        component==='schoolInformation'?<SchoolInformation onClick={componentHandler}/>
+        component==='register'?<Register onClick={componentHandler} ongetval={getKey}/>:
+        component==='schoolInformation'?<SchoolInformation onClick={componentHandler} getKey={key}/>
         :component==='payment'?<Payment onClick={componentHandler}/>:component==='complete'?
         <Complete onClick={componentHandler}/>:component==='contactus'?<ContactUs onClick={componentHandler}/>:null
       }

@@ -37,6 +37,7 @@ function Table() {
                 const childData = childSnapshot.val();
                 console.log('child data',childData);
                 setData((prev)=>[...prev,childData])
+                console.log('child data array', data, 'length',data.length)
                 // ...
             });
             setCheck(true)

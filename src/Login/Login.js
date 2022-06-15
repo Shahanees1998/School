@@ -5,19 +5,15 @@ import app from '../firebase'
 import {useNavigate} from 'react-router-dom';
 
 const db = getDatabase(app);
-
-
-
-function LoginAlumni(props) {
+function Login(props) {
     let navigate = useNavigate();
 
-    const[firstName,setFirstName] = useState('');
-    const[lastName,setLastName] = useState('');
     const[email, setEmail] = useState('');
     const[password,setPassword] = useState('');
-    const[confirmPass,setConfirmPass] = useState('');
     const [userType, setUserType] = useState('');
     const [isChecked, setIsChecked] = useState(false);
+    const [check,setCheck] = useState(false);
+
     const handleAlumni = () => {
         setUserType('Alumni');
       };
@@ -29,20 +25,11 @@ function LoginAlumni(props) {
         const inputName = event.target.name;
         const inputValue = event.target.value;
         switch (inputName){
-            case 'firstName':
-                setFirstName(inputValue)
-                break;
-            case 'lastName':
-                setLastName(inputValue)
-                break;
             case 'email':
                 setEmail(inputValue)
                 break;
             case 'password':
-                setPassword(password)
-                break;
-            case 'confirmPass':
-                setConfirmPass(inputValue)
+                setPassword(inputValue)
                 break;
             default:
                 console.log('default')
@@ -53,6 +40,74 @@ function LoginAlumni(props) {
 
 
     function nextHandler() {
+        let role='';
+
+        if(userType == 'Admin')
+            role = 'admin'
+        else{
+            role = 'alumni'
+        }
+        const starCountRef = ref(db, 'users/'+role);
+
+
+
+            onValue(starCountRef, (snapshot) => {
+                let alumniEmail,alumniPassword;
+                snapshot.forEach((childSnapshot) => {
+                    const childKey = childSnapshot.key;
+                    const childData = childSnapshot.val();
+                    console.log('child data Login',childData);
+                    alumniEmail =  childData.email;
+                    alumniPassword = childData.password;
+
+                    if(childData.email == email && childData.password == password){
+
+                        if(userType == 'Alumni')
+                        {
+                            navigate('/alumnilogin');
+                        }
+                        else {
+                            navigate('/loggedin');
+                        }
+                    }
+
+
+
+                   // setData((prev)=>[...prev,childData])
+                    // ...
+                });
+                if(alumniEmail == email){
+                    if(userType == 'Alumni')
+                    {
+                        navigate('/alumnilogin');
+                    }
+                    else {
+                        navigate('/loggedin');
+                    }
+                }
+                if(alumniPassword == password){
+                    if(userType == 'Alumni')
+                    {
+                        navigate('/alumnilogin');
+                    }
+                    else {
+                        navigate('/loggedin');
+                    }
+                }
+                if(alumniEmail != email){
+                    console.log('no email found')
+                }
+               else if(alumniPassword != password){
+                   console.log('incorrect password')
+                }
+
+
+               // setCheck(true)
+            }, {
+                onlyOnce: false
+            });
+
+
       {/*  var val = "schoolInformation";
 
         push(ref(db, 'users/alumni' ), {
@@ -67,16 +122,7 @@ function LoginAlumni(props) {
             console.log(err)
         });
     props.onClick(val);*/}
-    if(userType == 'Alumni')
-    {
-        
-        navigate('/alumnilogin');
 
-    }
-    else {
-        navigate('/loggedin');
-
-    }
     }
 
     return (
@@ -140,7 +186,7 @@ function LoginAlumni(props) {
     )
 }
 
-export default LoginAlumni;
+export default Login;
 
 const Container = styled.div`
 

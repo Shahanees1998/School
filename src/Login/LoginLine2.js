@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import styled from 'styled-components';
 import Header from '../Components/LoginPageHeader'
-import LoginAlumni from './LoginAlumni';
+import Login from './Login';
 
 function LoginLine2() {
 
@@ -21,7 +21,7 @@ function LoginLine2() {
         </div>
       </Container>
       
-      <LoginAlumni onClick={componentHandler}/>
+      <Login onClick={componentHandler}/>
       </>
   )
 }

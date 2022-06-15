@@ -27,7 +27,7 @@ function Register(props) {
                 setEmail(inputValue)
                 break;
             case 'password':
-                setPassword(password)
+                setPassword(inputValue)
                 break;
             case 'confirmPass':
                 setConfirmPass(inputValue)
@@ -43,17 +43,16 @@ function Register(props) {
 
     function nextHandler() {
         var val = "schoolInformation";
-        push(ref(db, 'users/admin' ), {
+       var key = push(ref(db, 'users/admin' ), {
             firstName,
             lastName,
             email,
             password,
             confirmPass
-        }).then(()=>{
-            console.log('data saved successfully')
-        }).catch(err=>{
-            console.log(err)
-        });
+        })
+
+        console.log('key', key.key)
+        props.ongetval(key.key);
 
         props.onClick(val);
     }
