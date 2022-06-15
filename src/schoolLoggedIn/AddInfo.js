@@ -14,7 +14,7 @@ function AddInfo() {
         setItemInfo({...itemInfo,[name]:value});
 
     }
-
+console.log('hello')
     const onSubmitHandler = ()=>{
         set(ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items/'+ new Date().toLocaleTimeString() ), itemInfo).then(()=>{
             console.log('data saved successfully')
