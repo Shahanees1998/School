@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import styled from 'styled-components';
 import Header from '../Components/LoginPageHeader'
-import LoginAlumni from './LoginAlumni';
+import LoginAlumni from './Login';
 
 function LoginLine2() {
 

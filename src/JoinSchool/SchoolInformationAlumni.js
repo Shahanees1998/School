@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
+import toast, { Toaster } from 'react-hot-toast';
+
 const db = getDatabase(app);
 
 function SchoolInformationAlumni(props) {
@@ -13,13 +15,26 @@ function SchoolInformationAlumni(props) {
     }
 
     function nextHandler() {
-        var val = "complete"
-        set(ref(db, 'users/alumni/-N4Y72fjNCUePpU4DL5s/schoolInfo' ), alumniSchoolInfo).then(()=>{
-            console.log('data saved successfully')
-        }).catch(err=>{
-            console.log(err)
-        });
-        props.onClick(val);
+        if(alumniSchoolInfo.schoolName == '' || alumniSchoolInfo.graduationyear == '' || alumniSchoolInfo.alumniNumber =='')
+        {
+            toast.custom(
+                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+    
+                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Kindly fill all the fields</h3>
+                    </div>
+                </div>, { duration: 1000 })
+        }
+        else {
+            var val = "complete"
+            set(ref(db, 'users/alumni/-N4Y72fjNCUePpU4DL5s/schoolInfo' ), alumniSchoolInfo).then(()=>{
+                console.log('data saved successfully')
+            }).catch(err=>{
+                console.log(err)
+            });
+            props.onClick(val);
+        }
+      
     }
 
     const onChangeHandler = (event)=>{
@@ -37,7 +52,7 @@ function SchoolInformationAlumni(props) {
                         <h3>School Name</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter schoolName' name="schoolName" value={alumniSchoolInfo.schoolName}
+                        <input style={{outline: 'none'}} placeholder='enter schoolName' name="schoolName" value={alumniSchoolInfo.schoolName}
                         onChange={onChangeHandler}/>
                     </div>
                 </div>
@@ -49,7 +64,7 @@ function SchoolInformationAlumni(props) {
                         <h3>Graduation Year</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter relationShip' name="graduationyear" value={alumniSchoolInfo.graduationyear}
+                        <input style={{outline: 'none'}} placeholder='enter relationShip' name="graduationyear" value={alumniSchoolInfo.graduationyear}
                                onChange={onChangeHandler} />
                     </div>
                 </div>
@@ -62,7 +77,7 @@ function SchoolInformationAlumni(props) {
                         <h3>Phone Number</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter phone number' name="alumniNumber" value={alumniSchoolInfo.alumniNumber}
+                        <input style={{outline: 'none'}} placeholder='enter phone number' name="alumniNumber" value={alumniSchoolInfo.alumniNumber}
                                onChange={onChangeHandler} />
                     </div>
                 </div>
@@ -83,6 +98,7 @@ function SchoolInformationAlumni(props) {
                 </div>
 
             </div>
+            <Toaster />
 
         </Container >
   )
@@ -94,7 +110,7 @@ export default SchoolInformationAlumni;
 const Container = styled.div`
 
 //background-color: green;
-height: 78vh;
+height: 75vh;
 width: 100%;
 display: flex;
 flex-direction: column;

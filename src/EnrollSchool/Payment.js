@@ -1,8 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
+import toast, { Toaster } from 'react-hot-toast';
 
 function Payment(props) {
-
+const [bankName, setBankName] = useState('')
+const [accountName, setAccountName] = useState('')
+const [accoutNumber, setAccountNumber] = useState('')
+const [routingNumber, setRoutingNumber] = useState('')
     function backHandler() {
         var val = 'schoolInformation';
         props.onClick(val);
@@ -10,8 +14,21 @@ function Payment(props) {
     }
 
     function nextHandler() {
-        var val = 'complete';
-        props.onClick(val);
+        if(accountName == '' || accoutNumber == '' || bankName =='' || routingNumber == '')
+        {
+            toast.custom(
+                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+    
+                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Kindly fill all the fields</h3>
+                    </div>
+                </div>, { duration: 1000 })
+        }
+        else {
+            var val = 'complete';
+            props.onClick(val);
+        }
+    
         
     }
 
@@ -24,7 +41,7 @@ function Payment(props) {
                         <h3>Name of the bank</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter bankName' />
+                        <input style={{outline: 'none'}} placeholder='Enter bankName' onChange={(e) => setBankName(e.target.value)}/>
                     </div>
                 </div>
                 <div className='schoolAddressDiv'>
@@ -32,7 +49,7 @@ function Payment(props) {
                         <h3>Routing Number</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter routing Number' />
+                        <input style={{outline: 'none'}} placeholder='enter routing Number'  onChange={(e) => setRoutingNumber(e.target.value)}/>
                     </div>
                 </div>
             </div>
@@ -44,7 +61,7 @@ function Payment(props) {
                         <h3>Name of the account</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter accountName' />
+                        <input style={{outline: 'none'}} placeholder='enter accountName'  onChange={(e) => setAccountName(e.target.value)}/>
                     </div>
                 </div>
             </div>
@@ -55,7 +72,7 @@ function Payment(props) {
                         <h3>Account number</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter accoutNumber' />
+                        <input style={{outline: 'none'}} placeholder='enter accoutNumber'  onChange={(e) => setAccountNumber(e.target.value)}/>
                     </div>
                 </div>
             </div>
@@ -81,6 +98,7 @@ function Payment(props) {
                     <p>StudentBook does not sell your information to anyone</p>
                 </div>
             </div>
+            <Toaster />
 
         </Container >
   )
@@ -92,7 +110,7 @@ export default Payment;
 const Container = styled.div`
 
 //background-color: green;
-height: 78vh;
+height: 75vh;
 width: 100%;
 display: flex;
 flex-direction: column;

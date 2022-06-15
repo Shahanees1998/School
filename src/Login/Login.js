@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
 import {useNavigate} from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const db = getDatabase(app);
 
@@ -39,7 +40,7 @@ function LoginAlumni(props) {
                 setEmail(inputValue)
                 break;
             case 'password':
-                setPassword(password)
+                setPassword(inputValue)
                 break;
             case 'confirmPass':
                 setConfirmPass(inputValue)
@@ -67,16 +68,42 @@ function LoginAlumni(props) {
             console.log(err)
         });
     props.onClick(val);*/}
-    if(userType == 'Alumni')
+    if(email == '' || password == '')
     {
-        
-        navigate('/alumnilogin');
+        toast.custom(
+            <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
 
+                <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>Kindly fill all the fields</h3>
+                </div>
+            </div>, { duration: 1000 })
     }
     else {
-        navigate('/loggedin');
+        if(userType == 'Alumni')
+        {
+            toast.custom(
+                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
 
+                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: '#53B175', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>login successfully</h3>
+                    </div>
+                </div>, { duration: 1000 })
+            navigate('/alumnilogin');
+    
+        }
+        else {
+            toast.custom(
+                <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+
+                    <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: '#53B175', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>login successfully</h3>
+                    </div>
+                </div>, { duration: 1000 })
+            navigate('/loggedin');
+    
+        }
     }
+  
     }
 
     return (
@@ -88,7 +115,7 @@ function LoginAlumni(props) {
                         <h3>Email</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter email' name="email" value={email} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} placeholder='enter email' name="email" value={email} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
@@ -99,11 +126,13 @@ function LoginAlumni(props) {
                         <h3>Password</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
+                        <input style={{outline: 'none'}} placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
-            <input
+            <div style={{flexDirection: 'row', marginLeft: '40px', marginTop: '30px'}}>
+            <div style={{flexDirection: 'row'}}>
+            <input style={{outline: 'none'}}
           type="checkbox"
           id="topping"
           name="topping"
@@ -112,7 +141,10 @@ function LoginAlumni(props) {
           onChange={handleAdmin}
         />
         Admin
-            <input
+        </div>
+        <div style={{flexDirection: 'row'}}>
+
+            <input style={{outline: 'none'}}
           type="checkbox"
           id="topping"
           name="topping"
@@ -121,8 +153,8 @@ function LoginAlumni(props) {
           onChange={handleAlumni}
         />
         Alumni
-      
-      
+      </div>
+      </div>
       
       
                   <div className='btnMainDiv'>
@@ -135,7 +167,7 @@ function LoginAlumni(props) {
                 </div>
 
             </div>
-
+            <Toaster />
         </Container >
     )
 }
@@ -145,11 +177,12 @@ export default LoginAlumni;
 const Container = styled.div`
 
 //background-color: green;
-height: 78vh;
+height: 76vh;
 width: 100%;
 display: flex;
 flex-direction: column;
 justify-content: center;
+overflow: hidden;
 .firstNameLastNameDiv {
     //background-color: yellow;
     display: flex;

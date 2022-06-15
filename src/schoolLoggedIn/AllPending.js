@@ -8,13 +8,7 @@ function AllPending() {
         <div className='leftDiv'>
             <h3>Needs</h3>
         </div>
-        <div className='rightDiv'>
-            <h3>Needs</h3>
-            <FaArrowRight size={20}/>
-            <h3>Pending</h3>
-            <FaArrowRight size={20}/>
-            <h3>Completed(dropDown)</h3>
-        </div>
+   
     </Container>
   )
 }
@@ -31,6 +25,7 @@ display: flex;
     //background-color: yellowgreen;
     height: 100%;
     width: 40%;
+    margin-left: 20px;
 }
 .rightDiv {
     //background-color: yellow;

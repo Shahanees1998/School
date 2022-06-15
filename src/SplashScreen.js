@@ -11,7 +11,7 @@ function SplashScreen() {
 
   setTimeout(() => {
     navigate('home')
-  }, 10000);
+  }, 3000);
 
   
   return (

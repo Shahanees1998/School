@@ -5,7 +5,7 @@ import styled from 'styled-components';
 function TableRows(props) {
   return (
     <Container>
-        <input type='checkbox'/>
+        <input style={{outline: 'none'}} type='checkbox'/>
         <h4>{props.item.itemName}</h4>
         <h4>{props.item.itemCost}</h4>
         <h4>{props.item.stdName}</h4>

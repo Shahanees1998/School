@@ -23,14 +23,14 @@ function Header() {
             </div>
             <div className='rightDiv'>
                 <div className='searchDiv'>
-                <FaSearch size={30} className='searchIcon'/>
-                <input placeholder='Search' className='searchInput'/>
+                <FaSearch size={20} className='searchIcon'/>
+                <input style={{outline: 'none', backgroundColor: 'white'}} placeholder='Search' className='searchInput'/>
                 </div>
                 <div className='aboutDiv'>
                     <button className='aboutBtn'>About</button>
                 </div>
                 <div className='loginAndIconDiv'>
-                    <FaUserCircle size={50}/>
+                    <FaUserCircle size={40}/>
                     <div className='loginDiv'>
                         <button className='loginBtn' onClick={()=>loginHandler()}>register</button>
                     </div>
@@ -67,8 +67,8 @@ const Container = styled.div`
   }
   .imgDiv {
       //background-color: yellow;
-      height: 95%;
-      width: 13%;
+      height: 70%;
+      width: 10%;
       border-radius: 70%;
       overflow: hidden;
   }
@@ -93,11 +93,12 @@ const Container = styled.div`
   .searchDiv {
       //background-color: #EEEEEE;
       width: 45%;
-      height: 80%;
+      height: 60%;
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      border-radius: 5px;
+      border-radius: 10px;
+      background-color: white;
   }
   .searchIcon {
       color: #C4C4C4;

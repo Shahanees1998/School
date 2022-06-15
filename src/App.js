@@ -10,7 +10,7 @@ import Table from './schoolLoggedIn/Table';
 import AddInfo from './schoolLoggedIn/AddInfo';
 import Header from './Components/Header';
 import RegisterLine2 from './JoinSchool/RegisterLine2';
-import LoginLine2 from './AlumniLogin/LoginLine2';
+import LoginLine2 from './Login/LoginLine2';
 import AlumniTable from './alumniLogedin/AlumniPageTable';
 function App() {
   return (
