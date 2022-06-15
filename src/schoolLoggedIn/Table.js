@@ -6,6 +6,7 @@ import AllPending from './AllPending';
 import {useNavigate} from 'react-router-dom';
 import app from '../firebase'
 import { getDatabase, ref, set, onValue,push,update } from "firebase/database";
+import {useSelector} from "react-redux";
 
 const db = getDatabase(app);
 
@@ -24,9 +25,11 @@ const db = getDatabase(app);
 function Table() {
     const [check,setCheck] =  useState(false);
     const[data,setData] = useState([]);
+    const { key } = useSelector(state => state.userReducer)
+    console.log('key is', key);
 
     // key should be dynamic
-    const starCountRef = ref(db, 'School/-N4bWXKjJIn5KB4p4atr/items');
+    const starCountRef = ref(db, 'School/'+key+'/items');
 
 
     let navigate = useNavigate();

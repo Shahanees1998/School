@@ -7,6 +7,7 @@ import app from '../firebase'
 import { useNavigate } from "react-router-dom";
 
 import toast, { Toaster } from 'react-hot-toast';
+import {useSelector} from "react-redux";
 
 const db = getDatabase(app);
 
@@ -14,6 +15,8 @@ function AddInfo() {
     let navigate = useNavigate();
 
     const[itemInfo,setItemInfo] = useState({itemName:'',itemCost:'',stdName:'',itemDescription:''})
+
+    const { key } = useSelector(state => state.userReducer)
 
     const onChangeHandler = (event) => {
         const{name, value} = event.target;
@@ -33,7 +36,7 @@ console.log('hello')
                 </div>, { duration: 1000 })
         }
         else{
-            set(ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items/'+ new Date().toLocaleTimeString() ), itemInfo).then(()=>{
+            set(ref(db, 'School/'+key+'/items/'+ new Date().toLocaleTimeString() ), itemInfo).then(()=>{
                 console.log('data saved successfully')
                 toast.custom(
                     <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>

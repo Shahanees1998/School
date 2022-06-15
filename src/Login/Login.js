@@ -5,9 +5,14 @@ import app from '../firebase'
 import {useNavigate} from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSelector, useDispatch } from 'react-redux'
+import setData, {setKey} from "../Redux/actions";
 
 const db = getDatabase(app);
 function Login(props) {
+
+    const dispatch = useDispatch()
+
+
     // get data from redux
     const { data, key } = useSelector(state => state.userReducer)
 console.log(`data ${key}`)
@@ -45,23 +50,7 @@ console.log(`data ${key}`)
 
 
     function nextHandler() {
-       
 
-
-      {/*  var val = "schoolInformation";
-
-        push(ref(db, 'users/alumni' ), {
-            firstName,
-            lastName,
-            email,
-            password,
-            confirmPass,approve:false
-        }).then(()=>{
-            console.log('data saved successfully')
-        }).catch(err=>{
-            console.log(err)
-        });
-    props.onClick(val);*/}
     if(email == '' || password == '')
     {
         toast.custom(
@@ -82,17 +71,20 @@ console.log(`data ${key}`)
             role = 'alumni'
         }
         const starCountRef = ref(db, 'users/'+role);
-
-
+        let emailAndPassCheck = false;
 
             onValue(starCountRef, (snapshot) => {
                 let alumniEmail,alumniPassword;
                 snapshot.forEach((childSnapshot) => {
                     const childKey = childSnapshot.key;
                     const childData = childSnapshot.val();
-                    console.log('child data Login',childData);
-                    alumniEmail =  childData.email;
-                    alumniPassword = childData.password;
+                    console.log('child data Login',childKey);
+
+                    if(email == childData.email && password==childData.password){
+                        alumniEmail =  childData.email;
+                        alumniPassword = childData.password;
+                        dispatch(setKey(childKey));
+                    }
 
 
 
