@@ -52,6 +52,8 @@ export default RegisterLine;
 const Container = styled.div`
 
 background-color: white;
+
+
 height: 12vh;
 width: 100%;
 display: flex;
