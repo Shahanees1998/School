@@ -60,16 +60,6 @@ function Login(props) {
                     alumniEmail =  childData.email;
                     alumniPassword = childData.password;
 
-                    if(childData.email == email && childData.password == password){
-
-                        if(userType == 'Alumni')
-                        {
-                            navigate('/alumnilogin');
-                        }
-                        else {
-                            navigate('/loggedin');
-                        }
-                    }
 
 
 
