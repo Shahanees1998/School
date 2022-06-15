@@ -1,10 +1,60 @@
 import React,{useState} from 'react';
 import styled from 'styled-components';
+import { getDatabase, ref, set, onValue,push } from "firebase/database";
+import app from '../firebase'
+const db = getDatabase(app);
 
 function RegisterAlumni(props) {
 
+    const[firstName,setFirstName] = useState('');
+    const[lastName,setLastName] = useState('');
+    const[email, setEmail] = useState('');
+    const[password,setPassword] = useState('');
+    const[confirmPass,setConfirmPass] = useState('');
+
+
+    const onChangeHandler= (event)=>{
+        console.log('name',event.target.name);
+        const inputName = event.target.name;
+        const inputValue = event.target.value;
+        switch (inputName){
+            case 'firstName':
+                setFirstName(inputValue)
+                break;
+            case 'lastName':
+                setLastName(inputValue)
+                break;
+            case 'email':
+                setEmail(inputValue)
+                break;
+            case 'password':
+                setPassword(password)
+                break;
+            case 'confirmPass':
+                setConfirmPass(inputValue)
+                break;
+            default:
+                console.log('default')
+                break;
+
+        }
+    }
+
+
     function nextHandler() {
         var val = "schoolInformation";
+
+        push(ref(db, 'users/alumni' ), {
+            firstName,
+            lastName,
+            email,
+            password,
+            confirmPass,approve:false
+        }).then(()=>{
+            console.log('data saved successfully')
+        }).catch(err=>{
+            console.log(err)
+        });
         props.onClick(val);
     }
 
@@ -16,7 +66,7 @@ function RegisterAlumni(props) {
                         <h3>First Name</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter firstname' />
+                        <input placeholder='enter firstname' name="firstName" value={firstName} onChange={onChangeHandler} />
                     </div>
                 </div>
                 <div className='lastNameDiv'>
@@ -24,7 +74,7 @@ function RegisterAlumni(props) {
                         <h3>Last Name</h3>
                     </div>
                     <div className='inputDiv'>
-                        <input placeholder='enter lastName' />
+                        <input placeholder='enter lastName' name="lastName" value={lastName} onChange={onChangeHandler}/>
                     </div>
                 </div>
             </div>
@@ -36,7 +86,7 @@ function RegisterAlumni(props) {
                         <h3>Email</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter email' />
+                        <input placeholder='enter email' name="email" value={email} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
@@ -47,7 +97,7 @@ function RegisterAlumni(props) {
                         <h3>Password</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter password' />
+                        <input placeholder='enter password' name="password" value={password} onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
@@ -58,7 +108,7 @@ function RegisterAlumni(props) {
                         <h3>Confirm Password</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter confirm password' />
+                        <input placeholder='enter confirm password'  name="confirmPass" value={confirmPass} onChange={onChangeHandler}/>
                     </div>
                 </div>
             </div>

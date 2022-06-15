@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
+import { getDatabase, ref, set, onValue,push } from "firebase/database";
+import app from '../firebase'
+const db = getDatabase(app);
 
 function SchoolInformationAlumni(props) {
 
+    const[alumniSchoolInfo,setAlumniSchoolInfo] =useState({schoolName:'',graduationyear:'',alumniNumber:''})
     function backHandler() {
         var val = "register"
         props.onClick(val);
@@ -10,7 +14,17 @@ function SchoolInformationAlumni(props) {
 
     function nextHandler() {
         var val = "complete"
+        set(ref(db, 'users/alumni/-N4Y72fjNCUePpU4DL5s/schoolInfo' ), alumniSchoolInfo).then(()=>{
+            console.log('data saved successfully')
+        }).catch(err=>{
+            console.log(err)
+        });
         props.onClick(val);
+    }
+
+    const onChangeHandler = (event)=>{
+        const{name,value} = event.target;
+        setAlumniSchoolInfo({...alumniSchoolInfo,[name]:value});
     }
 
 
@@ -23,7 +37,8 @@ function SchoolInformationAlumni(props) {
                         <h3>School Name</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter schoolName' />
+                        <input placeholder='enter schoolName' name="schoolName" value={alumniSchoolInfo.schoolName}
+                        onChange={onChangeHandler}/>
                     </div>
                 </div>
             </div>
@@ -34,7 +49,8 @@ function SchoolInformationAlumni(props) {
                         <h3>Graduation Year</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter relationShip' />
+                        <input placeholder='enter relationShip' name="graduationyear" value={alumniSchoolInfo.graduationyear}
+                               onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
@@ -46,7 +62,8 @@ function SchoolInformationAlumni(props) {
                         <h3>Phone Number</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input placeholder='enter phone number' />
+                        <input placeholder='enter phone number' name="alumniNumber" value={alumniSchoolInfo.alumniNumber}
+                               onChange={onChangeHandler} />
                     </div>
                 </div>
             </div>
