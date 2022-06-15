@@ -26,7 +26,7 @@ function Table() {
     const[data,setData] = useState([]);
 
     // key should be dynamic
-    const starCountRef = ref(db, 'School/-N4bThDh_DTMDzvsqrD6/items');
+    const starCountRef = ref(db, 'School/-N4bWXKjJIn5KB4p4atr/items');
 
 
     let navigate = useNavigate();
