@@ -12,6 +12,7 @@ function SchoolInformationAlumni(props) {
     const[alumniSchoolInfo,setAlumniSchoolInfo] =useState({schoolName:'',graduationyear:'',alumniNumber:''})
     function backHandler() {
         var val = "register"
+        var val = "register"
         props.onClick(val);
     }
 
@@ -28,6 +29,7 @@ function SchoolInformationAlumni(props) {
         }
         else {
             var val = "complete"
+            console.log('alumni key now', key)
             set(ref(db, 'users/alumni/'+key+'/schoolInfo' ), alumniSchoolInfo).then(()=>{
                 console.log('data saved successfully')
             }).catch(err=>{

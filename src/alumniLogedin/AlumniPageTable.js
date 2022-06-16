@@ -6,6 +6,7 @@ import AllPending from './AllPending';
 import {useNavigate} from 'react-router-dom';
 import app from '../firebase'
 import { getDatabase, ref, set, onValue,push,update } from "firebase/database";
+import {useSelector} from "react-redux";
 
 const db = getDatabase(app);
 
@@ -24,6 +25,8 @@ const db = getDatabase(app);
 function AlumniTable() {
     const [check,setCheck] =  useState(false);
     const[data,setData] = useState([]);
+    const { alumnikey } = useSelector(state => state.userReducer)
+
 
     const starCountRef = ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items');
 

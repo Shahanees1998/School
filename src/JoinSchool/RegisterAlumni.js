@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
 import toast, { Toaster } from 'react-hot-toast';
+import {useDispatch} from "react-redux";
+import setData, {setAlumniKey} from "../Redux/actions";
 
 const db = getDatabase(app);
 
 function RegisterAlumni(props) {
+    const dispatch = useDispatch()
+    // set data in redux
 
     const[firstName,setFirstName] = useState('');
     const[lastName,setLastName] = useState('');
@@ -57,17 +61,16 @@ function RegisterAlumni(props) {
         else {
             var val = "schoolInformation";
 
-            push(ref(db, 'users/alumni' ), {
+            var alumnikey = push(ref(db, 'users/alumni' ), {
                 firstName,
                 lastName,
                 email,
                 password,
                 confirmPass,approve:false
-            }).then(()=>{
-                console.log('data saved successfully')
-            }).catch(err=>{
-                console.log(err)
-            });
+            })
+            props.ongetval(alumnikey.key)
+            dispatch(setAlumniKey(alumnikey.key))
+
             props.onClick(val);
         }
       
