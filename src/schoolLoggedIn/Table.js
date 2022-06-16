@@ -18,6 +18,7 @@ import deleteItem from "../imgs/delete.png";
 
 const db = getDatabase(app);
 
+
 // const data = [
 //     { id: 1, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
 //     { id: 2, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
@@ -28,8 +29,9 @@ const db = getDatabase(app);
 // ]
 
 function Table() {
-  const DeleteItem = (id) => {
-    console.log(id);
+
+  const DeleteItem = (itemKeyId) => {
+
   };
   const [check, setCheck] = useState(false);
   const [data, setLogedinEmail] = useState([]);
@@ -48,6 +50,7 @@ function Table() {
         snapshot.forEach((childSnapshot) => {
           const childKey = childSnapshot.key;
           const childData = childSnapshot.val();
+          childData['itemKey'] = childKey;
           console.log("child data", childData);
           setLogedinEmail((prev) => [...prev, childData]);
           console.log("child data array", data, "length", data.length);
@@ -121,7 +124,7 @@ function Table() {
               alignItems: "center",
               justifyContent: "center",
             }}
-            onClick={() => DeleteItem(item.id)}
+            onClick={() => DeleteItem(item.itemKey)}
           >
             <img src={deleteItem} style={{ width: 20, height: 20 }} />
           </div>

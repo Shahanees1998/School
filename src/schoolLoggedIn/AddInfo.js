@@ -36,7 +36,7 @@ console.log('hello')
                 </div>, { duration: 1000 })
         }
         else{
-            set(ref(db, 'School/'+key+'/items/'+ new Date().toLocaleTimeString() ), itemInfo).then(()=>{
+            push(ref(db, 'School/'+key+'/items' ), itemInfo).then(()=>{
                 console.log('data saved successfully')
                 toast.custom(
                     <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
