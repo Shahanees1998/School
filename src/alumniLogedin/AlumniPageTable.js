@@ -25,10 +25,10 @@ const db = getDatabase(app);
 function AlumniTable() {
     const [check,setCheck] =  useState(false);
     const[data,setData] = useState([]);
-    const { alumnikey } = useSelector(state => state.userReducer)
+    const { key,alumnikey } = useSelector(state => state.userReducer)
+    console.log('ghias',key,'alkey', alumnikey)
 
-
-    const starCountRef = ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items');
+    const starCountRef = ref(db, 'School/'+key+'/items');
 
 
     let navigate = useNavigate();
@@ -38,7 +38,7 @@ function AlumniTable() {
             snapshot.forEach((childSnapshot) => {
                 const childKey = childSnapshot.key;
                 const childData = childSnapshot.val();
-                console.log('child data',childData);
+                console.log('child data should be called',childData);
                 setData((prev)=>[...prev,childData])
                 // ...
             });
@@ -47,7 +47,7 @@ function AlumniTable() {
             onlyOnce: false
         });
 
-    },[check])
+    },[])
 
 
     function addHandler() {

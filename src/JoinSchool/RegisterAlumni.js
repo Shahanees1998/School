@@ -69,6 +69,7 @@ function RegisterAlumni(props) {
                 confirmPass,approve:false
             })
             props.ongetval(alumnikey.key)
+            console.log('storing alumni')
             dispatch(setAlumniKey(alumnikey.key))
 
             props.onClick(val);

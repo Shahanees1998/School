@@ -72,6 +72,7 @@ console.log(`data ${key}`)
         }
         const starCountRef = ref(db, 'users/'+role);
         let emailAndPassCheck = false;
+        let keyvalue;
 
             onValue(starCountRef, (snapshot) => {
                 let alumniEmail,alumniPassword;
@@ -83,7 +84,7 @@ console.log(`data ${key}`)
                     if(email == childData.email && password==childData.password){
                         alumniEmail =  childData.email;
                         alumniPassword = childData.password;
-                        dispatch(setKey(childKey));
+                        keyvalue = childKey;
                     }
                     if(email == childData.email){
                         alumniEmail = childData.email;
@@ -91,9 +92,6 @@ console.log(`data ${key}`)
                     if(password == childData.password){
                         alumniPassword = childData.password;
                     }
-
-
-
 
                    // setData((prev)=>[...prev,childData])
                     // ...
@@ -106,6 +104,7 @@ console.log(`data ${key}`)
                             navigate('/alumnilogin');
                         }
                         else {
+                            dispatch(setKey(keyvalue));
                             navigate('/loggedin');
                         }
                     }
@@ -120,6 +119,8 @@ console.log(`data ${key}`)
                         }
                         else {
                             navigate('/loggedin');
+                            dispatch(setKey(keyvalue));
+
                         }
                     }
                  
