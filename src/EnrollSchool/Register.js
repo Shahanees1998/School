@@ -55,22 +55,29 @@ function Register(props) {
                 </div>, { duration: 1000 })
         }
         else{
-            var val = "schoolInformation";
-       var key = push(ref(db, 'users/admin' ), {
-            firstName,
-            lastName,
-            email,
-            password,
-            confirmPass
-        })
+            if(password != confirmPass)
+            {
 
-        console.log('key', key.key)
-        props.ongetval(key.key);
-
-        props.onClick(val);
+            }
+            else {
+                var val = "schoolInformation";
+                var key = push(ref(db, 'users/admin' ), {
+                     firstName,
+                     lastName,
+                     email,
+                     password,
+                     confirmPass
+                 })
+         
+                 console.log('key', key.key)
+                 props.ongetval(key.key);
+         
+                 props.onClick(val);
+                 
+              
+            }
+       
         }
-     
-
     }
 
     return (

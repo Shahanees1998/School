@@ -1,8 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import deleteItem from '../imgs/delete.png'
 
 function TableRows(props) {
+
+
+ const DeleteItem = (id) => {
+   console.log(id)
+ }
+
   return (
     <Container>
         <input style={{outline: 'none'}} type='checkbox'/>
@@ -13,13 +19,11 @@ function TableRows(props) {
         
         <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}> <h4>{props.item.stdName}</h4></div>
 
-       
-        <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}><h4>update</h4></div>
-
         
         <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}}><h4>{props.item.itemDescription}</h4></div>
 
-        
+        <div style={{width: '15%',display: ' flex',alignItems: 'center', justifyContent: 'center'}} onClick={() => DeleteItem(props.item.id) } ><img src={deleteItem} /></div>
+
 
     </Container>
   )

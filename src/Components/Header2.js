@@ -2,13 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 
+import {useNavigate} from 'react-router-dom';
+
 
 function Header2() {
+
+    let navigate = useNavigate();
   return (
     <Container>
         <div className='innerDiv'>
             <div className='leftDiv'>
-                <div className='imgDiv'>
+                <div className='imgDiv' onClick={() => navigate('/home')}>
                     <img src={require('../imgs/userImg.png')} className='userImg'/>
                 </div>
                 <h3>StudenBook</h3>

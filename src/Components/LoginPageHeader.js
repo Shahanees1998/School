@@ -16,7 +16,7 @@ function Header() {
     <Container>
         <div className='innerDiv'>
             <div className='leftDiv'>
-                <div className='imgDiv'>
+                <div className='imgDiv' onClick={() => navigate('/home')}>
                     <img src={require('../imgs/userImg.png')} className='userImg'/>
                 </div>
                 <h3>StudenBook</h3>
