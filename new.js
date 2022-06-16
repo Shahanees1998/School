@@ -53,8 +53,8 @@ export const Verifynum = ({ expiryTimestamp }) => {
     const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
     const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
     const verify = [1, 2, 3, 4]
-    const { Rmethod,store } = useSelector(state => state.userReducer)
-    const { apiproducts1, catags } = useSelector(state => state.userReducer)
+    const { Rmethod,store } = useSelector(state => state.persistedReducer)
+    const { apiproducts1, catags } = useSelector(state => state.persistedReducer)
     const [srch, setsrch] = useState(false)
     const [focusedval, setFocused] =useState('')
 

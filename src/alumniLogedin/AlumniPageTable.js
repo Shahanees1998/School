@@ -24,8 +24,8 @@ const db = getDatabase(app);
 
 function AlumniTable() {
     const [check,setCheck] =  useState(false);
-    const[data,setData] = useState([]);
-    const { alumnikey } = useSelector(state => state.userReducer)
+    const[data,setLogedinEmail] = useState([]);
+    const { alumnikey } = useSelector(state => state.persistedReducer)
 
 
     const starCountRef = ref(db, 'School/-N4WLz1ejar-mNf4xdcT/items');
@@ -39,7 +39,7 @@ function AlumniTable() {
                 const childKey = childSnapshot.key;
                 const childData = childSnapshot.val();
                 console.log('child data',childData);
-                setData((prev)=>[...prev,childData])
+                setLogedinEmail((prev)=>[...prev,childData])
                 // ...
             });
             setCheck(true)

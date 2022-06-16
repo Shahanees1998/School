@@ -1,23 +1,26 @@
 import React,{useEffect} from 'react';
 import styled from 'styled-components';
 import { FaSearch, FaUserCircle } from "react-icons/fa";
-import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
+import setLogedinEmail from '../Redux/actions';
 
 
 function Header2() {
+    const dispatch = useDispatch()
+
     let navigate = useNavigate();
 
-    const { data, key } = useSelector(state => state.userReducer)
+    const { data, key } = useSelector(state => state.persistedReducer)
 
     const location = useLocation();
     useEffect(() => {
-if(data != " hello data me")
+if(data == '')
 {
 navigate('/login')
 }
-    }, [location]);
+    }, [location,data]);
 
   return (
     <Container>
@@ -35,13 +38,22 @@ navigate('/login')
                 </div>
                 </div>
                 <div className='aboutDiv'>
-                    <button className='aboutBtn'>About</button>
+                {
+                        data =='' ? 
+                        <div className='loginDiv'>
+                        <button className='loginBtn'>About</button>
+                    </div>
+                    :
+                    <div className='loginDiv' onClick={() => dispatch(setLogedinEmail(''))}>
+                        <h3 style={{fontSize: '12px'}}>Logout</h3>                </div>
+                    }
                 </div>
                 <div className='loginAndIconDiv'>
                     <FaUserCircle size={40}/>
+                  
                     <div className='loginDiv'>
-                        <button className='loginBtn'>admin@sbhs</button>
-                    </div>
+                        <h3 style={{fontSize: '12px'}}>{data}</h3>                </div>
+                    
                 </div>
             </div>
         </div>
@@ -138,6 +150,8 @@ const Container = styled.div`
   }
   .loginDiv {
       //background-color: red;
+      display: flex;
+      align-items: center;
       height: 100%;
       width: 60%;
   }

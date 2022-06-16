@@ -16,7 +16,7 @@ function AddInfo() {
 
     const[itemInfo,setItemInfo] = useState({itemName:'',itemCost:'',stdName:'',itemDescription:''})
 
-    const { key } = useSelector(state => state.userReducer)
+    const { key } = useSelector(state => state.persistedReducer)
 
     const onChangeHandler = (event) => {
         const{name, value} = event.target;

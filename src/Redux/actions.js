@@ -6,7 +6,7 @@ export const SET_ALUMNI_KEY = "SET_ALUMNI_KEY"
 
 
 
-export const setData = data => dispatch => {
+export const setLogedinEmail = data => dispatch => {
 
     dispatch({
         type: SET_DATA,
@@ -36,4 +36,4 @@ export const setAlumniKey = alumnikey => dispatch => {
 }
 
 
-export default setData;
+export default setLogedinEmail;

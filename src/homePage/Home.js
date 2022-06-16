@@ -5,15 +5,13 @@ import Header from '../Components/Header';
 import MiddleDiv1 from './MiddleDiv1';
 import MiddleDiv2 from './MiddleDiv2';
 import {useNavigate} from 'react-router-dom';
-import setData from '../Redux/actions';
+import setLogedinEmail from '../Redux/actions';
 import { setKey } from '../Redux/actions';
 import { useSelector, useDispatch } from 'react-redux'
 
 function HomePgae() {
     const dispatch = useDispatch()
     // set data in redux
-    dispatch(setData('hello data'))
-    dispatch(setKey('12138721231523'))
 
     const navigate = useNavigate();
 

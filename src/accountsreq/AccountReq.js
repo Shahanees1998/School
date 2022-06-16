@@ -1,8 +1,6 @@
 import React, { useMemo, useEffect, useCallback, useState } from "react";
 import styled from "styled-components";
-import TableRows from "./TableRows";
 import Header from "../Components/Header";
-import AllPending from "./AllPending";
 import { useNavigate } from "react-router-dom";
 import app from "../firebase";
 import {
@@ -27,7 +25,7 @@ const db = getDatabase(app);
 //     { id: 6, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
 // ]
 
-function Table() {
+function AccountsReq() {
   const DeleteItem = (id) => {
     console.log(id);
   };
@@ -120,10 +118,12 @@ function Table() {
               display: " flex",
               alignItems: "center",
               justifyContent: "center",
+              flexDirection: 'row'
             }}
-            onClick={() => DeleteItem(item.id)}
+        
           >
-            <img src={deleteItem} style={{ width: 20, height: 20 }} />
+            <button>Approve</button>
+            <button>disapprove</button>
           </div>
         </div>
       );
@@ -142,11 +142,7 @@ function Table() {
         <Header />
         <div className="nav">
           <div className="leftDiv">
-          <button onClick={() =>navigate('/accounts')}>Accounts Requests</button>
-
-          </div>
-          <div className="rightDiv">
-          <h3>Needs</h3>
+          <button onClick={() => navigate('/loggedin')}>move back</button>
 
           </div>
         </div>
@@ -160,7 +156,7 @@ function Table() {
                   justifyContent: "center",
                 }}
               >
-                <h5>Check All</h5>
+                <h5>email</h5>
               </div>
 
               <div
@@ -171,7 +167,40 @@ function Table() {
                   justifyContent: "center",
                 }}
               >
-                <h5>Item</h5>
+                <h5>first name</h5>
+              </div>
+
+           
+
+              <div
+                style={{
+                  width: "17%",
+                  display: " flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h5>phone number</h5>
+              </div>
+              <div
+                style={{
+                  width: "17%",
+                  display: " flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h5>school name</h5>
+              </div>
+              <div
+                style={{
+                  width: "17%",
+                  display: " flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h5>graduation year</h5>
               </div>
 
               <div
@@ -182,50 +211,13 @@ function Table() {
                   justifyContent: "center",
                 }}
               >
-                <h5>Cost</h5>
-              </div>
-
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>Student</h5>
-              </div>
-
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>Photo</h5>
-              </div>
-
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>Description</h5>
+                <h5>Approve/disApprove</h5>
               </div>
             </div>
             {data.map((item, index) => {
               return addTodo(item, index);
             })}
-            <div className="btnMainDiv">
-              <div className="btnDiv">
-                <button onClick={() => addHandler()}>Add</button>
-              </div>
-            </div>
+         
 
             <div className="paragraphDiv">
               <p>StudentBook does not sell your information to anyone</p>
@@ -236,7 +228,7 @@ function Table() {
     );
 }
 
-export default Table;
+export default AccountsReq;
 
 const Container = styled.div`
   //background-color: gray;

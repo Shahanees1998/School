@@ -4,7 +4,7 @@ import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
 import toast, { Toaster } from 'react-hot-toast';
 import {useDispatch} from "react-redux";
-import setData, {setAlumniKey} from "../Redux/actions";
+import setLogedinEmail, {setAlumniKey} from "../Redux/actions";
 
 const db = getDatabase(app);
 

@@ -5,8 +5,7 @@ import app from '../firebase'
 import {useNavigate} from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSelector, useDispatch } from 'react-redux'
-import setData, {setKey} from "../Redux/actions";
-
+import setLogedinEmail, {setKey} from "../Redux/actions";
 const db = getDatabase(app);
 function Login(props) {
 
@@ -14,7 +13,8 @@ function Login(props) {
 
 
     // get data from redux
-    const { data, key, alumnikey } = useSelector(state => state.userReducer)
+    
+    const { data, key, alumnikey } = useSelector(state => state.persistedReducer)
 console.log(`data ${key}`)
     let navigate = useNavigate();
 
@@ -95,12 +95,13 @@ console.log(`data ${key}`)
 
 
 
-                   // setData((prev)=>[...prev,childData])
+                   // setLogedinEmail((prev)=>[...prev,childData])
                     // ...
                 });
                 if(alumniEmail == email){
                     if(alumniPassword == password)
                     {
+                        dispatch(setLogedinEmail(email))
                         if(userType == 'Alumni')
                         {
                             navigate('/alumnilogin');
