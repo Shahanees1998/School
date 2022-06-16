@@ -1,13 +1,24 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import styled from 'styled-components';
 import { FaSearch, FaUserCircle } from "react-icons/fa";
-
+import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 function Header2() {
-
     let navigate = useNavigate();
+
+    const { data, key } = useSelector(state => state.userReducer)
+
+    const location = useLocation();
+    useEffect(() => {
+if(data != " hello data me")
+{
+navigate('/login')
+}
+    }, [location]);
+
   return (
     <Container>
         <div className='innerDiv'>
