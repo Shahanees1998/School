@@ -37,7 +37,7 @@ navigate('/login')
             <div className='rightDiv'>
                 <div className='searchDiv'>
                 <FaSearch size={20} className='searchIcon'/>
-                <input style={{outline: 'none', backgroundColor: 'white'}} placeholder='Search' className='searchInput'/>
+                <input style={{outline: 'none', backgroundColor: 'white', width: '100%'}} placeholder='Search' className='searchInput'/>
                 </div>
                 <div className='aboutDiv'>
                 {
