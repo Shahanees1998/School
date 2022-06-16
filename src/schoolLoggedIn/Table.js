@@ -15,6 +15,7 @@ import {
 } from "firebase/database";
 import { useSelector } from "react-redux";
 import deleteItem from "../imgs/delete.png";
+import Modal from 'react-modal';
 
 const db = getDatabase(app);
 
@@ -29,11 +30,16 @@ const db = getDatabase(app);
 
 function Table() {
   const DeleteItem = (id) => {
+   //   setModalVisible(true)
+   //deletedId is the id which we want to delete
     console.log(id);
   };
   const [check, setCheck] = useState(false);
+  const [deleteId, setDeletedId] = useState(false);
+
   const [data, setLogedinEmail] = useState([]);
   const { key } = useSelector((state) => state.persistedReducer);
+  const [modalVisible, setModalVisible] = useState(false)
   console.log("key is", key);
 
   // key should be dynamic
@@ -121,7 +127,7 @@ function Table() {
               alignItems: "center",
               justifyContent: "center",
             }}
-            onClick={() => DeleteItem(item.id)}
+            onClick={() => {setModalVisible(true);setDeletedId(item.id)}}
           >
             <img src={deleteItem} style={{ width: 20, height: 20 }} />
           </div>
@@ -231,6 +237,34 @@ function Table() {
               <p>StudentBook does not sell your information to anyone</p>
             </div>
           </div>
+          <Modal isOpen={modalVisible}
+          onRequestClose={() => setModalVisible(!modalVisible)}
+          style={{
+    overlay: {
+     
+      backgroundColor: 'rgba(255, 255, 255, 0.75)'
+    },
+    content: {
+      position: 'absolute',
+      top: '21.3%',
+     left: '35%',
+     right: 'auto',
+    width: '30%',
+      bottom: '40%',
+      border: '1px solid #ccc',
+      background: '#fff',
+    
+      WebkitOverflowScrolling: 'touch',
+      borderRadius: '4px',
+      outline: 'none',
+      padding: '20px'
+    }
+  }}>
+                <div style={{width: '100%',flexDirection: 'column',height: '90%', display:'flex',paddingTop: '3%', alignItems: 'center', justifyContent: 'center'}}>
+                <h3 style={{marginTop: '2%', marginLeft: '3%',fontWeight: '100'}}>Are you sure to delete this Item</h3>
+<button onClick={() =>{DeleteItem();setModalVisible(false)}}>Confirm Delete</button>
+                </div>
+                </Modal>
         </Container>
       </>
     );
