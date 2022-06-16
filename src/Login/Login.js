@@ -14,7 +14,7 @@ function Login(props) {
 
 
     // get data from redux
-    const { data, key } = useSelector(state => state.userReducer)
+    const { data, key, alumnikey } = useSelector(state => state.userReducer)
 console.log(`data ${key}`)
     let navigate = useNavigate();
 
@@ -84,6 +84,12 @@ console.log(`data ${key}`)
                         alumniEmail =  childData.email;
                         alumniPassword = childData.password;
                         dispatch(setKey(childKey));
+                    }
+                    if(email == childData.email){
+                        alumniEmail = childData.email;
+                    }
+                    if(password == childData.password){
+                        alumniPassword = childData.password;
                     }
 
 

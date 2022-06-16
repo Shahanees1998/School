@@ -2,6 +2,8 @@ export const SET_DATA = "SET_DATA"
 
 export const SET_KEY = "SET_KEY"
 
+export const SET_ALUMNI_KEY = "SET_ALUMNI_KEY"
+
 
 
 export const setData = data => dispatch => {
@@ -22,4 +24,16 @@ export const setKey = key => dispatch => {
         }
     });
 }
+
+export const setAlumniKey = alumnikey => dispatch => {
+
+    dispatch({
+        type: SET_ALUMNI_KEY,
+        payload: {
+            alumnikey: alumnikey
+        }
+    });
+}
+
+
 export default setData;
