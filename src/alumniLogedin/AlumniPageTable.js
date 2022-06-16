@@ -38,7 +38,7 @@ function AlumniTable() {
             snapshot.forEach((childSnapshot) => {
                 const childKey = childSnapshot.key;
                 const childData = childSnapshot.val();
-                console.log('child data should be called',childData);
+                console.log('child data should bee called',childData);
                 setData((prev)=>[...prev,childData])
                 // ...
             });
