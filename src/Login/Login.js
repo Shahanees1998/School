@@ -77,6 +77,7 @@ console.log(`data ${key}`)
             onValue(starCountRef, (snapshot) => {
                 let alumniEmail,alumniPassword;
                 let approveCheck = false;
+                let SchoolName = ''
                 snapshot.forEach((childSnapshot) => {
                     const childKey = childSnapshot.key;
                     const childData = childSnapshot.val();
@@ -87,6 +88,13 @@ console.log(`data ${key}`)
                         alumniPassword = childData.password;
                         keyvalue = childKey;
                         approveCheck = childData.approve;
+                        onValue(ref(db,'users/'+role+'/'+childKey+"/schoolInfo"),(innerSnapShot)=>{
+                            innerSnapShot.forEach(innerChildSnapshot=>{
+                                console.log('inner snap',innerChildSnapshot.val())
+                                SchoolName = innerChildSnapshot.val();
+                            })
+                        })
+                        SchoolName = childData.schoolName;
                     }
                     if(email == childData.email){
                         alumniEmail = childData.email;

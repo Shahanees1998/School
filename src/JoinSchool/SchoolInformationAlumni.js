@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import styled from 'styled-components';
 import { getDatabase, ref, set, onValue,push } from "firebase/database";
 import app from '../firebase'
@@ -8,6 +8,16 @@ const db = getDatabase(app);
 
 function SchoolInformationAlumni(props) {
     const key = props.getKey;
+    const [schoolNamesList,setSchoolNamesList] = useState([])
+
+    useEffect(()=>{
+        onValue(ref(db,'School'),(snapshot)=>{
+            snapshot.forEach(childSnapshot=>{
+                const childData = childSnapshot.val();
+                setSchoolNamesList((prev) => [...prev, childData]);
+            })
+        })
+    },[])
 
     const[alumniSchoolInfo,setAlumniSchoolInfo] =useState({schoolName:'',graduationyear:'',alumniNumber:''})
     function backHandler() {
@@ -42,6 +52,7 @@ function SchoolInformationAlumni(props) {
 
     const onChangeHandler = (event)=>{
         const{name,value} = event.target;
+        console.log('val',value);
         setAlumniSchoolInfo({...alumniSchoolInfo,[name]:value});
     }
 
@@ -55,8 +66,12 @@ function SchoolInformationAlumni(props) {
                         <h3>School Name</h3>
                     </div>
                     <div className='emailInputDiv'>
-                        <input style={{outline: 'none'}} placeholder='enter schoolName' name="schoolName" value={alumniSchoolInfo.schoolName}
-                        onChange={onChangeHandler}/>
+                        {/*<input style={{outline: 'none'}} placeholder='enter schoolName' name="schoolName" value={alumniSchoolInfo.schoolName}*/}
+                        {/*onChange={onChangeHandler}/>*/}
+
+                        <select name="schoolName" value={alumniSchoolInfo.schoolName} onChange={onChangeHandler}>
+                            {schoolNamesList.map((SchoolDetail,index)=><option value={SchoolDetail.schoolName}>{SchoolDetail.schoolName}</option>)}
+                        </select>
                     </div>
                 </div>
             </div>
