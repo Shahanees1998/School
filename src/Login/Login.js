@@ -76,6 +76,7 @@ console.log(`data ${key}`)
 
             onValue(starCountRef, (snapshot) => {
                 let alumniEmail,alumniPassword;
+                let approveCheck = false;
                 snapshot.forEach((childSnapshot) => {
                     const childKey = childSnapshot.key;
                     const childData = childSnapshot.val();
@@ -85,6 +86,7 @@ console.log(`data ${key}`)
                         alumniEmail =  childData.email;
                         alumniPassword = childData.password;
                         keyvalue = childKey;
+                        approveCheck = childData.approve;
                     }
                     if(email == childData.email){
                         alumniEmail = childData.email;
@@ -101,7 +103,12 @@ console.log(`data ${key}`)
                         dispatch(setLogedinEmail(email))
                         if(userType == 'Alumni')
                         {
-                            navigate('/alumnilogin');
+                            if(approveCheck){
+                                navigate('/alumnilogin');
+                            }
+                            else{
+                                console.log('Sorry!, you are not approved')
+                            }
                         }
                         else {
                             dispatch(setKey(keyvalue));
@@ -115,7 +122,12 @@ console.log(`data ${key}`)
                     {
                         if(userType == 'Alumni')
                         {
-                            navigate('/alumnilogin');
+                            if(approveCheck){
+                                navigate('/alumnilogin');
+                            }
+                            else{
+                                console.log('Sorry!, you are not approved')
+                            }
                         }
                         else {
                             navigate('/loggedin');
