@@ -18,10 +18,13 @@ function Header() {
     useEffect(() => {
         console.log((location))
 
-        if(data == '' && location.pathname != '/home')
-{
-//navigate('/login')
-}
+        if(data == '' && location.pathname != '/login')
+        {
+            if(location.pathname != '/home')
+            {
+                navigate('/login')
+               }
+        }
     }, [location,data]);
 
     function loginHandler() {
