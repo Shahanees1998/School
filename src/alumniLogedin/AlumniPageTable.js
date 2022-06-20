@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import app from '../firebase'
 import { getDatabase, ref, set, onValue,push,update } from "firebase/database";
 import {useSelector} from "react-redux";
+import StripeContainer from "../Stripe/StripeContainer";
 
 const db = getDatabase(app);
 
@@ -25,6 +26,8 @@ const db = getDatabase(app);
 function AlumniTable() {
     const [check,setCheck] =  useState(false);
     const[data,setData] = useState([]);
+    const [showItem, setShowItem] = useState(false);
+
     const { key,alumnikey, } = useSelector(state => state.persistedReducer)
      const { alumniSchoolname } = useSelector(state => state.persistedReducer)
     console.log('ghias',key,'alSchoolName', alumniSchoolname)
@@ -42,7 +45,8 @@ function AlumniTable() {
 
                 onValue(ref(db, 'School/'+key),(innerSnapshot=>{
                     innerSnapshot.forEach(innerChildsnapshot=>{
-                        if(innerChildsnapshot.val()== alumniSchoolname){
+                        console.log("forEach", innerChildsnapshot.val())
+                        if(innerChildsnapshot.val()== "school2"){
                             console.log('child data should bee called',childData);
                             setData((prev)=>[...prev,childData])
                         }
@@ -131,13 +135,18 @@ function AlumniTable() {
 
     function payHandler() {
      //   navigate('/addInfo')
+        setShowItem(true);
     }
 
     if(!check)
         return <div>Loading...</div>
+   else if(showItem)
+        return <StripeContainer />
     else
     return (
+
         <>
+
         <Header />
         <div className="nav">
           <div className="rightDiv">
