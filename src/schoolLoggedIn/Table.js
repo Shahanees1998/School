@@ -29,7 +29,7 @@ const db = getDatabase(app);
 // ]
 
 function Table() {
-  const DeleteItem = (id) => {
+  const DeleteItem = () => {
    //   setModalVisible(true)
    //deletedId is the id which we want to delete
     console.log(id);
