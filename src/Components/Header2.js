@@ -16,9 +16,11 @@ function Header2() {
 
     const location = useLocation();
     useEffect(() => {
-if(data == '')
+        console.log((location))
+
+        if(data == '' && location.pathname != '/home')
 {
-navigate('/login')
+// navigate('/login')
 }
     }, [location,data]);
 

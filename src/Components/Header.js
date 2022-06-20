@@ -15,9 +15,10 @@ function Header() {
     const { data, key } = useSelector(state => state.persistedReducer)
 
     useEffect(() => {
-if(data == '')
+        console.log((location))
+        if(data == '' && location.pathname != '/home')
 {
-navigate('/login')
+// navigate('/login')
 }
     }, [location,data]);
 

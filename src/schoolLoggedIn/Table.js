@@ -19,6 +19,7 @@ import Modal from 'react-modal';
 
 const db = getDatabase(app);
 
+
 // const data = [
 //     { id: 1, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
 //     { id: 2, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
@@ -29,16 +30,23 @@ const db = getDatabase(app);
 // ]
 
 function Table() {
+
+
+    const [deleteId, setDeletedId] = useState(false);
+    const { key } = useSelector((state) => state.persistedReducer);
+    const [deleteCheck, setdeleteCheck] = useState(false);
+
   const DeleteItem = () => {
    //   setModalVisible(true)
    //deletedId is the id which we want to delete
-    console.log(id);
+      console.log('delted id', deleteId);
+      set(ref(db,"School/"+key+"/items/"+deleteId),null);
+      deleteCheck?setdeleteCheck(false):setdeleteCheck(true);
+
   };
   const [check, setCheck] = useState(false);
-  const [deleteId, setDeletedId] = useState(false);
 
-  const [data, setLogedinEmail] = useState([]);
-  const { key } = useSelector((state) => state.persistedReducer);
+  const [data, setData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false)
   console.log("key is", key);
 
@@ -48,14 +56,17 @@ function Table() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    onValue(
+      setData([])
+
+      onValue(
       starCountRef,
       (snapshot) => {
         snapshot.forEach((childSnapshot) => {
           const childKey = childSnapshot.key;
           const childData = childSnapshot.val();
+          childData['itemKey'] = childKey;
           console.log("child data", childData);
-          setLogedinEmail((prev) => [...prev, childData]);
+          setData((prev) => [...prev, childData]);
           console.log("child data array", data, "length", data.length);
           // ...
         });
@@ -65,11 +76,11 @@ function Table() {
         onlyOnce: false,
       }
     );
-  }, []);
+  }, [deleteCheck]);
   const addTodo = useCallback(
     (item, index) => {
       {
-        console.log(item);
+        console.log(`here is my id ${item.itemKey}`);
       }
 
       return (
@@ -127,7 +138,8 @@ function Table() {
               alignItems: "center",
               justifyContent: "center",
             }}
-            onClick={() => {setModalVisible(true);setDeletedId(item.id)}}
+
+            onClick={() => {setModalVisible(true);setDeletedId(item.itemKey)}}
           >
             <img src={deleteItem} style={{ width: 20, height: 20 }} />
           </div>

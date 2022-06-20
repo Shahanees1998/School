@@ -5,7 +5,7 @@ import app from '../firebase'
 import {useNavigate} from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSelector, useDispatch } from 'react-redux'
-import setLogedinEmail, {setKey} from "../Redux/actions";
+import setLogedinEmail, {setAlumniSchoolName, setKey} from "../Redux/actions";
 const db = getDatabase(app);
 function Login(props) {
 
@@ -76,6 +76,8 @@ console.log(`data ${key}`)
 
             onValue(starCountRef, (snapshot) => {
                 let alumniEmail,alumniPassword;
+                let approveCheck = false;
+                let SchoolName = ''
                 snapshot.forEach((childSnapshot) => {
                     const childKey = childSnapshot.key;
                     const childData = childSnapshot.val();
@@ -85,6 +87,14 @@ console.log(`data ${key}`)
                         alumniEmail =  childData.email;
                         alumniPassword = childData.password;
                         keyvalue = childKey;
+                        approveCheck = childData.approve;
+                        onValue(ref(db,'users/'+role+'/'+childKey+"/schoolInfo"),(innerSnapShot)=>{
+                            innerSnapShot.forEach(innerChildSnapshot=>{
+                                console.log('inner snap',innerChildSnapshot.val())
+                                SchoolName = innerChildSnapshot.val();
+                            })
+                        })
+                        SchoolName = childData.schoolName;
                     }
                     if(email == childData.email){
                         alumniEmail = childData.email;
@@ -101,7 +111,20 @@ console.log(`data ${key}`)
                         dispatch(setLogedinEmail(email))
                         if(userType == 'Alumni')
                         {
-                            navigate('/alumnilogin');
+                            if(approveCheck){
+                                dispatch(setAlumniSchoolName(SchoolName))
+                                navigate('/alumnilogin');
+                            }
+                            else{
+                                console.log('Sorry!, you are not approved')
+                                toast.custom(
+                                    <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+
+                                        <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>You are not approved</h3>
+                                        </div>
+                                    </div>, { duration: 1000 })
+                            }
                         }
                         else {
                             dispatch(setKey(keyvalue));
@@ -115,7 +138,20 @@ console.log(`data ${key}`)
                     {
                         if(userType == 'Alumni')
                         {
-                            navigate('/alumnilogin');
+                            if(approveCheck){
+                                dispatch(setAlumniSchoolName(SchoolName))
+                                navigate('/alumnilogin');
+                            }
+                            else{
+                                console.log('Sorry!, you are not approved')
+                                toast.custom(
+                                    <div style={{ marginTop: '5%',width: '100%', height: '6vh',  display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+
+                                        <div style={{ alignSelf: 'flex-start', width: '30%', height: '100%', borderLeftWidth: '8px', borderColor: 'red', borderStyle: 'solid', borderBottomWidth: 0, borderRightWidth: 0, borderTopWidth: 0, borderRadius: 5, backgroundColor: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <h3 style={{ color: '#515C6F', fontFamily: 'GraphikMedium', fontWeight: '100', fontSize: '12px' }}>You are not approved</h3>
+                                        </div>
+                                    </div>, { duration: 1000 })
+                            }
                         }
                         else {
                             navigate('/loggedin');

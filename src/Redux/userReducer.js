@@ -1,9 +1,10 @@
-import { SET_DATA , SET_KEY, SET_ALUMNI_KEY} from './actions'
+import { SET_DATA , SET_KEY, SET_ALUMNI_KEY, SET_ALUMNI_SCHOOLNAME} from './actions'
 const inittialstate = {
-data : '',
+     data : '',
     alumnikey : '',
-
     key : '',
+    alumniSchoolname:''
+
 }
 function userReducer(state = inittialstate, action) {
 
@@ -16,8 +17,9 @@ function userReducer(state = inittialstate, action) {
             return { ...state, key: action.payload.key };
         case SET_ALUMNI_KEY:
             console.log(` alumni key  ${action.payload.alumnikey}`)
-
             return { ...state, alumnikey: action.payload.alumnikey };
+        case  SET_ALUMNI_SCHOOLNAME:
+            return {...state, alumniSchoolname: action.payload.alumniSchoolname}
        
         default:
 

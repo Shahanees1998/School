@@ -16,28 +16,36 @@ import deleteItem from "../imgs/delete.png";
 
 const db = getDatabase(app);
 
-// const data = [
-//     { id: 1, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-//     { id: 2, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-//     { id: 3, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-//     { id: 4, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-//     { id: 5, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-//     { id: 6, inputType: 'checkbox', item: 'study table', cost: 1300, student: 'Atif', photo: 'update', description: 'update' },
-// ]
-
 function AccountsReq() {
-  const DeleteItem = (id) => {
+    const [deleteCheck, setdeleteCheck] = useState(false);
+
+    const DeleteItem = (id) => {
     console.log(id);
   };
   const [check, setCheck] = useState(false);
+
   const [data, setLogedinEmail] = useState([]);
   const { key } = useSelector((state) => state.persistedReducer);
   console.log("key is", key);
 
   // key should be dynamic
-  const starCountRef = ref(db, "School/" + key + "/items");
+  const starCountRef = ref(db, "users/alumni");
 
   let navigate = useNavigate();
+    const onApproveHandler =(alKey) =>{
+        console.log('approve called', alKey)
+        set(ref(db,"users/alumni/"+alKey+"/approve"),true);
+    }
+
+  const onDisapproveHandler =(alKey) =>{
+        console.log('disaprove called', alKey)
+        set(ref(db,"users/alumni/"+alKey),null);
+      deleteCheck?setdeleteCheck(false):setdeleteCheck(true);
+
+
+
+
+  }
 
   useEffect(() => {
     onValue(
@@ -46,8 +54,11 @@ function AccountsReq() {
         snapshot.forEach((childSnapshot) => {
           const childKey = childSnapshot.key;
           const childData = childSnapshot.val();
+          childData['alumniKey'] = childKey;
           console.log("child data", childData);
-          setLogedinEmail((prev) => [...prev, childData]);
+          if(!childData.approve){
+              setLogedinEmail((prev) => [...prev, childData]);
+          }
           console.log("child data array", data, "length", data.length);
           // ...
         });
@@ -57,7 +68,7 @@ function AccountsReq() {
         onlyOnce: false,
       }
     );
-  }, []);
+  }, [deleteCheck]);
   const addTodo = useCallback(
     (item, index) => {
       {
@@ -66,8 +77,18 @@ function AccountsReq() {
 
       return (
         <div className="rows">
-          <input style={{ outline: "none" }} type="checkbox" />
-          <div
+
+            <div
+                style={{
+                    width: "15%",
+                    display: " flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <h4>{item.email}</h4>
+            </div>
+            <div
             style={{
               width: "15%",
               display: " flex",
@@ -75,7 +96,7 @@ function AccountsReq() {
               justifyContent: "center",
             }}
           >
-            <h4>{item.itemName}</h4>
+            <h4>{item.firstName}</h4>
           </div>
 
           <div
@@ -86,7 +107,7 @@ function AccountsReq() {
               justifyContent: "center",
             }}
           >
-            <h4>{item.itemCost}</h4>
+            <h4>{item.lastName}</h4>
           </div>
 
           <div
@@ -98,7 +119,7 @@ function AccountsReq() {
             }}
           >
             {" "}
-            <h4>{item.stdName}</h4>
+            <h4>nothing</h4>
           </div>
 
           <div
@@ -109,7 +130,7 @@ function AccountsReq() {
               justifyContent: "center",
             }}
           >
-            <h4>{item.itemDescription}</h4>
+            <h4>nothing</h4>
           </div>
 
           <div
@@ -120,10 +141,9 @@ function AccountsReq() {
               justifyContent: "center",
               flexDirection: 'row'
             }}
-        
           >
-            <button>Approve</button>
-            <button>disapprove</button>
+              <button onClick={()=>{onApproveHandler(item.alumniKey)}}>Approve</button>:
+             <button onClick={()=>{onDisapproveHandler(item.alumniKey)}}>Disapprove</button>
           </div>
         </div>
       );

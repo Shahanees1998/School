@@ -25,8 +25,9 @@ const db = getDatabase(app);
 function AlumniTable() {
     const [check,setCheck] =  useState(false);
     const[data,setData] = useState([]);
-    const { key,alumnikey } = useSelector(state => state.persistedReducer)
-    console.log('ghias',key,'alkey', alumnikey)
+    const { key,alumnikey, } = useSelector(state => state.persistedReducer)
+   //  const { alumniSchoolname } = useSelector(state => state.userReducer)
+   // console.log('ghias',key,'alSchoolName', alumniSchoolname)
 
     const starCountRef = ref(db, 'School/'+key+'/items');
 
@@ -38,8 +39,17 @@ function AlumniTable() {
             snapshot.forEach((childSnapshot) => {
                 const childKey = childSnapshot.key;
                 const childData = childSnapshot.val();
-                console.log('child data should be called',childData);
-                setData((prev)=>[...prev,childData])
+
+                onValue(ref(db, 'School/'+key),(innerSnapshot=>{
+                    innerSnapshot.forEach(innerChildsnapshot=>{
+                        if(innerChildsnapshot.val()== "school2"){
+                            console.log('child data should bee called',childData);
+                            setData((prev)=>[...prev,childData])
+                        }
+                    })
+                }))
+                // console.log('child data should bee called',childData);
+                // setData((prev)=>[...prev,childData])
                 // ...
             });
             setCheck(true)

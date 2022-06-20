@@ -4,7 +4,19 @@ export const SET_KEY = "SET_KEY"
 
 export const SET_ALUMNI_KEY = "SET_ALUMNI_KEY"
 
+export const SET_ALUMNI_SCHOOLNAME = "SET_ALUMNI_SCHOOLNAME"
 
+
+
+export const setAlumniSchoolName = alumniSchoolname => dispatch => {
+
+    dispatch({
+        type: SET_ALUMNI_SCHOOLNAME,
+        payload: {
+            alumniSchoolname: alumniSchoolname
+        }
+    });
+}
 
 export const setLogedinEmail = data => dispatch => {
 
