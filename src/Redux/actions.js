@@ -5,6 +5,7 @@ export const SET_KEY = "SET_KEY"
 export const SET_ALUMNI_KEY = "SET_ALUMNI_KEY"
 
 export const SET_ALUMNI_SCHOOLNAME = "SET_ALUMNI_SCHOOLNAME"
+export const SET_USE_TYPE = "SET_USE_TYPE"
 
 
 
@@ -17,7 +18,15 @@ export const setAlumniSchoolName = alumniSchoolname => dispatch => {
         }
     });
 }
+export const setLoginUserType = userType => dispatch => {
 
+    dispatch({
+        type: SET_USE_TYPE,
+        payload: {
+            userType: userType
+        }
+    });
+}
 export const setLogedinEmail = data => dispatch => {
 
     dispatch({
