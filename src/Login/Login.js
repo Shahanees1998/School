@@ -94,7 +94,7 @@ console.log(`data ${key}`)
                                 SchoolName = innerChildSnapshot.val();
                             })
                         })
-                        SchoolName = childData.schoolName;
+                       //  SchoolName = childData.schoolName;
                     }
                     if(email == childData.email){
                         alumniEmail = childData.email;
@@ -139,6 +139,7 @@ console.log(`data ${key}`)
                         if(userType == 'Alumni')
                         {
                             if(approveCheck){
+                                console.log('sch',SchoolName);
                                 dispatch(setAlumniSchoolName(SchoolName))
                                 navigate('/alumnilogin');
                             }
