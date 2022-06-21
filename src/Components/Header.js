@@ -8,6 +8,7 @@ import setLogedinEmail from '../Redux/actions';
 
 function Header() {
     const dispatch = useDispatch()
+    const { userType } = useSelector(state => state.persistedReducer)
 
     const location = useLocation();
     let navigate = useNavigate();
@@ -16,10 +17,16 @@ function Header() {
 
     useEffect(() => {
         console.log((location))
-        if(data == '' && location.pathname != '/home')
-{
-// navigate('/login')
-}
+        if(location.pathname == '/loggedin' || location.pathname == '/alumnilogin')
+        {
+console.log(`data is ${data}`)
+            if(data == '')
+            {
+                navigate('/login')
+
+            }
+        }
+
     }, [location,data]);
 
     function loginHandler() {
@@ -59,7 +66,7 @@ function Header() {
                         <button className='loginBtn' onClick={()=>loginHandler()}>Login</button>
                     </div>
                     :
-                    <div className='loginDiv'>
+                    <div className='loginDiv' onClick={() => {userType == 'Alumni' ? navigate('/alumnilogin'): navigate('/loggedin')}}>
                         <h3 style={{fontSize: '12px'}}>{data}</h3>                </div>
                     }
                    

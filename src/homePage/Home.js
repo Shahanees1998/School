@@ -17,6 +17,7 @@ function HomePgae() {
 
 
     function enrollSchollHandler() {
+
         navigate('/registerLine')
     }
 

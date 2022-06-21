@@ -6,6 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useSelector, useDispatch } from 'react-redux'
 import setLogedinEmail, {setAlumniSchoolName, setKey} from "../Redux/actions";
+import { setLoginUserType } from '../Redux/actions';
 const db = getDatabase(app);
 function Login(props) {
 
@@ -94,7 +95,8 @@ console.log(`data ${key}`)
                                 SchoolName = innerChildSnapshot.val();
                             })
                         })
-                       //  SchoolName = childData.schoolName;
+
+                       // SchoolName = childData.schoolName;
                     }
                     if(email == childData.email){
                         alumniEmail = childData.email;
@@ -113,6 +115,8 @@ console.log(`data ${key}`)
                         {
                             if(approveCheck){
                                 dispatch(setAlumniSchoolName(SchoolName))
+                                dispatch(setLoginUserType('Alumni'))
+                                console.log('setAlumniSchoolName', SchoolName)
                                 navigate('/alumnilogin');
                             }
                             else{
@@ -128,6 +132,8 @@ console.log(`data ${key}`)
                         }
                         else {
                             dispatch(setKey(keyvalue));
+                          dispatch(setLoginUserType('Admin'))
+
                             navigate('/loggedin');
                         }
                     }

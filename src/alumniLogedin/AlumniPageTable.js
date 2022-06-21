@@ -46,7 +46,8 @@ function AlumniTable() {
                 onValue(ref(db, 'School/'+key),(innerSnapshot=>{
                     innerSnapshot.forEach(innerChildsnapshot=>{
                         console.log("forEach", innerChildsnapshot.val())
-                        if(innerChildsnapshot.val()== "school1"){
+                        if(innerChildsnapshot.val()== alumniSchoolname){
+
                             console.log('child data should bee called',childData);
                             setData((prev)=>[...prev,childData])
                         }
@@ -70,8 +71,11 @@ function AlumniTable() {
     
           return (
             <div className="rows">
-              <input style={{ outline: "none" }} type="checkbox" />
-              <div
+                <div className="btnMainDiv">
+                    <div className="btnDiv">
+                        <button onClick={() => navigate('/payment')}>Pay</button>
+                    </div>
+                </div>               <div
                 style={{
                   width: "15%",
                   display: " flex",
@@ -151,7 +155,6 @@ function AlumniTable() {
         <div className="nav">
           <div className="rightDiv">
           <h3>Needs</h3>
-
           </div>
         </div>
         <Container>
@@ -164,7 +167,7 @@ function AlumniTable() {
                   justifyContent: "center",
                 }}
               >
-                <h5>Check All</h5>
+                <h5>Payment</h5>
               </div>
 
               <div
@@ -225,11 +228,7 @@ function AlumniTable() {
             {data.map((item, index) => {
               return addTodo(item, index);
             })}
-            <div className="btnMainDiv">
-              <div className="btnDiv">
-                <button onClick={() => navigate('/payment')}>Pay</button>
-              </div>
-            </div>
+
 
             <div className="paragraphDiv">
               <p>StudentBook does not sell your information to anyone</p>
@@ -298,15 +297,15 @@ const Container = styled.div`
   }
   .btnMainDiv {
     //background-color: red;
-    height: 10%;
-    width: 100%;
+    height:100;
+    width: 5%;
     display: flex;
     align-items: center;
   }
   .btnDiv {
     //background-color: aliceblue;
-    height: 90%;
-    width: 17%;
+    height: 10%;
+    width: 100%;
   }
   button {
     background-color: gray;

@@ -31,6 +31,7 @@ const db = getDatabase(app);
 
 function Table() {
 
+
     const [deleteId, setDeletedId] = useState(false);
     const { key } = useSelector((state) => state.persistedReducer);
     const [deleteCheck, setdeleteCheck] = useState(false);

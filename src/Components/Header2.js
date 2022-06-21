@@ -9,6 +9,7 @@ import setLogedinEmail from '../Redux/actions';
 
 function Header2() {
     const dispatch = useDispatch()
+    const { userType } = useSelector(state => state.persistedReducer)
 
     let navigate = useNavigate();
 
@@ -17,14 +18,20 @@ function Header2() {
     const location = useLocation();
     useEffect(() => {
         console.log((location))
+        if(location.pathname == '/loggedin' || location.pathname == '/alumnilogin')
+        {
+            console.log(`data is ${data}`)
 
-        if(data == '' && location.pathname != '/home')
-{
-// navigate('/login')
-}
+            if(data == '')
+            {
+                navigate('/login')
+
+            }
+        }
+
     }, [location,data]);
 
-  return (
+    return (
     <Container>
         <div className='innerDiv'>
             <div className='leftDiv'>
@@ -53,7 +60,7 @@ function Header2() {
                 <div className='loginAndIconDiv'>
                     <FaUserCircle size={40}/>
                   
-                    <div className='loginDiv'>
+                    <div className='loginDiv' onClick={() => {userType == 'Alumni' ? navigate('/alumnilogin'): navigate('/loggedin')}}>
                         <h3 style={{fontSize: '12px'}}>{data}</h3>                </div>
                     
                 </div>

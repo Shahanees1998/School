@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 
 function Header() {
     const dispatch = useDispatch()
+    const { userType } = useSelector(state => state.persistedReducer)
 
     const location = useLocation();
     let navigate = useNavigate();
@@ -16,12 +17,20 @@ function Header() {
     const { data, key } = useSelector(state => state.persistedReducer)
 
     useEffect(() => {
-        console.log((location))
+        console.log(location)
+        console.log(data)
+        console.log(`data is ${data}`)
 
-        if(data == '' && location.pathname != '/home')
+        if(location.pathname == '/loggedin' || location.pathname == '/alumnilogin')
+        {
+if(data == '')
 {
-//navigate('/login')
+    navigate('/login')
+
 }
+
+        }
+
     }, [location,data]);
 
     function loginHandler() {
@@ -61,7 +70,7 @@ function Header() {
                         <button className='loginBtn' onClick={()=>loginHandler()}>Register</button>
                     </div>
                     :
-                    <div className='loginDiv'>
+                    <div className='loginDiv' onClick={() => {userType == 'Alumni' ? navigate('/alumnilogin'): navigate('/loggedin')}}>
                         <h3 style={{fontSize: '12px'}}>{data}</h3>                </div>
                     }
                 </div>

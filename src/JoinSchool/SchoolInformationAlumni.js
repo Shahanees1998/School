@@ -69,7 +69,7 @@ function SchoolInformationAlumni(props) {
                         {/*<input style={{outline: 'none'}} placeholder='enter schoolName' name="schoolName" value={alumniSchoolInfo.schoolName}*/}
                         {/*onChange={onChangeHandler}/>*/}
 
-                        <select name="schoolName" value={alumniSchoolInfo.schoolName} onChange={onChangeHandler}>
+                        <select id={'xyz'} name="schoolName" value={alumniSchoolInfo.schoolName} style={{outline:'none'}} onClick={onChangeHandler}>
                             {schoolNamesList.map((SchoolDetail,index)=><option value={SchoolDetail.schoolName}>{SchoolDetail.schoolName}</option>)}
                         </select>
                     </div>
@@ -126,7 +126,26 @@ export default SchoolInformationAlumni;
 
 
 const Container = styled.div`
-
+select#xyz {
+  -webkit-appearance: button;
+  -webkit-border-radius: 2px;
+  -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+  -webkit-padding-end: 20px;
+  -webkit-padding-start: 2px;
+  -webkit-user-select: none;
+  background-image: url(../images/select-arrow.png), 
+    -webkit-linear-gradient(white, white 40%, white);
+  background-position: center right;
+  background-repeat: no-repeat;
+  border: 1px solid white;
+  font-size: inherit;
+  margin: 0;
+  overflow: hidden;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 //background-color: green;
 height: 75vh;
 width: 100%;
