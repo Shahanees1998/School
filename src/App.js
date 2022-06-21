@@ -3,6 +3,7 @@ import './App.css';
 import SplashScreen from './SplashScreen';
 import HomePage from './homePage/Home';
 import {Routes,Route} from 'react-router-dom';
+import StripeContainer from "./Stripe/StripeContainer";
 //import Header from './Components/Header';
 import RegisterLine from './EnrollSchool/RegisterLine';
 //import Register from './EnrollSchool/Register';
@@ -29,6 +30,7 @@ function App() {
       <Route path='/registerLine' element={<RegisterLine/>}/>
       <Route path='/loggedin' element={<Table/>}/>
       <Route path='/accounts' element={<AccountReq/>}/>
+      <Route path='/payment' element={<StripeContainer/>}/>
 
         {/* when admin will logedin*/}
         <Route path='/alumnilogin' element={<AlumniTable/>}/>

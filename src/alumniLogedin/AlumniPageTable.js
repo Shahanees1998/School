@@ -46,7 +46,7 @@ function AlumniTable() {
                 onValue(ref(db, 'School/'+key),(innerSnapshot=>{
                     innerSnapshot.forEach(innerChildsnapshot=>{
                         console.log("forEach", innerChildsnapshot.val())
-                        if(innerChildsnapshot.val()== "school2"){
+                        if(innerChildsnapshot.val()== "school1"){
                             console.log('child data should bee called',childData);
                             setData((prev)=>[...prev,childData])
                         }
@@ -227,7 +227,7 @@ function AlumniTable() {
             })}
             <div className="btnMainDiv">
               <div className="btnDiv">
-                <button onClick={() => payHandler()}>Pay</button>
+                <button onClick={() => navigate('/payment')}>Pay</button>
               </div>
             </div>
 

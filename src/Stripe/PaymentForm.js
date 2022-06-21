@@ -7,18 +7,18 @@ const CARD_OPTIONS = {
     iconStyle: "solid",
     style: {
         base: {
-            iconColor: "#c4f0ff",
-            color: "#fff",
+            iconColor: "black",
+            color: "black",
             fontWeight: 500,
             fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
             fontSize: "16px",
             fontSmoothing: "antialiased",
-            ":-webkit-autofill": { color: "#fce883" },
-            "::placeholder": { color: "#87bbfd" }
+            ":-webkit-autofill": { color: "black" },
+            "::placeholder": { color: "black" }
         },
         invalid: {
-            iconColor: "#ffc7ee",
-            color: "#ffc7ee"
+            iconColor: "red",
+            color: "red"
         }
     }
 }
@@ -71,7 +71,8 @@ export default function PaymentForm() {
                 </form>
                 :
                 <div>
-                    <h2>You just bought a sweet spatula congrats this is the best decision of you're life</h2>
+                    <h2>Thanks! Your payment is successfully transferred</h2>
+
                 </div>
             }
 
