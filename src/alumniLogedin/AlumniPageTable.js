@@ -30,16 +30,17 @@ function AlumniTable({navigation}) {
     const [showItem, setShowItem] = useState(false);
 
      const { alumniSchoolname } = useSelector(state => state.persistedReducer)
-    console.log('ghias',key,'alSchoolName', alumniSchoolname)
+   // console.log('ghias',key,'alSchoolName', alumniSchoolname)
     const dispatch = useDispatch();
+     let key=''
 
-    const starCountRef = ref(db, 'School/'+key+'/items');
     const dbRef = ref(db,'School');
     onValue(dbRef,(snapshot)=>{
         snapshot.forEach(childDatasnapShot => {
             if(childDatasnapShot.val().schoolName==alumniSchoolname){
                 console.log("key in right noew", childDatasnapShot.key)
-                dispatch(setKey(childDatasnapShot.key))
+                //dispatch(setKey(childDatasnapShot.key))
+                key=childDatasnapShot.key
             }
             else{
                 console.log("else key in right noew", childDatasnapShot.val(), "schname", alumniSchoolname)
@@ -48,10 +49,11 @@ function AlumniTable({navigation}) {
         })
     })
 
-    const { key,alumnikey } = useSelector(state => state.persistedReducer)
+  //  const { key,alumnikey } = useSelector(state => state.persistedReducer)
 
+    const starCountRef = ref(db, 'School/'+key+'/items');
 
-
+     // dispatch(setKey(key))
     let navigate = useNavigate();
     // useEffect(() => {
     //     setData([])

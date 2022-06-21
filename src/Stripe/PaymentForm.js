@@ -2,7 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
 import React, { useState } from 'react'
 import {useSelector} from "react-redux";
-import {getDatabase, ref, set} from "firebase/database";
+import {getDatabase, onValue, ref, set} from "firebase/database";
 import app from "../firebase";
 
 
@@ -29,9 +29,9 @@ const CARD_OPTIONS = {
 export default function PaymentForm({tottalamount,desc, itemKey}) {
     const [success, setSuccess ] = useState(false)
     const db = getDatabase(app);
-    const { key,alumnikey } = useSelector(state => state.persistedReducer)
+    const { alumnikey,alumniSchoolname } = useSelector(state => state.persistedReducer)
 
-
+    let key='';
     //  const { amount } = useSelector(state => state.persistedReducer)
 console.log(`amount is  ${tottalamount} and int  ${parseInt(tottalamount)}`)
     const stripe = useStripe()
@@ -45,6 +45,20 @@ console.log(`amount is  ${tottalamount} and int  ${parseInt(tottalamount)}`)
             card: elements.getElement(CardElement)
         })
 
+        const dbRef = ref(db,'School');
+        onValue(dbRef,(snapshot)=>{
+            snapshot.forEach(childDatasnapShot => {
+                if(childDatasnapShot.val().schoolName==alumniSchoolname){
+                    console.log("key in right noew", childDatasnapShot.key)
+                    //dispatch(setKey(childDatasnapShot.key))
+                    key=childDatasnapShot.key
+                }
+                else{
+                    console.log("else key in right noew", childDatasnapShot.val(), "schname", alumniSchoolname)
+
+                }
+            })
+        })
 
         if(!error) {
             try {
