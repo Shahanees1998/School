@@ -6,8 +6,9 @@ import AllPending from './AllPending';
 import {useNavigate} from 'react-router-dom';
 import app from '../firebase'
 import { getDatabase, ref, set, onValue,push,update } from "firebase/database";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import StripeContainer from "../Stripe/StripeContainer";
+import {setAmount, setKey} from "../Redux/actions";
 
 const db = getDatabase(app);
 
@@ -23,25 +24,64 @@ const db = getDatabase(app);
 
 
 
-function AlumniTable() {
+function AlumniTable({navigation}) {
     const [check,setCheck] =  useState(false);
     const[data,setData] = useState([]);
     const [showItem, setShowItem] = useState(false);
 
-    const { key,alumnikey, } = useSelector(state => state.persistedReducer)
      const { alumniSchoolname } = useSelector(state => state.persistedReducer)
     console.log('ghias',key,'alSchoolName', alumniSchoolname)
+    const dispatch = useDispatch();
 
     const starCountRef = ref(db, 'School/'+key+'/items');
+    const dbRef = ref(db,'School');
+    onValue(dbRef,(snapshot)=>{
+        snapshot.forEach(childDatasnapShot => {
+            if(childDatasnapShot.val().schoolName==alumniSchoolname){
+                console.log("key in right noew", childDatasnapShot.key)
+                dispatch(setKey(childDatasnapShot.key))
+            }
+            else{
+                console.log("else key in right noew", childDatasnapShot.val(), "schname", alumniSchoolname)
+
+            }
+        })
+    })
+
+    const { key,alumnikey } = useSelector(state => state.persistedReducer)
+
 
 
     let navigate = useNavigate();
+    // useEffect(() => {
+    //     setData([])
+    //
+    //     onValue(
+    //         starCountRef,
+    //         (snapshot) => {
+    //             snapshot.forEach((childSnapshot) => {
+    //                 const childKey = childSnapshot.key;
+    //                 const childData = childSnapshot.val();
+    //                 childData['itemKey'] = childKey;
+    //                 console.log("child data", childData);
+    //                 setData((prev) => [...prev, childData]);
+    //                 console.log("child data array", data, "length", data.length);
+    //                 // ...
+    //             });
+    //             setCheck(true);
+    //         },
+    //         {
+    //             onlyOnce: false,
+    //         }
+    //     );
+    // }, [deleteCheck]);
 
     useEffect(()=>{
         onValue(starCountRef, (snapshot) => {
             snapshot.forEach((childSnapshot) => {
                 const childKey = childSnapshot.key;
                 const childData = childSnapshot.val();
+                childData['itemKey'] = childKey;
 
                 onValue(ref(db, 'School/'+key),(innerSnapshot=>{
                     innerSnapshot.forEach(innerChildsnapshot=>{
@@ -73,7 +113,7 @@ function AlumniTable() {
             <div className="rows">
                 <div className="btnMainDiv">
                     <div className="btnDiv">
-                        <button onClick={() => navigate('/payment')}>Pay</button>
+                        <button onClick={() => payHandler(item.itemCost,item.itemName,item.itemKey)}>Pay</button>
                     </div>
                 </div>               <div
                 style={{
@@ -137,9 +177,13 @@ function AlumniTable() {
         [data]
       );
 
-    function payHandler() {
+    function payHandler(passedAmount,desc,itemKey) {
      //   navigate('/addInfo')
-        setShowItem(true);
+        //dispatch(setAmount(passedAmount))
+        navigate('/payment',{state:{amount:passedAmount,desc:desc,itemKey:itemKey}});
+
+
+     //    setShowItem(true);
     }
 
     if(!check)

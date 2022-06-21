@@ -1,6 +1,9 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
 import React, { useState } from 'react'
+import {useSelector} from "react-redux";
+import {getDatabase, ref, set} from "firebase/database";
+import app from "../firebase";
 
 
 const CARD_OPTIONS = {
@@ -23,8 +26,14 @@ const CARD_OPTIONS = {
     }
 }
 
-export default function PaymentForm() {
+export default function PaymentForm({tottalamount,desc, itemKey}) {
     const [success, setSuccess ] = useState(false)
+    const db = getDatabase(app);
+    const { key,alumnikey } = useSelector(state => state.persistedReducer)
+
+
+    //  const { amount } = useSelector(state => state.persistedReducer)
+console.log(`amount is  ${tottalamount} and int  ${parseInt(tottalamount)}`)
     const stripe = useStripe()
     const elements = useElements()
 
@@ -39,15 +48,22 @@ export default function PaymentForm() {
 
         if(!error) {
             try {
+                console.log(`chl ja ${tottalamount}`)
                 const {id} = paymentMethod
                 const response = await axios.post("http://localhost:4000/payment", {
-                    amount: 2000,
+                    amount:parseInt(tottalamount),
+                    "description" : desc,
                     id
                 })
 
                 if(response.data.success) {
                     console.log("Successful payment")
+                    set(ref(db,"School/"+key+"/items/"+itemKey),null);
+
                     setSuccess(true)
+                }
+                else{
+                    console.log('res',response)
                 }
 
             } catch (error) {

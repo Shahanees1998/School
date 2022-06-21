@@ -136,7 +136,6 @@ const Container = styled.div`
   
   
   .aboutDiv {
-      background-color: red;
       height: 80%;
       width: 20%;
       

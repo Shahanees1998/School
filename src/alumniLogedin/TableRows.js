@@ -5,12 +5,18 @@ import {useNavigate} from 'react-router-dom';
 
 function TableRows(props) {
     let navigate = useNavigate();
+    function payHandler(passedAmount) {
+        //   navigate('/addInfo')
+        //dispatch(setAmount(passedAmount))
+console.log(passedAmount)
+        //    setShowItem(true);
+    }
 
     return (
     <Container>
         <div className="btnMainDiv">
             <div className="btnDiv">
-                <button onClick={() => navigate('/payment')}>Pay</button>
+                <button onClick={payHandler(parseInt(props.item.itemCos)) }>Pay</button>
             </div>
         </div>        <h4>{props.item.itemName}</h4>
         <h4>{props.item.itemCost}</h4>

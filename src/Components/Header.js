@@ -150,7 +150,6 @@ const Container = styled.div`
       border-width: 0px;
   }
   .aboutDiv {
-      //background-color: red;
       height: 80%;
       width: 20%;
       
@@ -172,7 +171,6 @@ const Container = styled.div`
       justify-content: space-around;
   }
   .loginDiv {
-      //background-color: red;
       display: flex;
       align-items: center;
       height: 100%;
