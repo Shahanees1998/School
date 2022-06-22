@@ -69,7 +69,7 @@ function SchoolInformationAlumni(props) {
                         {/*<input style={{outline: 'none'}} placeholder='enter schoolName' name="schoolName" value={alumniSchoolInfo.schoolName}*/}
                         {/*onChange={onChangeHandler}/>*/}
 
-                        <select id={'xyz'} name="schoolName" value={alumniSchoolInfo.schoolName} style={{outline:'none'}} onClick={onChangeHandler}>
+                        <select id={'xyz'} name="schoolName" value={alumniSchoolInfo.schoolName} style={{outline:'none'}}  onClick={onChangeHandler} onChange={onChangeHandler}>
                             {schoolNamesList.map((SchoolDetail,index)=><option value={SchoolDetail.schoolName}>{SchoolDetail.schoolName}</option>)}
                         </select>
                     </div>

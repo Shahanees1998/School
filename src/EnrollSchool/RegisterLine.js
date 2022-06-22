@@ -19,6 +19,7 @@ function RegisterLine() {
   }
   function
   componentHandler(item1) {
+    console.log((item1))
     setcomponent(item1);
     
     
@@ -37,7 +38,7 @@ function RegisterLine() {
         <h3>Complete</h3>
       </Container>
       {
-        component==='register'?<Register onClick={componentHandler} ongetval={getKey}/>:
+        component==='register'?<Register onClick={(item1) => componentHandler(item1)} ongetval={(item1) => getKey(item1)}/>:
         component==='schoolInformation'?<SchoolInformation onClick={componentHandler} getKey={key}/>
         :component==='payment'?<Payment onClick={componentHandler}/>:component==='complete'?
         <Complete onClick={componentHandler}/>:component==='contactus'?<ContactUs onClick={componentHandler}/>:null

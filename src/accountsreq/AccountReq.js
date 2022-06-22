@@ -23,9 +23,10 @@ function AccountsReq() {
     console.log(id);
   };
   const [check, setCheck] = useState(false);
+  const [dummyCheck,setDummyCheck] = useState(false)
 
   const [data, setLogedinEmail] = useState([]);
-  const { key } = useSelector((state) => state.persistedReducer);
+  const { key, alumniSchoolName } = useSelector((state) => state.persistedReducer);
   console.log("key is", key);
 
   // key should be dynamic
@@ -35,13 +36,15 @@ function AccountsReq() {
     const onApproveHandler =(alKey) =>{
         console.log('approve called', alKey)
         set(ref(db,"users/alumni/"+alKey+"/approve"),true);
+        dummyCheck?setDummyCheck(false):setDummyCheck(true);
+        setLogedinEmail([])
     }
 
   const onDisapproveHandler =(alKey) =>{
         console.log('disaprove called', alKey)
         set(ref(db,"users/alumni/"+alKey),null);
       deleteCheck?setdeleteCheck(false):setdeleteCheck(true);
-
+      setLogedinEmail([])
 
 
 
@@ -54,11 +57,28 @@ function AccountsReq() {
         snapshot.forEach((childSnapshot) => {
           const childKey = childSnapshot.key;
           const childData = childSnapshot.val();
-          childData['alumniKey'] = childKey;
-          console.log("child data", childData);
-          if(!childData.approve){
-              setLogedinEmail((prev) => [...prev, childData]);
-          }
+
+          //onValue(ref(db,"users/alumni/"+childKey))
+
+          onValue(ref(db,"School/"+key),(innerSnapshot)=>{
+
+              console.log('buzz key',innerSnapshot.key )
+              console.log('buzz value', innerSnapshot.val().schoolName)
+
+              if(innerSnapshot.val().schoolName == childData.schoolInfo.schoolName){
+                  if(!childData.approve){
+                      childData['alumniKey'] = childKey;
+                      childData['alumniSchoolname'] = childData.schoolInfo.schoolName;
+                      childData['gYear'] = childData.schoolInfo.graduationyear;
+                      setLogedinEmail((prev) => [...prev, childData]);
+                  }
+              }
+          })
+          // childData['alumniKey'] = childKey;
+          console.log("child data", childData.schoolInfo.schoolName);
+          // if(!childData.approve){
+          //     setLogedinEmail((prev) => [...prev, childData]);
+          // }
           console.log("child data array", data, "length", data.length);
           // ...
         });
@@ -68,7 +88,7 @@ function AccountsReq() {
         onlyOnce: false,
       }
     );
-  }, [deleteCheck]);
+  }, [deleteCheck,dummyCheck]);
   const addTodo = useCallback(
     (item, index) => {
       {
@@ -119,7 +139,7 @@ function AccountsReq() {
             }}
           >
             {" "}
-            <h4>nothing</h4>
+            <h4>{item.alumniSchoolname}</h4>
           </div>
 
           <div
@@ -130,7 +150,7 @@ function AccountsReq() {
               justifyContent: "center",
             }}
           >
-            <h4>nothing</h4>
+            <h4>{item.gYear}</h4>
           </div>
 
           <div
