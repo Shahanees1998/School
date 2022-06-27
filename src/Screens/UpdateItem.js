@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import { FaAngleRight } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+
 import { getDatabase, ref, set, onValue, push } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import app, { storage } from "../firebase";
@@ -17,7 +19,11 @@ import { useSelector } from "react-redux";
 
 const db = getDatabase(app);
 
-function AddItem() {
+function UpdateItem() {
+  const location = useLocation();
+
+  const { itemkey, desc, studentname, cost, itemname, image } = location.state;
+  //console.log(location.state.amount);
   let navigate = useNavigate();
 
   const [file, setFile] = useState("");
@@ -238,12 +244,21 @@ function AddItem() {
       value: itemInfo.itemDescription,
     },
   ];
+  const up = 0;
+  useEffect(() => {
+    setItemInfo({ ...itemInfo, ["itemName"]: itemname });
+    console.log(` item name ${itemname}`);
+    setItemInfo({ ...itemInfo, ["itemCost"]: cost });
+    setItemInfo({ ...itemInfo, ["stdName"]: studentname });
+    setItemInfo({ ...itemInfo, ["itemDescription"]: desc });
+    setItemInfo({ ...itemInfo, ["imageUrl"]: image });
+  }, [up]);
   return (
     <>
       <Header />
       <Container>
         <div className="headingText">
-          <h3>Add New Item</h3>
+          <h3>Update Item</h3>
         </div>
         <div className="addItemContainer">
           {InputsList.map((item) => {
@@ -313,7 +328,7 @@ function AddItem() {
                   borderStyle: "solid",
                   borderColor: "black",
                   borderWidth: 1,
-                  backgroundColor: ''
+                  backgroundColor: "",
                 }}
                 onClick={handleUpload}
               >
@@ -353,7 +368,7 @@ function AddItem() {
   );
 }
 
-export default AddItem;
+export default UpdateItem;
 
 const Container = styled.div`
   //background-color: burlywood;

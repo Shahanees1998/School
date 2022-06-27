@@ -62,6 +62,7 @@ function AccountsReq() {
           onValue(ref(db, "School/" + key), (innerSnapshot) => {
             console.log("buzz key", innerSnapshot.key);
             console.log("buzz value", innerSnapshot.val().schoolName);
+            console.log("child value", childData);
 
             if (
               innerSnapshot.val().schoolName == childData.schoolInfo.schoolName

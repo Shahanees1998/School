@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 
 import Header from "../Components/Header";
 import dummyimage from "../assets/Images/dummyimage.png";
+import trsh from "../assets/Images/trsh.png";
+
 import app from "../firebase";
 import edit from "../assets/Images/edit.svg";
 import noitems from "../assets/Images/noitems.svg";
@@ -57,6 +59,7 @@ function SchoolPanel() {
   }, [deleteCheck]);
   const addTodo = useCallback(
     (item, index) => {
+      console.log(`item image ${item.imageUrl}`);
       return (
         <div className="rows">
           <div
@@ -77,10 +80,17 @@ function SchoolPanel() {
               justifyContent: "space-between",
             }}
           >
-            <img
-              src={dummyimage}
-              style={{ marginRight: "20px", width: "40px", height: "40px" }}
-            />
+            {item.imageUrl ? (
+              <img
+                src={item.imageUrl}
+                style={{ marginRight: "20px", width: "40px", height: "40px" }}
+              />
+            ) : (
+              <img
+                src={dummyimage}
+                style={{ marginRight: "20px", width: "40px", height: "40px" }}
+              />
+            )}
             <h4 className="cutText">{item.itemName}</h4>
           </div>
 
@@ -123,14 +133,34 @@ function SchoolPanel() {
               width: "15%",
               display: " flex",
               alignItems: "center",
-              justifyContent: "flex-end",
-            }}
-            onClick={() => {
-              setModalVisible(true);
-              setDeletedId(item.itemKey);
+              justifyContent: "space-evenly",
             }}
           >
-            <img src={edit} style={{ width: 20, height: 20 }} />
+            <img
+              src={trsh}
+              style={{ width: 20, height: 20 }}
+              onClick={() => {
+                setModalVisible(true);
+                setDeletedId(item.itemKey);
+              }}
+            />
+
+            <img
+              src={edit}
+              style={{ width: 20, height: 20 }}
+              onClick={() => {
+                navigate("/UpdateItem", {
+                  state: {
+                    itemkey: item.itemKey,
+                    desc: item.itemDescription,
+                    studentname: item.stdName,
+                    cost: item.itemCost,
+                    itemname: item.itemName,
+                    image: item.imageUrl,
+                  },
+                });
+              }}
+            />
           </div>
         </div>
       );
@@ -236,11 +266,29 @@ function SchoolPanel() {
                 display: "flex",
                 paddingTop: "3%",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-evenly",
               }}
             >
+              <div
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(255, 0, 0, 0.14)",
+                  borderRadius: 30,
+                }}
+              >
+                <h4 style={{ color: "white", fontSize: "20px" }}>X</h4>
+              </div>
               <h3
-                style={{ marginTop: "2%", marginLeft: "3%", fontWeight: "100" }}
+                style={{
+                  marginTop: "2%",
+                  marginLeft: "3%",
+                  fontWeight: "500",
+                  color: "rgba(255, 0, 0, 0.14)",
+                }}
               >
                 Are you sure to delete this Item
               </h3>
@@ -249,8 +297,15 @@ function SchoolPanel() {
                   DeleteItem();
                   setModalVisible(false);
                 }}
+                className="button"
+                style={{
+                  backgroundColor: " rgba(255, 0, 0, 0.14)",
+                  borderWidth: 0,
+                  width: "45%",
+                  borderRadius: 10,
+                }}
               >
-                Confirm Delete
+                <h4 style={{ color: "white" }}>Confirm Delete</h4>
               </button>
             </div>
           </Modal>
@@ -277,6 +332,7 @@ const Container = styled.div`
     font-weight: 500;
     font-size: 12px;
   }
+
   .nav {
     background-color: white;
     width: 100%;
