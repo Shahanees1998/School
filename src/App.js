@@ -1,51 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
-import SplashScreen from './SplashScreen';
-import HomePage from './homePage/Home';
-import {Routes,Route} from 'react-router-dom';
+import "./App.css";
+import HomePage from "./Screens/Home";
+import { Routes, Route } from "react-router-dom";
 import StripeContainer from "./Stripe/StripeContainer";
-//import Header from './Components/Header';
-import RegisterLine from './EnrollSchool/RegisterLine';
-//import Register from './EnrollSchool/Register';
-import Table from './schoolLoggedIn/Table';
-import AddInfo from './schoolLoggedIn/AddInfo';
-import Header from './Components/Header';
-import RegisterLine2 from './JoinSchool/RegisterLine2';
-import LoginLine2 from './Login/LoginLine2';
-import AlumniTable from './alumniLogedin/AlumniPageTable';
-import Store from './Redux/store'
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react'
-import {persistor} from '../src/Redux/store'
-import AccountReq from '../src/accountsreq/AccountReq'
+import EnrollSchool from "./Screens/EnrollSchool";
+import SchoolPanel from "./Screens/SchoolPanel";
+import EnrollAlumni from "./Screens/EnrollAlumni";
+import AddItem from "../src/Screens/AddItem";
+import Login from "./Screens/Login";
+import AlumniTable from "./alumniLogedin/AlumniPageTable";
+import Store from "./Redux/store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor } from "../src/Redux/store";
+import AccountReq from "../src/accountsreq/AccountReq";
 function App() {
   return (
     <Provider store={Store}>
-        <PersistGate loading={null} persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-    <Routes>
-      <Route path='/' element={<SplashScreen/>}/>
-      <Route path='home' element={<HomePage/>}/>
-      <Route path='login' element={<LoginLine2/>}/>
-      <Route path='/registerLine' element={<RegisterLine/>}/>
-      <Route path='/loggedin' element={<Table/>}/>
-      <Route path='/accounts' element={<AccountReq/>}/>
-      <Route path='/payment' element={<StripeContainer/>}/>
+          <Route path="home" element={<HomePage />} />
+          <Route path="/EnrollSchool" element={<EnrollSchool />} />
+          <Route path="/EnrollAlumni" element={<EnrollAlumni />} />
+          <Route path="/login" element={<Login />} />
 
-        {/* when admin will logedin*/}
-        <Route path='/alumnilogin' element={<AlumniTable/>}/>
-        {/* when alumni will logedin*/}
+          <Route path="/loggedin" element={<SchoolPanel />} />
+          <Route path="/accounts" element={<AccountReq />} />
+          <Route path="/payment" element={<StripeContainer />} />
 
-      <Route path='/addInfo' element={<AddInfo/>}/>
-      <Route path='/toAlumniRegisterPage' element={<RegisterLine2/>}/>
-    </Routes>
-    </PersistGate>
+          {/* when admin will logedin*/}
+          <Route path="/alumnilogin" element={<AlumniTable />} />
+          {/* when alumni will logedin*/}
+
+          <Route path="/additem" element={<AddItem />} />
+        </Routes>
+      </PersistGate>
     </Provider>
-
   );
 }
 
 export default App;
 
-{/**
-**/}
+{
+  /**
+   **/
+}

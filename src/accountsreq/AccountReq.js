@@ -17,38 +17,37 @@ import deleteItem from "../imgs/delete.png";
 const db = getDatabase(app);
 
 function AccountsReq() {
-    const [deleteCheck, setdeleteCheck] = useState(false);
+  const [deleteCheck, setdeleteCheck] = useState(false);
 
-    const DeleteItem = (id) => {
+  const DeleteItem = (id) => {
     console.log(id);
   };
   const [check, setCheck] = useState(false);
-  const [dummyCheck,setDummyCheck] = useState(false)
+  const [dummyCheck, setDummyCheck] = useState(false);
 
   const [data, setLogedinEmail] = useState([]);
-  const { key, alumniSchoolName } = useSelector((state) => state.persistedReducer);
+  const { key, alumniSchoolName } = useSelector(
+    (state) => state.persistedReducer
+  );
   console.log("key is", key);
 
   // key should be dynamic
   const starCountRef = ref(db, "users/alumni");
 
   let navigate = useNavigate();
-    const onApproveHandler =(alKey) =>{
-        console.log('approve called', alKey)
-        set(ref(db,"users/alumni/"+alKey+"/approve"),true);
-        dummyCheck?setDummyCheck(false):setDummyCheck(true);
-        setLogedinEmail([])
-    }
+  const onApproveHandler = (alKey) => {
+    console.log("approve called", alKey);
+    set(ref(db, "users/alumni/" + alKey + "/approve"), true);
+    dummyCheck ? setDummyCheck(false) : setDummyCheck(true);
+    setLogedinEmail([]);
+  };
 
-  const onDisapproveHandler =(alKey) =>{
-        console.log('disaprove called', alKey)
-        set(ref(db,"users/alumni/"+alKey),null);
-      deleteCheck?setdeleteCheck(false):setdeleteCheck(true);
-      setLogedinEmail([])
-
-
-
-  }
+  const onDisapproveHandler = (alKey) => {
+    console.log("disaprove called", alKey);
+    set(ref(db, "users/alumni/" + alKey), null);
+    deleteCheck ? setdeleteCheck(false) : setdeleteCheck(true);
+    setLogedinEmail([]);
+  };
 
   useEffect(() => {
     onValue(
@@ -60,20 +59,21 @@ function AccountsReq() {
 
           //onValue(ref(db,"users/alumni/"+childKey))
 
-          onValue(ref(db,"School/"+key),(innerSnapshot)=>{
+          onValue(ref(db, "School/" + key), (innerSnapshot) => {
+            console.log("buzz key", innerSnapshot.key);
+            console.log("buzz value", innerSnapshot.val().schoolName);
 
-              console.log('buzz key',innerSnapshot.key )
-              console.log('buzz value', innerSnapshot.val().schoolName)
-
-              if(innerSnapshot.val().schoolName == childData.schoolInfo.schoolName){
-                  if(!childData.approve){
-                      childData['alumniKey'] = childKey;
-                      childData['alumniSchoolname'] = childData.schoolInfo.schoolName;
-                      childData['gYear'] = childData.schoolInfo.graduationyear;
-                      setLogedinEmail((prev) => [...prev, childData]);
-                  }
+            if (
+              innerSnapshot.val().schoolName == childData.schoolInfo.schoolName
+            ) {
+              if (!childData.approve) {
+                childData["alumniKey"] = childKey;
+                childData["alumniSchoolname"] = childData.schoolInfo.schoolName;
+                childData["gYear"] = childData.schoolInfo.graduationyear;
+                setLogedinEmail((prev) => [...prev, childData]);
               }
-          })
+            }
+          });
           // childData['alumniKey'] = childKey;
           console.log("child data", childData.schoolInfo.schoolName);
           // if(!childData.approve){
@@ -88,7 +88,7 @@ function AccountsReq() {
         onlyOnce: false,
       }
     );
-  }, [deleteCheck,dummyCheck]);
+  }, [deleteCheck, dummyCheck]);
   const addTodo = useCallback(
     (item, index) => {
       {
@@ -97,18 +97,17 @@ function AccountsReq() {
 
       return (
         <div className="rows">
-
-            <div
-                style={{
-                    width: "15%",
-                    display: " flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <h4>{item.email}</h4>
-            </div>
-            <div
+          <div
+            style={{
+              width: "15%",
+              display: " flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h4>{item.email}</h4>
+          </div>
+          <div
             style={{
               width: "15%",
               display: " flex",
@@ -159,11 +158,24 @@ function AccountsReq() {
               display: " flex",
               alignItems: "center",
               justifyContent: "center",
-              flexDirection: 'row'
+              flexDirection: "row",
             }}
           >
-              <button onClick={()=>{onApproveHandler(item.alumniKey)}}>Approve</button>:
-             <button onClick={()=>{onDisapproveHandler(item.alumniKey)}}>Disapprove</button>
+            <button
+              onClick={() => {
+                onApproveHandler(item.alumniKey);
+              }}
+            >
+              Approve
+            </button>
+            :
+            <button
+              onClick={() => {
+                onDisapproveHandler(item.alumniKey);
+              }}
+            >
+              Disapprove
+            </button>
           </div>
         </div>
       );
@@ -182,8 +194,7 @@ function AccountsReq() {
         <Header />
         <div className="nav">
           <div className="leftDiv">
-          <button onClick={() => navigate('/loggedin')}>move back</button>
-
+            <button onClick={() => navigate("/loggedin")}>move back</button>
           </div>
         </div>
         <Container>
@@ -209,8 +220,6 @@ function AccountsReq() {
               >
                 <h5>first name</h5>
               </div>
-
-           
 
               <div
                 style={{
@@ -257,7 +266,6 @@ function AccountsReq() {
             {data.map((item, index) => {
               return addTodo(item, index);
             })}
-         
 
             <div className="paragraphDiv">
               <p>StudentBook does not sell your information to anyone</p>
@@ -284,7 +292,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 50px;
-
   }
   .leftDiv {
     //background-color: yellowgreen;

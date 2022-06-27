@@ -1,189 +1,209 @@
-import React,{useEffect} from 'react';
-import styled from 'styled-components';
+import React, { useEffect } from "react";
+import styled from "styled-components";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
-import {useNavigate} from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
-import setLogedinEmail from '../Redux/actions';
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import setLogedinEmail from "../Redux/actions";
+import { useLocation } from "react-router-dom";
 
 function Header() {
-    const dispatch = useDispatch()
-    const { userType } = useSelector(state => state.persistedReducer)
+  const dispatch = useDispatch();
+  const { userType } = useSelector((state) => state.persistedReducer);
 
-    const location = useLocation();
-    let navigate = useNavigate();
+  const location = useLocation();
+  let navigate = useNavigate();
 
-    const { data, key } = useSelector(state => state.persistedReducer)
+  const { data, key } = useSelector((state) => state.persistedReducer);
 
-    useEffect(() => {
-        console.log((location))
-        if(location.pathname == '/loggedin' || location.pathname == '/alumnilogin')
-        {
-console.log(`data is ${data}`)
-            if(data == '')
-            {
-                navigate('/login')
+  useEffect(() => {
+    console.log(location);
+    console.log(data);
+    console.log(`data is ${data}`);
 
-            }
-        }
-
-    }, [location,data]);
-
-    function loginHandler() {
-        navigate('/login');
-        
+    if (
+      location.pathname == "/loggedin" ||
+      location.pathname == "/alumnilogin"
+    ) {
+      if (data == "") {
+        navigate("/login");
+      }
     }
+  }, [location, data]);
+
+  function loginHandler() {
+    navigate("/home");
+  }
   return (
     <Container>
-        <div className='innerDiv'>
-            <div className='leftDiv'>
-                <div className='imgDiv' onClick={() => navigate('/home')}>
-                    <img src={require('../imgs/userImg.png')} className='userImg'/>
-                </div>
-                <h3>StudenBook</h3>
-            </div>
-            <div className='rightDiv'>
-                <div className='searchDiv'>
-                <FaSearch size={20} className='searchIcon'/>
-                <input style={{outline: 'none', backgroundColor: 'white', width: '100%'}} placeholder='Search' className='searchInput'/>
-                </div>
-                <div className='aboutDiv'>
-                {
-                        data =='' ? 
-                        <div className='loginDiv'>
-                        <button className='loginBtn'>About</button>
-                    </div>
-                    :
-                    <div className='loginDiv' onClick={() => dispatch(setLogedinEmail(''))}>
-                        <h3 style={{fontSize: '12px'}}>Logout</h3>                </div>
-                    }
-                </div>
-                <div className='loginAndIconDiv'>
-                    <FaUserCircle size={40}/>
-                    {
-                        data =='' ? 
-                        <div className='loginDiv'>
-                        <button className='loginBtn' onClick={()=>loginHandler()}>Login</button>
-                    </div>
-                    :
-                    <div className='loginDiv' onClick={() => {userType == 'Alumni' ? navigate('/alumnilogin'): navigate('/loggedin')}}>
-                        <h3 style={{fontSize: '12px'}}>{data}</h3>                </div>
-                    }
-                   
-                </div>
-            </div>
+      <div className="innerDiv">
+        <div className="leftDiv">
+          <div className="imgDiv" onClick={() => navigate("/home")}>
+            <img src={require("../imgs/userImg.png")} className="userImg" />
+          </div>
         </div>
+        <div className="rightDiv">
+          <div className="searchDiv">
+            <FaSearch size={17} className="searchIcon" />
+            <input
+              id="inputID"
+              style={{
+                outline: "none",
+                backgroundColor: "#DADDE1",
+                width: "100%",
+              }}
+              placeholder="Search"
+              className="searchInput"
+            />
+          </div>
+
+          <div className="loginAndIconDiv">
+            <button
+              className="headerButtons blueButton"
+              onClick={() => loginHandler()}
+            >
+              <h3
+                style={{
+                  color: "#0E3746",
+                  alignSelf: "center",
+                  justifySelf: "center",
+                  fontSize: 20,
+                  fontWeight: "500",
+                }}
+              >
+                {" "}
+                About
+              </h3>
+            </button>
+
+            {data == "" ? (
+              <div className="buttonContainer">
+                <button
+                  className="headerButtons"
+                  onClick={() => navigate("/login")}
+                >
+                  <h3
+                    style={{
+                      color: "white",
+                      alignSelf: "center",
+                      justifySelf: "center",
+                      fontSize: 20,
+                      fontWeight: "500",
+                    }}
+                  >
+                    {" "}
+                    Login
+                  </h3>
+                </button>
+              </div>
+            ) : (
+              <div className="buttonContainer">
+                <button
+                  className="headerButtons"
+                  onClick={() => dispatch(setLogedinEmail(""))}
+                >
+                  <h3
+                    style={{
+                      color: "white",
+                      alignSelf: "center",
+                      justifySelf: "center",
+                      fontSize: 20,
+                      fontWeight: "500",
+                    }}
+                  >
+                    {" "}
+                    Logout
+                  </h3>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </Container>
-  )
+  );
 }
 
 export default Header;
 
 const Container = styled.div`
-  background-color: gray;
-  height: 10vh;
+  height: 12vh;
   width: 100%;
-  border-bottom: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-bottom: 1px solid #dadde1;
 
   .innerDiv {
-      //background-color: brown;
-      height: 100%;
-      width: 95%;
-      display: flex;
+    height: 100%;
+    width: 96%;
+    margin-inline: 2%;
+    display: flex;
   }
   .leftDiv {
-      //background-color: green;
-      width: 40%;
-      height: 100%;
-      display: flex;
-      align-items: center;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
   .imgDiv {
-      //background-color: yellow;
-      height: 70%;
-      width: 10%;
-      border-radius: 70%;
-      overflow: hidden;
+    height: 60%;
+    width: 15%;
+    border-radius: 70%;
+    overflow: hidden;
   }
   .userImg {
-      width: 100%;
-      height: 100%;
+    width: 100%;
+    height: 100%;
   }
-  h3 {
-      font-size: 25px;
-      font-weight: bold;
-      color: white;
-      margin-left: 2%;
+  #inputID::placeholder {
+    color: #0e3746;
+    font-size: 15px;
+    opacity: 1;
   }
   .rightDiv {
-      //background-color: blueviolet;
-      height: 100%;
-      width: 60%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    height: 100%;
+    width: 75%;
+    display: flex;
+    align-items: center;
   }
   .searchDiv {
-      //background-color: #EEEEEE;
-      width: 45%;
-      height: 60%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      border-radius: 10px;
-      background-color: white;
+    width: 50%;
+    height: 55%;
+    display: flex;
+    align-items: center;
+    border-radius: 11px;
+    background-color: #dadde1;
   }
   .searchIcon {
-      color: #C4C4C4;
-      margin-left: 3%;
-      margin-right: 2%;
+    color: #0e3746;
+    margin-inline: 2%;
   }
   .searchInput {
-      //font-family: GraphikBlackItalic;
-      font-weight: 400;
-      font-size: 20px;
-      color: white;
-      background-color: gray;
-      border-width: 0px;
+    border-width: 0px;
   }
-  .aboutDiv {
-      height: 80%;
-      width: 20%;
-      
-  }
-  .aboutBtn {
-      background-color: gray;
-      height: 100%;
-      width: 100%;
-      font-size: 20px;
-      color: white;
-      border: 0px;
-  }
+
   .loginAndIconDiv {
-      //background-color: yellowgreen;
-      width: 30%;
-      height: 80%;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
+    margin-left: 20%;
+    width: 30%;
+    height: 80%;
+    display: flex;
+    align-items: center;
   }
-  .loginDiv {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      width: 60%;
+  .buttonContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 60%;
   }
-  .loginBtn {
-      background-color: gray;
-      height: 100%;
-      width: 100%;
-      font-size: 20px;
-      color: white;
-      border: 0px;
-
+  .headerButtons {
+    background-color: #2291f1;
+    height: 60%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border: 0px;
+    border-radius: 5px;
   }
-
-   `
+  .blueButton {
+    background-color: white;
+    width: 70%;
+  }
+`;
