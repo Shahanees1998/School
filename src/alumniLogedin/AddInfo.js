@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Header2 from "../Components/LoginPageHeader2";
+import Header2 from "../Components/loginPageHeader2";
 import { FaAngleRight } from "react-icons/fa";
 import { getDatabase, ref, set, onValue, push } from "firebase/database";
 import app from "../firebase";

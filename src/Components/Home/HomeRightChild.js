@@ -14,9 +14,9 @@ function HomeRightChild() {
   function clickHandler() {
     if (data != "") {
       if (userType == "Alumni") {
-        navigate("/alumnilogin");
+        navigate("/AlumniLogin");
       } else {
-        navigate("/loggedin");
+        navigate("/SchoolLogin");
       }
     }
   }

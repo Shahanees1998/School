@@ -28,20 +28,37 @@ function UpdateItem() {
 
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
-
-  const [itemInfo, setItemInfo] = useState({
-    itemName: "",
-    itemCost: "",
-    stdName: "",
-    itemDescription: "",
-    imageUrl: "",
-  });
+  const [itemCost, setItemCost] = useState();
+  const [itemName, setItemName] = useState();
+  const [stdName, setStdName] = useState();
+  const [itemDescription, setItemDescription] = useState();
+  const [imageUrl, setImageUrl] = useState();
 
   const { key } = useSelector((state) => state.persistedReducer);
 
   const onChangeHandler = (event) => {
-    const { name, value } = event.target;
-    setItemInfo({ ...itemInfo, [name]: value });
+    const inputName = event.target.name;
+    const inputValue = event.target.value;
+    switch (inputName) {
+      case "itemName":
+        setItemName(inputValue);
+        break;
+      case "itemCost":
+        setItemCost(inputValue);
+        break;
+      case "itemDescription":
+        setItemDescription(inputValue);
+        break;
+      case "stdName":
+        setStdName(inputValue);
+        break;
+      case "imageUrl":
+        setImageUrl(inputValue);
+        break;
+      default:
+        console.log("default");
+        break;
+    }
   };
 
   // Handles input change event and updates state
@@ -73,7 +90,7 @@ function UpdateItem() {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log("url", url);
-          setItemInfo({ ...itemInfo, imageUrl: url });
+          setImageUrl(url);
         });
       }
     );
@@ -82,10 +99,10 @@ function UpdateItem() {
   console.log("hello");
   const onSubmitHandler = () => {
     if (
-      itemInfo.itemName == "" ||
-      itemInfo.itemCost == "" ||
-      itemInfo.stdName == "" ||
-      itemInfo.itemDescription == ""
+      itemName == "" ||
+      itemCost == "" ||
+      stdName == "" ||
+      itemDescription == ""
     ) {
       toast.custom(
         <div
@@ -131,7 +148,13 @@ function UpdateItem() {
         { duration: 1000 }
       );
     } else {
-      push(ref(db, "School/" + key + "/items"), itemInfo)
+      push(ref(db, "School/" + key + "/items"), {
+        itemName,
+        itemCost,
+        stdName,
+        itemDescription,
+        imageUrl,
+      })
         .then(() => {
           console.log("data saved successfully");
           toast.custom(
@@ -177,7 +200,7 @@ function UpdateItem() {
             </div>,
             { duration: 1000 }
           );
-          navigate("/loggedin");
+          navigate("/SchoolLogin");
         })
         .catch((err) => {
           console.log(err);
@@ -212,7 +235,7 @@ function UpdateItem() {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log("url", url);
-          setItemInfo({ ...itemInfo, imageUrl: url });
+          setImageUrl(url);
         });
       }
     );
@@ -225,7 +248,7 @@ function UpdateItem() {
       onch: onChangeHandler,
       ph: "Enter item Name",
       name: "itemName",
-      value: itemInfo.itemName,
+      value: itemName,
     },
     {
       id: 2,
@@ -233,7 +256,7 @@ function UpdateItem() {
       title: "Student Name",
       ph: "Enter Student Name",
       name: "stdName",
-      value: itemInfo.stdName,
+      value: stdName,
     },
     {
       id: 3,
@@ -241,17 +264,16 @@ function UpdateItem() {
       title: "Description",
       ph: "Enter Description",
       name: "itemDescription",
-      value: itemInfo.itemDescription,
+      value: itemDescription,
     },
   ];
   const up = 0;
   useEffect(() => {
-    setItemInfo({ ...itemInfo, ["itemName"]: itemname });
-    console.log(` item name ${itemname}`);
-    setItemInfo({ ...itemInfo, ["itemCost"]: cost });
-    setItemInfo({ ...itemInfo, ["stdName"]: studentname });
-    setItemInfo({ ...itemInfo, ["itemDescription"]: desc });
-    setItemInfo({ ...itemInfo, ["imageUrl"]: image });
+    setItemName(itemname);
+    setItemCost(cost);
+    setStdName(studentname);
+    setItemDescription(desc);
+    setImageUrl(image);
   }, [up]);
   return (
     <>
@@ -295,7 +317,7 @@ function UpdateItem() {
               }}
               placeholder="Enter Cost"
               name="itemCost"
-              value={itemInfo.itemCost}
+              value={itemCost}
               onChange={onChangeHandler}
             />
           </div>

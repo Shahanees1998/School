@@ -151,7 +151,7 @@ function LoginComponent(props) {
                   dispatch(setAlumniSchoolName(SchoolName));
                   dispatch(setLoginUserType("Alumni"));
                   console.log("setAlumniSchoolName", SchoolName);
-                  navigate("/alumnilogin");
+                  navigate("/AlumniLogin");
                 } else {
                   console.log("Sorry!, you are not approved");
                   toast.custom(
@@ -202,7 +202,7 @@ function LoginComponent(props) {
                 dispatch(setKey(keyvalue));
                 dispatch(setLoginUserType("Admin"));
 
-                navigate("/loggedin");
+                navigate("/SchoolLogin");
               }
             }
           }
@@ -212,7 +212,7 @@ function LoginComponent(props) {
                 if (approveCheck) {
                   console.log("sch", SchoolName);
                   dispatch(setAlumniSchoolName(SchoolName));
-                  navigate("/alumnilogin");
+                  navigate("/AlumniLogin");
                 } else {
                   console.log("Sorry!, you are not approved");
                   toast.custom(
@@ -260,7 +260,7 @@ function LoginComponent(props) {
                   );
                 }
               } else {
-                navigate("/loggedin");
+                navigate("/SchoolLogin");
                 dispatch(setKey(keyvalue));
               }
             }

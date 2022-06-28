@@ -8,6 +8,7 @@ import EnrollAlumni from "./Screens/EnrollAlumni";
 import AddItem from "../src/Screens/AddItem";
 import UpdateItem from "./Screens/UpdateItem";
 import Login from "./Screens/Login";
+import AlumniPanel from "./Screens/AlumniPanel";
 import AlumniTable from "./alumniLogedin/AlumniPageTable";
 import Store from "./Redux/store";
 import { Provider } from "react-redux";
@@ -26,12 +27,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/UpdateItem" element={<UpdateItem />} />
 
-          <Route path="/loggedin" element={<SchoolPanel />} />
+          <Route path="/SchoolLogin" element={<SchoolPanel />} />
           <Route path="/accounts" element={<AccountReq />} />
           <Route path="/payment" element={<StripeContainer />} />
-          {/* when admin will logedin*/}
-          <Route path="/alumnilogin" element={<AlumniTable />} />
-          {/* when alumni will logedin*/}
+          <Route path="/AlumniLogin" element={<AlumniPanel />} />
           <Route path="/additem" element={<AddItem />} />
         </Routes>
       </PersistGate>

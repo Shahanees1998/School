@@ -171,7 +171,7 @@ function AddItem() {
             </div>,
             { duration: 1000 }
           );
-          navigate("/loggedin");
+          navigate("/SchoolLogin");
         })
         .catch((err) => {
           console.log(err);
@@ -313,7 +313,7 @@ function AddItem() {
                   borderStyle: "solid",
                   borderColor: "black",
                   borderWidth: 1,
-                  backgroundColor: ''
+                  backgroundColor: "",
                 }}
                 onClick={handleUpload}
               >

@@ -21,8 +21,8 @@ function Header() {
     console.log(`data is ${data}`);
 
     if (
-      location.pathname == "/loggedin" ||
-      location.pathname == "/alumnilogin"
+      location.pathname == "/SchoolLogin" ||
+      location.pathname == "/AlumniLogin"
     ) {
       if (data == "") {
         navigate("/login");
@@ -79,7 +79,7 @@ function Header() {
               <div className="buttonContainer">
                 <button
                   className="headerButtons"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/SchoolLogin")}
                 >
                   <h3
                     style={{

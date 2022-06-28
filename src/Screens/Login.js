@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Header from "../Components/Header";
 
 import LoginComponent from "../Components/LoginComponent";
-
 function Login() {
   const [component, setcomponent] = useState("register");
 
