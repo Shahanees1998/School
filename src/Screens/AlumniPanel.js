@@ -49,6 +49,8 @@ function AlumniPanel() {
   let navigate = useNavigate();
   useEffect(() => {
     console.log("hello");
+    setData([]);
+
     onValue(
       starCountRef,
       (snapshot) => {
