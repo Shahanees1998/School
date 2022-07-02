@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Header from "../Components/Header";
 import { FaAngleRight } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { getDatabase, ref, set, onValue, push } from "firebase/database";
+import { getDatabase, ref, set, onValue, push,update } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import app, { storage } from "../firebase";
 import {
@@ -15,7 +16,6 @@ import {
 } from "firebase/storage";
 
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
 
 const db = getDatabase(app);
 
@@ -28,11 +28,11 @@ function UpdateItem() {
 
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
-  const [itemCost, setItemCost] = useState();
-  const [itemName, setItemName] = useState();
-  const [stdName, setStdName] = useState();
-  const [itemDescription, setItemDescription] = useState();
-  const [imageUrl, setImageUrl] = useState();
+  const [itemCost, setItemCost] = useState(cost);
+  const [itemName, setItemName] = useState(itemname);
+  const [stdName, setStdName] = useState(studentname);
+  const [itemDescription, setItemDescription] = useState(desc);
+  const [imageUrl, setImageUrl] = useState(image);
 
   const { key } = useSelector((state) => state.persistedReducer);
 
@@ -148,7 +148,7 @@ function UpdateItem() {
         { duration: 1000 }
       );
     } else {
-      push(ref(db, "School/" + key + "/items"), {
+      update(ref(db, "School/" + key + "/items/"+itemkey), {
         itemName,
         itemCost,
         stdName,
