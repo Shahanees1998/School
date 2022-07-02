@@ -4,12 +4,20 @@ import toast, { Toaster } from "react-hot-toast";
 import user from "../../assets/Images/user.svg";
 import document from "../../assets/Images/document.svg";
 import bank from "../../assets/Images/bank.svg";
+import {useSelector} from "react-redux";
+import {getDatabase, ref, set} from "firebase/database";
+import app from "../../firebase";
+const db = getDatabase(app);
+
 
 function Payment(props) {
+
+
+  const{key}=useSelector(state => state.persistedReducer)
   const [bankInfo, setBankInfo] = useState({
     bankName: "",
     accountName: "",
-    accoutNumber: "",
+    accountNumber: "",
     routingNumber: "",
   });
   function backHandler() {
@@ -123,7 +131,7 @@ function Payment(props) {
   function nextHandler() {
     if (
       bankInfo.accountName == "" ||
-      bankInfo.accoutNumber == "" ||
+      bankInfo.accountNumber == "" ||
       bankInfo.bankName == "" ||
       bankInfo.routingNumber == ""
     ) {
@@ -171,6 +179,16 @@ function Payment(props) {
         { duration: 1000 }
       );
     } else {
+
+        //data will be inserted from here
+
+        set(ref(db, "users/admin/" + key + "/bankInfo"), bankInfo)
+            .then(() => {
+                console.log("account data saved successfully");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
       var val = "complete";
       props.onClick(val);
     }
@@ -205,8 +223,8 @@ function Payment(props) {
     {
       id: 4,
       image: document,
-      value: bankInfo.accoutNumber,
-      name: "accoutNumber",
+      value: bankInfo.accountNumber,
+      name: "accountNumber",
 
       onch: onChangeHandler,
       ph: "Enter Account Number",

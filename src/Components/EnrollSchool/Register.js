@@ -3,14 +3,21 @@ import styled from "styled-components";
 import { getDatabase, ref, set, onValue, push } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 
+
 import app from "../../firebase";
+
 import toast, { Toaster } from "react-hot-toast";
 import user from "../../assets/Images/user.svg";
 import mail from "../../assets/Images/mail.svg";
 import lock from "../../assets/Images/lock.svg";
+import {setKey} from "../../Redux/actions";
+import {useDispatch} from "react-redux";
+
+
 const db = getDatabase(app);
 
 function Register(props) {
+    const dispatch = useDispatch()
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -153,6 +160,7 @@ function Register(props) {
 
         console.log("key", key.key);
         props.ongetval(key.key);
+        dispatch(setKey(key.key))
 
         props.onClick(val);
       }
