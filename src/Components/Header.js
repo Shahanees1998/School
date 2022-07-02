@@ -1,14 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import setLogedinEmail from "../Redux/actions";
+import Modal from "react-modal";
 import { useLocation } from "react-router-dom";
+
+import setLogedinEmail from "../Redux/actions";
+
+import DropDown from "../assets/Images/DropDown.svg";
+import LogOut from "../assets/Images/LogOut.svg";
+import Settings from "../assets/Images/Settings.svg";
 
 function Header() {
   const dispatch = useDispatch();
   const { userType } = useSelector((state) => state.persistedReducer);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const location = useLocation();
   let navigate = useNavigate();
@@ -21,8 +28,8 @@ function Header() {
     console.log(`data is ${data}`);
 
     if (
-      location.pathname == "/loggedin" ||
-      location.pathname == "/alumnilogin"
+      location.pathname == "/SchoolLogin" ||
+      location.pathname == "/AlumniLogin"
     ) {
       if (data == "") {
         navigate("/login");
@@ -33,12 +40,13 @@ function Header() {
   function loginHandler() {
     navigate("/home");
   }
+
   return (
     <Container>
       <div className="innerDiv">
         <div className="leftDiv">
-          <div className="imgDiv" onClick={() => navigate("/home")}>
-            <img src={require("../imgs/userImg.png")} className="userImg" />
+          <div className="logoContainer" onClick={() => navigate("/home")}>
+            <h3 style={{ color: "#2291F1" }}>LOGO</h3>
           </div>
         </div>
         <div className="rightDiv">
@@ -79,7 +87,7 @@ function Header() {
               <div className="buttonContainer">
                 <button
                   className="headerButtons"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/SchoolLogin")}
                 >
                   <h3
                     style={{
@@ -97,28 +105,95 @@ function Header() {
               </div>
             ) : (
               <div className="buttonContainer">
-                <button
-                  className="headerButtons"
-                  onClick={() => dispatch(setLogedinEmail(""))}
-                >
-                  <h3
+                <div onClick={() => navigate("/home")}>
+                  <img
+                    src={require("../imgs/userImg.png")}
                     style={{
-                      color: "white",
-                      alignSelf: "center",
-                      justifySelf: "center",
-                      fontSize: 20,
-                      fontWeight: "500",
+                      width: "35px",
+                      height: "35px",
+                      borderRadius: "20px",
                     }}
-                  >
-                    {" "}
-                    Logout
-                  </h3>
-                </button>
+                  />
+                </div>
+                <div onClick={() => setModalVisible(true)}>
+                  <img
+                    src={DropDown}
+                    style={{
+                      marginLeft: "20px",
+                      width: "15px",
+                      height: "15px",
+                    }}
+                  />
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}
+        style={{
+          overlay: {
+            backdropFilter: "blur(none)",
+          },
+          content: {
+            position: "absolute",
+            top: "5%",
+            left: "90%",
+            right: "auto",
+            width: "7%",
+            overflow: "hidden",
+            bottom: "78%",
+            borderWidth: 0,
+            backgroundColor: "transparent",
+
+            outline: "none",
+          },
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            outline: "none",
+          }}
+        >
+          <div
+            style={{
+              minWidth: "100%",
+              height: "50%",
+              display: "flex",
+              alignItems: "center",
+              borderBottom: "1px solid #ccc",
+              justifyContent: "space-evenly",
+            }}
+            onClick={() => navigate("/settings")}
+          >
+            <img src={Settings} style={{ width: "20px", height: "20px" }} />
+            <h6 style={{ margin: 0, color: "#0E3746" }}>Settings</h6>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+            }}
+            onClick={() => {
+              dispatch(setLogedinEmail(""));
+              setModalVisible(false);
+            }}
+          >
+            <img src={LogOut} style={{ width: "20px", height: "20px" }} />
+
+            <h6 style={{ margin: 0, color: "#0E3746" }}>Logout</h6>
+          </div>
+        </div>
+      </Modal>
     </Container>
   );
 }
@@ -147,6 +222,10 @@ const Container = styled.div`
     width: 15%;
     border-radius: 70%;
     overflow: hidden;
+  }
+  .logoCotainer {
+    height: 60%;
+    width: 25%;
   }
   .userImg {
     width: 100%;

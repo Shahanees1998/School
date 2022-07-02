@@ -8,7 +8,10 @@ import { useSelector, useDispatch } from "react-redux";
 import setLogedinEmail, { setAlumniSchoolName, setKey } from "../Redux/actions";
 import { setLoginUserType } from "../Redux/actions";
 import app from "../firebase";
-
+import mail from "../assets/Images/mail.svg";
+import lock from "../assets/Images/lock.svg";
+import Alumni from "../assets/Images/Alumni.svg";
+import school from "../assets/Images/school.svg";
 const db = getDatabase(app);
 function LoginComponent(props) {
   const dispatch = useDispatch();
@@ -151,7 +154,7 @@ function LoginComponent(props) {
                   dispatch(setAlumniSchoolName(SchoolName));
                   dispatch(setLoginUserType("Alumni"));
                   console.log("setAlumniSchoolName", SchoolName);
-                  navigate("/alumnilogin");
+                  navigate("/AlumniLogin");
                 } else {
                   console.log("Sorry!, you are not approved");
                   toast.custom(
@@ -202,7 +205,7 @@ function LoginComponent(props) {
                 dispatch(setKey(keyvalue));
                 dispatch(setLoginUserType("Admin"));
 
-                navigate("/loggedin");
+                navigate("/SchoolLogin");
               }
             }
           }
@@ -212,7 +215,7 @@ function LoginComponent(props) {
                 if (approveCheck) {
                   console.log("sch", SchoolName);
                   dispatch(setAlumniSchoolName(SchoolName));
-                  navigate("/alumnilogin");
+                  navigate("/AlumniLogin");
                 } else {
                   console.log("Sorry!, you are not approved");
                   toast.custom(
@@ -260,7 +263,7 @@ function LoginComponent(props) {
                   );
                 }
               } else {
-                navigate("/loggedin");
+                navigate("/SchoolLogin");
                 dispatch(setKey(keyvalue));
               }
             }
@@ -366,42 +369,36 @@ function LoginComponent(props) {
 
   return (
     <Container>
-      <div className="emailMainDiv">
-        <div className="emailDiv">
-          <div className="h3Div2">
-            <h3>Email</h3>
-          </div>
-          <div className="emailInputDiv">
-            <input
-              style={{ outline: "none" }}
-              placeholder="enter email"
-              name="email"
-              value={email}
-              onChange={onChangeHandler}
-            />
-          </div>
-        </div>
+      <div className="inputsConatiner">
+        <img src={mail} style={{ width: "30px", height: "30px" }} />
+        <input
+          className="inputDiv"
+          style={{ outline: "none" }}
+          placeholder="enter email"
+          name="email"
+          value={email}
+          onChange={onChangeHandler}
+        />
       </div>
-
-      <div className="emailMainDiv">
-        <div className="emailDiv">
-          <div className="h3Div2">
-            <h3>Password</h3>
-          </div>
-          <div className="emailInputDiv">
-            <input
-              style={{ outline: "none" }}
-              type="password"
-              placeholder="enter password"
-              name="password"
-              value={password}
-              onChange={onChangeHandler}
-            />
-          </div>
-        </div>
+      <div className="inputsConatiner">
+        <img src={lock} style={{ width: "30px", height: "30px" }} />
+        <input
+          className="inputDiv"
+          style={{ outline: "none" }}
+          type="password"
+          placeholder="enter password"
+          name="password"
+          value={password}
+          onChange={onChangeHandler}
+        />
       </div>
       <div
-        style={{ flexDirection: "row", marginLeft: "40px", marginTop: "30px" }}
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          flexDirection: "row",
+          width: "70%",
+        }}
       >
         <div style={{ flexDirection: "row" }}>
           <input
@@ -413,7 +410,11 @@ function LoginComponent(props) {
             checked={userType == "Admin"}
             onChange={handleAdmin}
           />
-          Admin
+          <img
+            src={school}
+            style={{ marginInline: "12px", width: "15px", height: "15px" }}
+          />
+          <h5 style={{ color: "#2291F1" }}>School</h5>
         </div>
         <div style={{ flexDirection: "row" }}>
           <input
@@ -425,18 +426,20 @@ function LoginComponent(props) {
             checked={userType == "Alumni"}
             onChange={handleAlumni}
           />
-          Alumni
+          <img
+            src={Alumni}
+            style={{ marginInline: "12px", width: "15px", height: "15px" }}
+          />
+          <h5 style={{ color: "#2291F1" }}>Alumni</h5>
         </div>
       </div>
+      <button
+        className="inputsConatiner button blueBack"
+        onClick={() => nextHandler()}
+      >
+        <h3 className="whiteText">Login</h3>
+      </button>
 
-      <div className="btnMainDiv">
-        <div className="btnInnerDiv">
-          <div className="btnDiv">
-            <button onClick={() => nextHandler()}>Login</button>
-          </div>
-          <p>StudentBook does not sell your information to anyone</p>
-        </div>
-      </div>
       <Toaster />
     </Container>
   );
@@ -446,118 +449,49 @@ export default LoginComponent;
 
 const Container = styled.div`
   //background-color: green;
-  height: 76vh;
+  height: 75vh;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  .firstNameLastNameDiv {
-    //background-color: yellow;
-    display: flex;
-    height: 18%;
-  }
-  .firstNameDiv {
-    height: 100%;
-    width: 20%;
-    //background-color: aqua;
-    margin-left: 2%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .lastNameDiv {
-    height: 100%;
-    width: 20%;
-    //background-color: aliceblue;
-    margin-left: 2%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .h3Div {
-    //background-color: blueviolet;
-    height: 50%;
-    width: 90%;
-    display: flex;
-    align-items: center;
-  }
-  .inputDiv {
-    height: 50%;
-    width: 90%;
-    //background-color: azure;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 7px;
-    border: 1px solid black;
-    //border-color: brown;
-  }
-  input {
-    border: 0px;
-  }
-  .emailMainDiv {
-    //background-color: yellow;
-    height: 18%;
-  }
-  .emailDiv {
-    //background-color: aqua;
-    height: 100%;
-    width: 20%;
-    margin-left: 2%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .h3Div2 {
-    //background-color: blueviolet;
-    height: 50%;
-    width: 90%;
-    display: flex;
-    align-items: center;
-  }
-  .emailInputDiv {
-    //background-color: aliceblue;
-    height: 50%;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 7px;
-    border: 1px solid black;
-  }
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 20px;
 
-  .btnMainDiv {
-    //background-color: aqua;
-    height: 18%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .btnInnerDiv {
-    //background-color: red;
-    height: 100%;
-    width: 94%;
+  .inputsConatiner {
+    height: 10%;
+    width: 60%;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  .btnDiv {
-    //background-color: gray;
-    height: 50%;
-    width: 16%;
-    //border: 1px solid black;
+  .select {
+    justify-content: flex-start;
   }
-  button {
-    background-color: gray;
-    height: 100%;
-    width: 100%;
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #2291f1;
+  }
+  .blueBack {
+    background-color: #2291f1;
+  }
+  .whiteText {
     color: white;
-    font-size: 20px;
-    border-radius: 5px;
-    border: 0px;
+  }
+  .blueText {
+    color: #2291f1;
+  }
+  .inputDiv {
+    height: 100%;
+    padding-inline: 10px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    padding-left: 20px !important;
+    border-radius: 7px;
+    border: 1px solid rgba(218, 221, 225, 0.4);
   }
 `;

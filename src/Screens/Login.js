@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Header from "../Components/Header";
+
+import registerImage from "../assets/Images/registerImage.svg";
 
 import LoginComponent from "../Components/LoginComponent";
-
 function Login() {
   const [component, setcomponent] = useState("register");
 
@@ -13,14 +13,14 @@ function Login() {
 
   return (
     <>
-      <Header />
       <Container>
-        <div className="innerDiv">
-          <h3>Login</h3>
+        <div className="leftChild">
+          <LoginComponent onClick={componentHandler} />
+        </div>
+        <div className="rightChild">
+          <img src={registerImage} id="img" />
         </div>
       </Container>
-
-      <LoginComponent onClick={componentHandler} />
     </>
   );
 }
@@ -28,17 +28,43 @@ function Login() {
 export default Login;
 
 const Container = styled.div`
-  background-color: white;
-  height: 12vh;
-  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  .innerDiv {
-    //background-color: yellow;
+  .bgImage {
+    position: fixed;
+    bottom: 0;
+    background-position-x: right;
+    background: url(${registerImage});
+    background-repeat: no-repeat;
+    width: 100%;
     height: 100%;
-    width: 80%;
+  }
+  #img {
+    display: block;
+    width: 40vw;
+    align-self: flex-end;
+    height: 100vh;
+    object-fit: cover;
+  }
+  .leftChild {
+    height: 90%;
+    width: 60%;
+    padding-top: 1%;
+    padding-left: 1%;
+    display: flex;
+    flex-direction: column;
+  }
+  .rightChild {
+    height: 100%;
+    margin: 0;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
   }
 `;

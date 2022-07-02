@@ -18,6 +18,7 @@ const db = getDatabase(app);
 
 function AccountsReq() {
   const [deleteCheck, setdeleteCheck] = useState(false);
+  const HaederList = ["Name", "Graduation Year", "Phone Number", "Status"];
 
   const DeleteItem = (id) => {
     console.log(id);
@@ -62,6 +63,7 @@ function AccountsReq() {
           onValue(ref(db, "School/" + key), (innerSnapshot) => {
             console.log("buzz key", innerSnapshot.key);
             console.log("buzz value", innerSnapshot.val().schoolName);
+            console.log("child value", childData);
 
             if (innerSnapshot.val().schoolName == childData.schoolInfo.schoolName) {
               if (!childData.approve) {
@@ -103,17 +105,9 @@ function AccountsReq() {
               justifyContent: "center",
             }}
           >
-            <h4>{item.email}</h4>
-          </div>
-          <div
-            style={{
-              width: "15%",
-              display: " flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h4>{item.firstName}</h4>
+            <h4 className="cutText">
+              {item.firstName} {item.lastName}
+            </h4>
           </div>
 
           <div
@@ -124,7 +118,7 @@ function AccountsReq() {
               justifyContent: "center",
             }}
           >
-            <h4>{item.lastName}</h4>
+            <h4 className="cutText">{item.gYear}</h4>
           </div>
 
           <div
@@ -136,18 +130,7 @@ function AccountsReq() {
             }}
           >
             {" "}
-            <h4>{item.alumniSchoolname}</h4>
-          </div>
-
-          <div
-            style={{
-              width: "15%",
-              display: " flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h4>{item.gYear}</h4>
+            <h4 className="cutText">{item.schoolInfo.alumniNumber}</h4>
           </div>
 
           <div
@@ -190,84 +173,35 @@ function AccountsReq() {
     return (
       <>
         <Header />
-        <div className="nav">
-          <div className="leftDiv">
-            <button onClick={() => navigate("/loggedin")}>move back</button>
-          </div>
-        </div>
+
         <Container>
+          <div className="nav">
+            <h3>School Dashboard</h3>
+          </div>
+          <div className="schoolPanelHeaderContainer">
+            {HaederList.map((item) => {
+              return (
+                <div
+                  key={item}
+                  style={{
+                    width: "15%",
+                    display: " flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {item == "nill" || item == "nil" ? null : <h6>{item}</h6>}
+                </div>
+              );
+            })}
+          </div>
           <div className="innerDiv">
-            <div className="tableHeaderDiv">
-              <div
-                style={{
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>email</h5>
-              </div>
-
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>first name</h5>
-              </div>
-
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>phone number</h5>
-              </div>
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>school name</h5>
-              </div>
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>graduation year</h5>
-              </div>
-
-              <div
-                style={{
-                  width: "17%",
-                  display: " flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <h5>Approve/disApprove</h5>
-              </div>
-            </div>
             {data.map((item, index) => {
               return addTodo(item, index);
             })}
-
-            <div className="paragraphDiv">
-              <p>StudentBook does not sell your information to anyone</p>
-            </div>
+          </div>
+          <div className="backButton">
+            <button onClick={() => navigate("/SchoolLogin")}>move back</button>
           </div>
         </Container>
       </>
@@ -279,23 +213,46 @@ export default AccountsReq;
 const Container = styled.div`
   //background-color: gray;
   height: 79.7vh;
-  width: 100%;
+  width: 98%;
+  margin-inline: 1%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   .nav {
     background-color: white;
     height: 10vh;
     width: 100%;
     display: flex;
     flex-direction: row;
-    margin-top: 50px;
+    margin-top: 10px;
   }
-  .leftDiv {
-    //background-color: yellowgreen;
-    height: 100%;
-    width: 40%;
+  .cutText {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #0e3746;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .schoolPanelHeaderContainer {
+    height: 7%;
+    width: 100%;
+    background-color: rgba(34, 145, 241, 0.14);
+    display: flex;
+    margin-top: 20;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .backButton {
+    width: 10%;
+    height: 50px;
     margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    background-color: #2291f1;
   }
   .rightDiv {
     //background-color: yellow;
@@ -307,7 +264,7 @@ const Container = styled.div`
   }
   .rows {
     width: 100%;
-    height: 8%;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -320,6 +277,8 @@ const Container = styled.div`
     //background-color: aqua;
     height: 100%;
     width: 95%;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
     overflow: auto;
   }
   .tableHeaderDiv {
@@ -342,7 +301,7 @@ const Container = styled.div`
     width: 17%;
   }
   button {
-    background-color: gray;
+    background-color: #2291f1;
     width: 100%;
     height: 100%;
     border: 0px;

@@ -3,39 +3,52 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { getDatabase, ref, set, onValue } from "firebase/database";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Header from "../Components/Header";
 import dummyimage from "../assets/Images/dummyimage.png";
 import trsh from "../assets/Images/trsh.png";
 
 import app from "../firebase";
-import edit from "../assets/Images/edit.svg";
 import noitems from "../assets/Images/noitems.svg";
 const db = getDatabase(app);
 
-function SchoolPanel() {
-  const [deleteId, setDeletedId] = useState(false);
-  const { key } = useSelector((state) => state.persistedReducer);
-  const [deleteCheck, setdeleteCheck] = useState(false);
-
-  const DeleteItem = () => {
-    console.log("delted id", deleteId);
-    set(ref(db, "School/" + key + "/items/" + deleteId), null);
-    deleteCheck ? setdeleteCheck(false) : setdeleteCheck(true);
-  };
+function AlumniPanel() {
   const [check, setCheck] = useState(false);
-
   const [data, setData] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  console.log("key is", key);
+  const [showItem, setShowItem] = useState(false);
 
-  // key should be dynamic
+  const { alumniSchoolname } = useSelector((state) => state.persistedReducer);
+  // console.log('ghias',key,'alSchoolName', alumniSchoolname)
+  const dispatch = useDispatch();
+  let key = "";
+
+  const dbRef = ref(db, "School");
+  onValue(dbRef, (snapshot) => {
+    snapshot.forEach((childDatasnapShot) => {
+      if (childDatasnapShot.val().schoolName == alumniSchoolname) {
+        console.log("key in right noew", childDatasnapShot.key);
+        //dispatch(setKey(childDatasnapShot.key))
+        key = childDatasnapShot.key;
+      } else {
+        console.log(
+          "else key in right noew",
+          childDatasnapShot.val(),
+          "schname",
+          alumniSchoolname
+        );
+      }
+    });
+  });
+
+  //  const { key,alumnikey } = useSelector(state => state.persistedReducer)
+
   const starCountRef = ref(db, "School/" + key + "/items");
 
+  // dispatch(setKey(key))
   let navigate = useNavigate();
-
   useEffect(() => {
+    console.log("hello");
     setData([]);
 
     onValue(
@@ -45,9 +58,18 @@ function SchoolPanel() {
           const childKey = childSnapshot.key;
           const childData = childSnapshot.val();
           childData["itemKey"] = childKey;
-          console.log("child data", childData);
-          setData((prev) => [...prev, childData]);
-          console.log("child data array", data, "length", data.length);
+
+          onValue(ref(db, "School/" + key), (innerSnapshot) => {
+            innerSnapshot.forEach((innerChildsnapshot) => {
+              console.log("forEach", innerChildsnapshot.val());
+              if (innerChildsnapshot.val() == alumniSchoolname) {
+                console.log("child data should bee called", childData);
+                setData((prev) => [...prev, childData]);
+              }
+            });
+          });
+          // console.log('child data should bee called',childData);
+          // setData((prev)=>[...prev,childData])
           // ...
         });
         setCheck(true);
@@ -56,7 +78,7 @@ function SchoolPanel() {
         onlyOnce: false,
       }
     );
-  }, [deleteCheck]);
+  }, [check]);
   const addTodo = useCallback(
     (item, index) => {
       console.log(`item image ${item.imageUrl}`);
@@ -136,38 +158,28 @@ function SchoolPanel() {
               justifyContent: "space-evenly",
             }}
           >
-            <img
-              src={trsh}
-              style={{ width: 20, height: 20 }}
-              onClick={() => {
-                setModalVisible(true);
-                setDeletedId(item.itemKey);
-              }}
-            />
-
-            <img
-              src={edit}
-              style={{ width: 20, height: 20 }}
-              onClick={() => {
-                navigate("/UpdateItem", {
-                  state: {
-                    itemkey: item.itemKey,
-                    desc: item.itemDescription,
-                    studentname: item.stdName,
-                    cost: item.itemCost,
-                    itemname: item.itemName,
-                    image: item.imageUrl,
-                  },
-                });
-              }}
-            />
+            <button
+              onClick={() =>
+                payHandler(item.itemCost, item.itemName, item.itemKey)
+              }
+            >
+              Pay
+            </button>
           </div>
         </div>
       );
     },
     [data]
   );
+  function payHandler(passedAmount, desc, itemKey) {
+    //   navigate('/addInfo')
+    //dispatch(setAmount(passedAmount))
+    navigate("/payment", {
+      state: { amount: passedAmount, desc: desc, itemKey: itemKey },
+    });
 
+    //    setShowItem(true);
+  }
   function addHandler() {
     navigate("/additem");
   }
@@ -183,19 +195,10 @@ function SchoolPanel() {
             <div className="leftDiv">
               <h3>Needs</h3>
             </div>
-            <div className="rightDiv">
-              <button onClick={() => addHandler()} className="button">
-                <h4 style={{ color: "#2291F1" }}>Add New</h4>
-              </button>
-
-              <button onClick={() => navigate("/accounts")} className="button">
-                <h4 style={{ color: "#2291F1" }}>Accounts Requests</h4>
-              </button>
-            </div>
           </div>
           {data.length > 0 ? (
             <div className="innerDiv">
-              <div className="schoolPanelHeaderContainer">
+              <div className="AlumniPanelHeaderContainer">
                 {HaederList.map((item) => {
                   return (
                     <div
@@ -229,92 +232,16 @@ function SchoolPanel() {
             >
               <img src={noitems} />
               <h4 style={{ color: "rgba(14, 55, 70, 0.4)" }}>
-                You did not have any item in your list Click "Add new" to add
-                your school needs
+                This school does not have any listed Needs
               </h4>
             </div>
           )}
-          <Modal
-            isOpen={modalVisible}
-            onRequestClose={() => setModalVisible(!modalVisible)}
-            style={{
-              overlay: {
-                backgroundColor: "rgba(255, 255, 255, 0.75)",
-              },
-              content: {
-                position: "absolute",
-                top: "21.3%",
-                left: "35%",
-                right: "auto",
-                width: "30%",
-                bottom: "40%",
-                border: "1px solid #ccc",
-                background: "#fff",
-
-                WebkitOverflowScrolling: "touch",
-                borderRadius: "4px",
-                outline: "none",
-                padding: "20px",
-              },
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                flexDirection: "column",
-                height: "90%",
-                display: "flex",
-                paddingTop: "3%",
-                alignItems: "center",
-                justifyContent: "space-evenly",
-              }}
-            >
-              <div
-                style={{
-                  width: "60px",
-                  height: "60px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "rgba(255, 0, 0, 0.14)",
-                  borderRadius: 30,
-                }}
-              >
-                <h4 style={{ color: "white", fontSize: "20px" }}>X</h4>
-              </div>
-              <h3
-                style={{
-                  marginTop: "2%",
-                  marginLeft: "3%",
-                  fontWeight: "500",
-                  color: "rgba(255, 0, 0, 0.14)",
-                }}
-              >
-                Are you sure to delete this Item
-              </h3>
-              <button
-                onClick={() => {
-                  DeleteItem();
-                  setModalVisible(false);
-                }}
-                className="button"
-                style={{
-                  backgroundColor: " rgba(255, 0, 0, 0.14)",
-                  borderWidth: 0,
-                  width: "45%",
-                  borderRadius: 10,
-                }}
-              >
-                <h4 style={{ color: "white" }}>Confirm Delete</h4>
-              </button>
-            </div>
-          </Modal>
         </Container>
       </>
     );
 }
 
-export default SchoolPanel;
+export default AlumniPanel;
 
 const Container = styled.div`
   //background-color: gray;
@@ -348,14 +275,7 @@ const Container = styled.div`
     justify-content: flex-start;
     background-color: white;
   }
-  .button {
-    width: 30%;
-    margin-left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(34, 145, 241, 0.14);
-  }
+
   .rightDiv {
     //background-color: yellow;
     height: 70%;
@@ -381,7 +301,7 @@ const Container = styled.div`
     width: 95%;
     overflow: auto;
   }
-  .schoolPanelHeaderContainer {
+  .AlumniPanelHeaderContainer {
     height: 7%;
     background-color: rgba(34, 145, 241, 0.14);
     display: flex;
@@ -402,9 +322,9 @@ const Container = styled.div`
     width: 17%;
   }
   button {
-    background-color: gray;
-    width: 100%;
-    height: 100%;
+    background-color: #2291f1;
+    width: 70%;
+    height: 30px;
     border: 0px;
     color: white;
     border-radius: 5px;

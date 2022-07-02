@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import { FaAngleRight } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+
 import { getDatabase, ref, set, onValue, push } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import app, { storage } from "../firebase";
@@ -17,25 +19,46 @@ import { useSelector } from "react-redux";
 
 const db = getDatabase(app);
 
-function AddItem() {
+function UpdateItem() {
+  const location = useLocation();
+
+  const { itemkey, desc, studentname, cost, itemname, image } = location.state;
+  //console.log(location.state.amount);
   let navigate = useNavigate();
 
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
-
-  const [itemInfo, setItemInfo] = useState({
-    itemName: "",
-    itemCost: "",
-    stdName: "",
-    itemDescription: "",
-    imageUrl: "",
-  });
+  const [itemCost, setItemCost] = useState();
+  const [itemName, setItemName] = useState();
+  const [stdName, setStdName] = useState();
+  const [itemDescription, setItemDescription] = useState();
+  const [imageUrl, setImageUrl] = useState();
 
   const { key } = useSelector((state) => state.persistedReducer);
 
   const onChangeHandler = (event) => {
-    const { name, value } = event.target;
-    setItemInfo({ ...itemInfo, [name]: value });
+    const inputName = event.target.name;
+    const inputValue = event.target.value;
+    switch (inputName) {
+      case "itemName":
+        setItemName(inputValue);
+        break;
+      case "itemCost":
+        setItemCost(inputValue);
+        break;
+      case "itemDescription":
+        setItemDescription(inputValue);
+        break;
+      case "stdName":
+        setStdName(inputValue);
+        break;
+      case "imageUrl":
+        setImageUrl(inputValue);
+        break;
+      default:
+        console.log("default");
+        break;
+    }
   };
 
   // Handles input change event and updates state
@@ -67,7 +90,7 @@ function AddItem() {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log("url", url);
-          setItemInfo({ ...itemInfo, imageUrl: url });
+          setImageUrl(url);
         });
       }
     );
@@ -76,10 +99,10 @@ function AddItem() {
   console.log("hello");
   const onSubmitHandler = () => {
     if (
-      itemInfo.itemName == "" ||
-      itemInfo.itemCost == "" ||
-      itemInfo.stdName == "" ||
-      itemInfo.itemDescription == ""
+      itemName == "" ||
+      itemCost == "" ||
+      stdName == "" ||
+      itemDescription == ""
     ) {
       toast.custom(
         <div
@@ -125,7 +148,13 @@ function AddItem() {
         { duration: 1000 }
       );
     } else {
-      push(ref(db, "School/" + key + "/items"), itemInfo)
+      push(ref(db, "School/" + key + "/items"), {
+        itemName,
+        itemCost,
+        stdName,
+        itemDescription,
+        imageUrl,
+      })
         .then(() => {
           console.log("data saved successfully");
           toast.custom(
@@ -206,7 +235,7 @@ function AddItem() {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log("url", url);
-          setItemInfo({ ...itemInfo, imageUrl: url });
+          setImageUrl(url);
         });
       }
     );
@@ -219,7 +248,7 @@ function AddItem() {
       onch: onChangeHandler,
       ph: "Enter item Name",
       name: "itemName",
-      value: itemInfo.itemName,
+      value: itemName,
     },
     {
       id: 2,
@@ -227,7 +256,7 @@ function AddItem() {
       title: "Student Name",
       ph: "Enter Student Name",
       name: "stdName",
-      value: itemInfo.stdName,
+      value: stdName,
     },
     {
       id: 3,
@@ -235,15 +264,23 @@ function AddItem() {
       title: "Description",
       ph: "Enter Description",
       name: "itemDescription",
-      value: itemInfo.itemDescription,
+      value: itemDescription,
     },
   ];
+  const up = 0;
+  useEffect(() => {
+    setItemName(itemname);
+    setItemCost(cost);
+    setStdName(studentname);
+    setItemDescription(desc);
+    setImageUrl(image);
+  }, [up]);
   return (
     <>
       <Header />
       <Container>
         <div className="headingText">
-          <h3>Add New Item</h3>
+          <h3>Update Item</h3>
         </div>
         <div className="addItemContainer">
           {InputsList.map((item) => {
@@ -280,7 +317,7 @@ function AddItem() {
               }}
               placeholder="Enter Cost"
               name="itemCost"
-              value={itemInfo.itemCost}
+              value={itemCost}
               onChange={onChangeHandler}
             />
           </div>
@@ -353,7 +390,7 @@ function AddItem() {
   );
 }
 
-export default AddItem;
+export default UpdateItem;
 
 const Container = styled.div`
   //background-color: burlywood;
