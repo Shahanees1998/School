@@ -29,7 +29,7 @@ function AccountsReq() {
   const { key, alumniSchoolName } = useSelector(
     (state) => state.persistedReducer
   );
-  console.log("key is", key);
+  console.log("key is nothing man", key);
 
   // key should be dynamic
   const starCountRef = ref(db, "users/alumni");
@@ -63,9 +63,7 @@ function AccountsReq() {
             console.log("buzz key", innerSnapshot.key);
             console.log("buzz value", innerSnapshot.val().schoolName);
 
-            if (
-              innerSnapshot.val().schoolName == childData.schoolInfo.schoolName
-            ) {
+            if (innerSnapshot.val().schoolName == childData.schoolInfo.schoolName) {
               if (!childData.approve) {
                 childData["alumniKey"] = childKey;
                 childData["alumniSchoolname"] = childData.schoolInfo.schoolName;
