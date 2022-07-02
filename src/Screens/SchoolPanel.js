@@ -60,6 +60,8 @@ function SchoolPanel() {
   const addTodo = useCallback(
     (item, index) => {
       console.log(`item image ${item.imageUrl}`);
+
+
       return (
         <div className="rows">
           <div

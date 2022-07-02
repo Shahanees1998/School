@@ -4,8 +4,8 @@ import Header from "../Components/Header";
 import { FaAngleRight } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-import { getDatabase, ref, set, onValue, push,update } from "firebase/database";
+import {deleteObject} from 'firebase/storage'
+import { getDatabase, ref, set, onValue, push,update  } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import app, { storage } from "../firebase";
 import {
@@ -22,9 +22,24 @@ const db = getDatabase(app);
 function UpdateItem() {
   const location = useLocation();
 
+
   const { itemkey, desc, studentname, cost, itemname, image } = location.state;
   //console.log(location.state.amount);
   let navigate = useNavigate();
+
+    let url = image+"";
+
+    // note below url will be different for every project, So update it if new firebase app is made from client
+    const baseUrl = "https://firebasestorage.googleapis.com/v0/b/school-management-system-79f54.appspot.com/o/";
+
+    var imagePath = url.replace(baseUrl,"");
+
+    const indexOfEndPath = imagePath.indexOf("?");
+
+    imagePath = imagePath.substring(0,indexOfEndPath);
+
+    imagePath = imagePath.replace("%2F","/");
+    console.log("omage name", imagePath)
 
   const [file, setFile] = useState("");
   const [percent, setPercent] = useState(0);
@@ -156,7 +171,12 @@ function UpdateItem() {
         imageUrl,
       })
         .then(() => {
-          console.log("data saved successfully");
+          console.log("data updated successfully",imagePath);
+            deleteObject(sRef(storage,imagePath)).then(() => {
+                console.log(' File deleted successfully');
+            }).catch((error) => {
+                console.log("delete error:", error)
+            });
           toast.custom(
             <div
               style={{
