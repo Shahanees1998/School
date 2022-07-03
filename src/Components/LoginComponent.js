@@ -202,10 +202,57 @@ function LoginComponent(props) {
                   );
                 }
               } else {
+                  if(approveCheck){
                 dispatch(setKey(keyvalue));
                 dispatch(setLoginUserType("Admin"));
 
-                navigate("/SchoolLogin");
+                navigate("/SchoolLogin");}
+                  else{
+                      console.log("Sorry!, you are not approved");
+                      toast.custom(
+                          <div
+                              style={{
+                                  marginTop: "5%",
+                                  width: "100%",
+                                  height: "6vh",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "flex-start",
+                              }}
+                          >
+                              <div
+                                  style={{
+                                      alignSelf: "flex-start",
+                                      width: "30%",
+                                      height: "100%",
+                                      borderLeftWidth: "8px",
+                                      borderColor: "red",
+                                      borderStyle: "solid",
+                                      borderBottomWidth: 0,
+                                      borderRightWidth: 0,
+                                      borderTopWidth: 0,
+                                      borderRadius: 5,
+                                      backgroundColor: "#F5F5F5",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                  }}
+                              >
+                                  <h3
+                                      style={{
+                                          color: "#515C6F",
+                                          fontFamily: "GraphikMedium",
+                                          fontWeight: "100",
+                                          fontSize: "12px",
+                                      }}
+                                  >
+                                      You are not approved
+                                  </h3>
+                              </div>
+                          </div>,
+                          { duration: 1000 }
+                      );
+                  }
               }
             }
           }
@@ -217,6 +264,7 @@ function LoginComponent(props) {
                   dispatch(setAlumniSchoolName(SchoolName));
                   navigate("/AlumniLogin");
                 } else {
+
                   console.log("Sorry!, you are not approved");
                   toast.custom(
                     <div
@@ -263,8 +311,56 @@ function LoginComponent(props) {
                   );
                 }
               } else {
-                navigate("/SchoolLogin");
-                dispatch(setKey(keyvalue));
+                  if(approveCheck) {
+                      navigate("/SchoolLogin");
+                      dispatch(setKey(keyvalue));
+                  }
+                  else{
+                      console.log("Sorry!, you are not approved");
+                      toast.custom(
+                          <div
+                              style={{
+                                  marginTop: "5%",
+                                  width: "100%",
+                                  height: "6vh",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "flex-start",
+                              }}
+                          >
+                              <div
+                                  style={{
+                                      alignSelf: "flex-start",
+                                      width: "30%",
+                                      height: "100%",
+                                      borderLeftWidth: "8px",
+                                      borderColor: "red",
+                                      borderStyle: "solid",
+                                      borderBottomWidth: 0,
+                                      borderRightWidth: 0,
+                                      borderTopWidth: 0,
+                                      borderRadius: 5,
+                                      backgroundColor: "#F5F5F5",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                  }}
+                              >
+                                  <h3
+                                      style={{
+                                          color: "#515C6F",
+                                          fontFamily: "GraphikMedium",
+                                          fontWeight: "100",
+                                          fontSize: "12px",
+                                      }}
+                                  >
+                                      You are not approved
+                                  </h3>
+                              </div>
+                          </div>,
+                          { duration: 1000 }
+                      );
+                  }
               }
             }
           }

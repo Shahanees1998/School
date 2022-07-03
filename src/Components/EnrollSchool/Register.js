@@ -156,6 +156,7 @@ function Register(props) {
           email,
           password,
           confirmPass,
+            approve:false
         });
 
         console.log("key", key.key);

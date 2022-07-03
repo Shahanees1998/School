@@ -19,11 +19,11 @@ import DropDown from "../assets/Images/DropDown.svg";
 
 const db = getDatabase(app);
 
-function AccountsReq() {
+function AdminPanel() {
     const [modalVisible, setModalVisible] = useState("");
 
     const [deleteCheck, setdeleteCheck] = useState(false);
-    const HaederList = ["Name", "Graduation Year", "Phone Number", "Status"];
+    const HaederList = ["Name", "Email", "Phone Number", "Status"];
     const StatusList = ["Pending"];
     const DeleteItem = (id) => {
         console.log(id);
@@ -32,32 +32,29 @@ function AccountsReq() {
     const [dummyCheck, setDummyCheck] = useState(false);
     const [buttonPressed, setButtonPresed] = useState("Pending");
     const [data, setLogedinEmail] = useState([]);
-    const [approveAlumni,setApprovedAlumni] = useState([])
     const { key, alumniSchoolName } = useSelector(
         (state) => state.persistedReducer
     );
     console.log("key is", key);
 
     // key should be dynamic
-    const starCountRef = ref(db, "users/alumni");
+    const starCountRef = ref(db, "users/admin");
 
     let navigate = useNavigate();
     const onApproveHandler = (alKey) => {
         console.log("approve called", alKey);
-        set(ref(db, "users/alumni/" + alKey + "/approve"), true);
+        set(ref(db, "users/admin/" + alKey + "/approve"), true);
         dummyCheck ? setDummyCheck(false) : setDummyCheck(true);
         setLogedinEmail([]);
     };
 
     const onDisapproveHandler = (alKey) => {
         console.log("disaprove called", alKey);
-        set(ref(db, "users/alumni/" + alKey), null);
+        set(ref(db, "users/admin/" + alKey), null);
+        set(ref(db,"School/"+alKey),null);
         deleteCheck ? setdeleteCheck(false) : setdeleteCheck(true);
         setLogedinEmail([]);
     };
-
-    // ---------
-    //----------
     console.log(`modalllllllllllllllllllllllllllllllllll ${modalVisible}`);
     useEffect(() => {
         onValue(
@@ -67,37 +64,15 @@ function AccountsReq() {
                     const childKey = childSnapshot.key;
                     const childData = childSnapshot.val();
 
-                    //onValue(ref(db,"users/alumni/"+childKey))
+                    console.log("admin data", childData);
 
-                    onValue(ref(db, "School/" + key), (innerSnapshot) => {
-                        console.log("buzz key", innerSnapshot.key);
-                        console.log("buzz value", innerSnapshot.val().schoolName);
-                        console.log("child value", childData);
+                    if(!childData.approve){
+                        childData["alumniKey"] = childKey;
+                        setLogedinEmail((prev) => [...prev, childData]);
 
-                        if (
-                            innerSnapshot.val().schoolName == childData.schoolInfo.schoolName
-                        ) {
-                            if (!childData.approve) {
-                                childData["alumniKey"] = childKey;
-                                childData["alumniSchoolname"] = childData.schoolInfo.schoolName;
-                                childData["gYear"] = childData.schoolInfo.graduationyear;
-                                setLogedinEmail((prev) => [...prev, childData]);
-                            }
-                            // else if(childData.approve){
-                            //     childData["alumniKey"] = childKey;
-                            //     childData["alumniSchoolname"] = childData.schoolInfo.schoolName;
-                            //     childData["gYear"] = childData.schoolInfo.graduationyear;
-                            //     setApprovedAlumni((prev) => [...prev, childData]);
-                            // }
-                        }
-                    });
-                    // childData['alumniKey'] = childKey;
-                    console.log("child data", childData.schoolInfo.schoolName);
-                    // if(!childData.approve){
-                    //     setLogedinEmail((prev) => [...prev, childData]);
-                    // }
-                    console.log("child data array", data, "length", data.length);
-                    // ...
+                    }
+
+
                 });
                 setCheck(true);
             },
@@ -130,7 +105,7 @@ function AccountsReq() {
                         justifyContent: "center",
                     }}
                 >
-                    <h4 className="cutText">{item.gYear}</h4>
+                    <h4 className="cutText">{item.email}</h4>
                 </div>
 
                 <div
@@ -142,7 +117,7 @@ function AccountsReq() {
                     }}
                 >
                     {" "}
-                    <h4 className="cutText">{item.schoolInfo.alumniNumber}</h4>
+                    <h4 className="cutText">{item.password}</h4>
                 </div>
 
                 <div
@@ -188,8 +163,7 @@ function AccountsReq() {
                                     justifyContent: "center",
                                 }}
                             >
-                                <h6 onClick={() => {
-                                    onApproveHandler(item.alumniKey);}}>Approve</h6>
+                                <h6 onClick={()=>onApproveHandler(item.alumniKey)}>Approve</h6>
                             </div>
                             <div
                                 style={{
@@ -201,9 +175,7 @@ function AccountsReq() {
                                     justifyContent: "center",
                                 }}
                             >
-                                <h6  onClick={() => {
-                                    onDisapproveHandler(item.alumniKey);
-                                }}>Reject</h6>
+                                <h6 onClick={()=>onDisapproveHandler(item.alumnikey)}>Reject</h6>
                             </div>
                         </div>
                     ) : null}
@@ -296,7 +268,7 @@ function AccountsReq() {
         );
 }
 
-export default AccountsReq;
+export default AdminPanel;
 
 const Container = styled.div`
   //background-color: gray;

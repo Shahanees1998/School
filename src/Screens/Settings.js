@@ -16,7 +16,8 @@ import mailIcon from "../assets/Images/mail.svg";
 import contact from "../assets/Images/contact.svg";
 import {useSelector} from "react-redux";
 import {getDatabase, ref, update} from "firebase/database";
-import app from "../firebase";
+import app, {storage} from "../firebase";
+import {getDownloadURL, ref as sRef, uploadBytesResumable} from "firebase/storage";
 
 const db = getDatabase(app);
 
@@ -27,13 +28,52 @@ function Settings({ navigation }) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [file, setFile] = useState("");
+  const [percent, setPercent] = useState(0);
 
   const [bankInfo, setBankInfo]=useState({
     accountName:'',
     accountNumber:'',
     bankName:'allied',
-    routingNumber:'123'
+    routingNumber:'123',
+    imageUrl:''
   })
+
+  // Handles input change event and updates state
+  function handleChange(event) {
+    setFile(event.target.files[0]);
+  }
+
+
+  // handle upload
+  function handleUpload() {
+    if (!file) {
+      alert("Please choose a file first!");
+    }
+
+    const storageRef = sRef(storage, `/profiles/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          // update progress
+          setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log("url", url);
+            setBankInfo({ ...bankInfo, imageUrl: url });
+          });
+        }
+    );
+  }
 
   const onAccountInputHandler = (e) => {
     const{name, value} = e.target;
@@ -96,15 +136,25 @@ function Settings({ navigation }) {
                       />
                     </div>
                     <div className="data">
-                      <h4>Alex Bhatti</h4>
-                      <h6 style={{ color: "#2291F1" }}>AlexBhatti@gmail.com</h6>
+                      <input
+                          style={{ outline: "none" }}
+                          placeholder="enter name"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleChange}
+                      />
+
                     </div>
                   </div>
                   <button
                       className="uploadButton"
-                      onClick={() => setButtonPresed("Account")}
+                      onClick={() => {
+                        setButtonPresed("Account")
+                        handleUpload()
+                      }}
                   >
-                    Upload
+                    Upload<br/>
+                    <p>{percent} "% done"</p>
                   </button>
                 </div>
                 <div className="userContact">

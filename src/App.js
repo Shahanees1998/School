@@ -15,28 +15,32 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "../src/Redux/store";
 import AccountReq from "./Screens/AccountReq";
 import Settings from "./Screens/Settings";
+import AdminLogin from "./Screens/Admin";
+import AdminPanel from "./Screens/AdminPanel";
 import "./App.css";
 
 function App() {
   return (
-    <Provider store={Store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="home" element={<HomePage />} />
-          <Route path="/EnrollSchool" element={<EnrollSchool />} />
-          <Route path="/EnrollAlumni" element={<EnrollAlumni />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/UpdateItem" element={<UpdateItem />} />
-          <Route path="/SchoolLogin" element={<SchoolPanel />} />
-          <Route path="/accounts" element={<AccountReq />} />
-          <Route path="/payment" element={<StripeContainer />} />
-          <Route path="/AlumniLogin" element={<AlumniPanel />} />
-          <Route path="/additem" element={<AddItem />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </PersistGate>
-    </Provider>
+      <Provider store={Store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="home" element={<HomePage />} />
+            <Route path="/EnrollSchool" element={<EnrollSchool />} />
+            <Route path="/EnrollAlumni" element={<EnrollAlumni />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/UpdateItem" element={<UpdateItem />} />
+            <Route path="/SchoolLogin" element={<SchoolPanel />} />
+            <Route path="/accounts" element={<AccountReq />} />
+            <Route path="/payment" element={<StripeContainer />} />
+            <Route path="/AlumniLogin" element={<AlumniPanel />} />
+            <Route path="/additem" element={<AddItem />} />
+            <Route path="/settings" element={<Settings />} />{" "}
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/AdminPanel" element={<AdminPanel />} />
+          </Routes>
+        </PersistGate>
+      </Provider>
   );
 }
 
